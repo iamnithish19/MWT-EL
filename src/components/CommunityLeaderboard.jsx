@@ -142,20 +142,14 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
                   padding: '1rem 1.25rem',
                   border: isCurrentUser
                     ? '2.5px solid #00F0FF'
-                    : isGymMaster
-                    ? '1.5px solid #FFD700'
-                    : '1px solid rgba(255,255,255,0.12)',
+                    : '1.5px solid #CBD5E1',
                   background: isCurrentUser
-                    ? 'linear-gradient(90deg, rgba(0, 240, 255, 0.18) 0%, rgba(10, 14, 26, 0.75) 100%)'
-                    : isGymMaster
-                    ? 'linear-gradient(90deg, rgba(255, 215, 0, 0.1) 0%, rgba(10, 14, 26, 0.6) 100%)'
-                    : 'rgba(255, 255, 255, 0.03)',
+                    ? 'linear-gradient(90deg, rgba(0, 240, 255, 0.2) 0%, rgba(10, 14, 26, 0.9) 100%)'
+                    : '#FFFFFF',
                   borderRadius: '14px',
                   boxShadow: isCurrentUser
-                    ? '0 0 15px rgba(0, 240, 255, 0.25)'
-                    : isGymMaster
-                    ? '0 0 12px rgba(255, 215, 0, 0.15)'
-                    : 'none',
+                    ? '0 0 15px rgba(0, 240, 255, 0.3)'
+                    : '0 2px 8px rgba(0, 0, 0, 0.1)',
                   transition: 'all 0.2s ease-in-out'
                 }}
               >
@@ -164,9 +158,17 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
                   <span
                     style={{
                       fontWeight: 900,
-                      fontSize: '1.2rem',
+                      fontSize: '1.25rem',
                       minWidth: '40px',
-                      color: userRank.rank === 1 ? '#FFD700' : userRank.rank === 2 ? '#C0C0C0' : userRank.rank === 3 ? '#CD7F32' : '#00F0FF'
+                      color: isCurrentUser
+                        ? '#00F0FF'
+                        : userRank.rank === 1
+                        ? '#D97706'
+                        : userRank.rank === 2
+                        ? '#475569'
+                        : userRank.rank === 3
+                        ? '#B45309'
+                        : '#0F172A'
                     }}
                   >
                     #{userRank.rank}
@@ -183,12 +185,8 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
                         ? '2.5px solid #00F0FF'
                         : isGymMaster
                         ? '2.5px solid #FFD700'
-                        : '1.5px solid rgba(255,255,255,0.3)',
-                      boxShadow: isCurrentUser
-                        ? '0 0 10px rgba(0,240,255,0.5)'
-                        : isGymMaster
-                        ? '0 0 10px rgba(255,215,0,0.5)'
-                        : 'none'
+                        : '2px solid #64748B',
+                      boxShadow: isCurrentUser ? '0 0 10px rgba(0,240,255,0.5)' : 'none'
                     }}
                   >
                     <img
@@ -201,13 +199,13 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
                   {/* User Name & Role Info */}
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
-                      {/* BOLD & CLEAR DISPLAY NAME */}
+                      {/* DISPLAY NAME IN BLACK FONT EXCEPT FOR CURRENT USER */}
                       <h4
                         style={{
                           margin: 0,
                           fontSize: '1.15rem',
                           fontWeight: 900,
-                          color: isCurrentUser ? '#00F0FF' : isGymMaster ? '#FFD700' : '#FFFFFF',
+                          color: isCurrentUser ? '#00F0FF' : '#000000',
                           letterSpacing: '0.02em',
                           textShadow: isCurrentUser ? '0 0 10px rgba(0, 240, 255, 0.4)' : 'none'
                         }}
@@ -227,7 +225,7 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
                             borderRadius: '5px',
                             letterSpacing: '0.05em',
                             textTransform: 'uppercase',
-                            boxShadow: '0 0 8px rgba(255, 215, 0, 0.4)'
+                            boxShadow: '0 0 6px rgba(255, 215, 0, 0.4)'
                           }}
                         >
                           👑 GYM MASTER
@@ -243,7 +241,7 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
                             borderRadius: '5px',
                             letterSpacing: '0.05em',
                             textTransform: 'uppercase',
-                            boxShadow: '0 0 8px rgba(0, 240, 255, 0.4)'
+                            boxShadow: '0 0 6px rgba(0, 240, 255, 0.4)'
                           }}
                         >
                           🏋️ YOU
@@ -252,9 +250,9 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
                         <span
                           style={{
                             fontSize: '0.65rem',
-                            background: 'rgba(255, 255, 255, 0.1)',
-                            color: 'rgba(255, 255, 255, 0.8)',
-                            fontWeight: 800,
+                            background: '#E2E8F0',
+                            color: '#1E293B',
+                            fontWeight: 900,
                             padding: '0.15rem 0.45rem',
                             borderRadius: '5px',
                             textTransform: 'uppercase'
@@ -266,12 +264,12 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
                     </div>
 
                     <span
-                      className="badge badge-secondary text-xs"
                       style={{
                         marginTop: '0.25rem',
                         display: 'inline-block',
                         fontWeight: 700,
-                        opacity: 0.85
+                        fontSize: '0.75rem',
+                        color: isCurrentUser ? 'rgba(255,255,255,0.85)' : '#475569'
                       }}
                     >
                       {userRank.badge}
@@ -284,8 +282,8 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
                   <div
                     style={{
                       fontWeight: 900,
-                      fontSize: '1.2rem',
-                      color: tab === 'steps' ? '#00F0FF' : '#FFD700'
+                      fontSize: '1.25rem',
+                      color: isCurrentUser ? '#00F0FF' : '#0F172A'
                     }}
                   >
                     {tab === 'steps' ? `${userRank.steps.toLocaleString()} steps` : `${userRank.points.toLocaleString()} pts`}
