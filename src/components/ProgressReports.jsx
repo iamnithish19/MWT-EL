@@ -20,7 +20,6 @@ export default function ProgressReports({ reports, onGenerate, onDelete, user })
     }
   };
 
-  // Filter reports based on text filter tabs
   const filteredReports = sorted.filter((r) => {
     if (filterMode === 'high') return r.completion_percentage >= 80;
     if (filterMode === 'recent') return true;

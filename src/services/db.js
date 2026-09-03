@@ -5,7 +5,7 @@
 
 import seed from '../data/db.json';
 
-const STORAGE_KEY = 'sfc_database_v6';
+const STORAGE_KEY = 'sfc_database_v7';
 const TXT_STORAGE_KEY = 'sfc_database_txt_backup';
 const LOGIN_TXT_KEY = 'sfc_user_logins_txt';
 
