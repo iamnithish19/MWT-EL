@@ -5,7 +5,7 @@
 
 import seed from '../data/db.json';
 
-const STORAGE_KEY = 'sfc_database_v5';
+const STORAGE_KEY = 'sfc_database_v6';
 const TXT_STORAGE_KEY = 'sfc_database_txt_backup';
 const LOGIN_TXT_KEY = 'sfc_user_logins_txt';
 
@@ -324,7 +324,13 @@ export function getUserLoginsText() {
 
 /** Update user profile and sync across leaderboard & login history */
 export function updateProfile(userId, profilePatch) {
-  const updatedUser = update('users', userId, profilePatch);
+  let patchWithAvatar = { ...profilePatch };
+  if (profilePatch.name && (!profilePatch.avatar || profilePatch.avatar.startsWith('data:image/svg+xml'))) {
+    const existing = getAll('users').find(u => u.user_id === userId);
+    patchWithAvatar.avatar = generateLetterAvatarSvg(profilePatch.name, existing?.role === 'gym_master');
+  }
+
+  const updatedUser = update('users', userId, patchWithAvatar);
   
   if (updatedUser) {
     const data = loadRaw();
@@ -411,12 +417,22 @@ export function authenticateUser(emailOrName, password) {
   return user;
 }
 
+/** Helper to generate crisp Data URL SVG profile photo containing user's First Letter */
+export function generateLetterAvatarSvg(name, isMaster = false) {
+  const initial = (name || 'U').trim().charAt(0).toUpperCase();
+  const bg = isMaster ? '%23ca8a04' : '%232563eb';
+  return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><rect width="120" height="120" fill="${bg}" rx="60"/><text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="%23ffffff" font-family="sans-serif" font-size="64" font-weight="900">${initial}</text></svg>`;
+}
+
 /** User Registration with Role support */
-export function registerUser({ name, email, password, role = 'member', age = 25, weight = 65, gym_name = 'Gym Master Club', specialty = 'Head Coach' }) {
+export function registerUser({ name, email, password, role = 'member', age = 25, weight = 65, gym_name = 'Gym Master Club', specialty = 'Head Coach', avatar }) {
   const users = getAll('users');
   if (users.some((u) => u.email && u.email.toLowerCase() === email.toLowerCase())) {
     throw new Error('An account with this email already exists.');
   }
+
+  // Set First Letter profile photo by default for all new user logins
+  const userAvatar = avatar || generateLetterAvatarSvg(name, role === 'gym_master');
 
   const newUser = insert('users', {
     name,
@@ -429,9 +445,7 @@ export function registerUser({ name, email, password, role = 'member', age = 25,
     fitness_level: role === 'gym_master' ? 'Gym Master / Trainer' : 'Beginner',
     gym_name: role === 'gym_master' ? gym_name : undefined,
     specialty: role === 'gym_master' ? specialty : undefined,
-    avatar: role === 'gym_master' 
-      ? 'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&fit=crop&w=250&q=80'
-      : undefined
+    avatar: userAvatar
   });
 
   recordUserLogin(newUser);
