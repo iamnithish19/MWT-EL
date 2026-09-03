@@ -4,12 +4,20 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
   const [tab, setTab] = useState('steps');
 
   // Build dynamically synced rankings list including all registered users
-  const masterList = [...rankings];
+  const rawList = [...rankings];
+
+  // Map and clean raw rankings to remove any pre-existing "(You)" tags
+  let masterList = rawList.map((r) => ({
+    ...r,
+    name: (r.name || '').replace(/\s*\(You\)$/gi, '').trim()
+  }));
 
   if (users && users.length) {
     users.forEach((u) => {
+      const cleanUserName = (u.name || '').replace(/\s*\(You\)$/gi, '').trim();
+
       const existingIdx = masterList.findIndex(
-        (r) => r.user_id === u.user_id || (r.name && r.name.replace(/\s*\(You\)$/i, '') === u.name)
+        (r) => r.user_id === u.user_id || r.name.toLowerCase() === cleanUserName.toLowerCase()
       );
 
       // Latest step count for this user
@@ -21,7 +29,7 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
         masterList[existingIdx] = {
           ...masterList[existingIdx],
           user_id: u.user_id,
-          name: u.name,
+          name: cleanUserName,
           role: u.role || masterList[existingIdx].role,
           avatar: u.avatar || masterList[existingIdx].avatar,
           steps: Math.max(masterList[existingIdx].steps || 0, userSteps)
@@ -30,12 +38,12 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
         masterList.push({
           rank: masterList.length + 1,
           user_id: u.user_id,
-          name: u.name,
+          name: cleanUserName,
           role: u.role || 'member',
           steps: userSteps,
           points: 2100 + u.user_id * 150,
           badge: u.role === 'gym_master' ? 'Gym Master / Coach' : 'Fitness Challenger',
-          avatar: u.avatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${u.name}`
+          avatar: u.avatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${cleanUserName}`
         });
       }
     });
@@ -48,8 +56,12 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
     .map((item, idx) => ({ ...item, rank: idx + 1 }));
 
   // Identify current user row & position
+  const currentCleanName = (currentUser?.name || '').replace(/\s*\(You\)$/gi, '').trim().toLowerCase();
+
   const currentUserRankIndex = sortedRankings.findIndex(
-    (r) => (currentUser && r.user_id === currentUser.user_id) || (currentUser && r.name === currentUser.name)
+    (r) =>
+      (currentUser && r.user_id && Number(r.user_id) === Number(currentUser.user_id)) ||
+      (currentCleanName && (r.name || '').toLowerCase() === currentCleanName)
   );
 
   const userRankNumber = currentUserRankIndex >= 0 ? currentUserRankIndex + 1 : 2;
@@ -122,17 +134,22 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
 
         <div className="rankings-list" style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
           {sortedRankings.map((userRank) => {
-            const isCurrentUser =
-              currentUser &&
-              (userRank.user_id === currentUser.user_id ||
-                userRank.name.replace(/\s*\(You\)$/i, '') === currentUser.name);
+            const rowCleanName = (userRank.name || '').replace(/\s*\(You\)$/gi, '').trim();
+
+            // STRICT check: ONLY true for the single currently logged in user!
+            const isCurrentUser = Boolean(
+              currentUser && (
+                (userRank.user_id && Number(userRank.user_id) === Number(currentUser.user_id)) ||
+                (currentCleanName && rowCleanName.toLowerCase() === currentCleanName)
+              )
+            );
 
             const isGymMaster = userRank.role === 'gym_master' || (isCurrentUser && currentUser?.role === 'gym_master');
 
-            const displayName = isCurrentUser ? `${currentUser.name} (You)` : userRank.name;
+            const displayName = isCurrentUser ? `${rowCleanName} (You)` : rowCleanName;
             const displayAvatar = isCurrentUser
               ? currentUser.avatar || userRank.avatar
-              : userRank.avatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${userRank.name}`;
+              : userRank.avatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${rowCleanName}`;
 
             return (
               <div
@@ -199,7 +216,7 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
                   {/* User Name & Role Info */}
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
-                      {/* DISPLAY NAME IN BLACK FONT EXCEPT FOR CURRENT USER */}
+                      {/* DISPLAY NAME: CYAN FOR YOU, BLACK FOR OTHERS */}
                       <h4
                         style={{
                           margin: 0,
@@ -214,23 +231,7 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
                       </h4>
 
                       {/* CLEAR ROLE TAG */}
-                      {isGymMaster ? (
-                        <span
-                          style={{
-                            fontSize: '0.68rem',
-                            background: '#FFD700',
-                            color: '#000000',
-                            fontWeight: 900,
-                            padding: '0.15rem 0.5rem',
-                            borderRadius: '5px',
-                            letterSpacing: '0.05em',
-                            textTransform: 'uppercase',
-                            boxShadow: '0 0 6px rgba(255, 215, 0, 0.4)'
-                          }}
-                        >
-                          👑 GYM MASTER
-                        </span>
-                      ) : isCurrentUser ? (
+                      {isCurrentUser ? (
                         <span
                           style={{
                             fontSize: '0.68rem',
@@ -245,6 +246,22 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
                           }}
                         >
                           🏋️ YOU
+                        </span>
+                      ) : isGymMaster ? (
+                        <span
+                          style={{
+                            fontSize: '0.68rem',
+                            background: '#FFD700',
+                            color: '#000000',
+                            fontWeight: 900,
+                            padding: '0.15rem 0.5rem',
+                            borderRadius: '5px',
+                            letterSpacing: '0.05em',
+                            textTransform: 'uppercase',
+                            boxShadow: '0 0 6px rgba(255, 215, 0, 0.4)'
+                          }}
+                        >
+                          👑 GYM MASTER
                         </span>
                       ) : (
                         <span
