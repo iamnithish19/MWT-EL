@@ -59,12 +59,12 @@ export default function Login({ onLoginSuccess }) {
   return (
     <div className="login-wrapper">
       <div className="login-card" style={{ maxWidth: '540px', padding: '2.25rem' }}>
-        <div className="login-header">
+        <div className="login-header mb-4">
           <div className="brand">
             <span className="brand-mark">SFC//</span>
             <span className="brand-sub">Smart Fitness Companion</span>
           </div>
-          <h2 className="login-title" style={{ fontSize: '1.5rem', fontWeight: 900 }}>
+          <h2 className="login-title" style={{ fontSize: '1.5rem', fontWeight: 900, marginTop: '0.5rem' }}>
             {isRegister ? 'REGISTER NEW ACCOUNT' : 'MULTI-USER SYSTEM LOGIN'}
           </h2>
           <p className="login-subtitle">
@@ -76,7 +76,19 @@ export default function Login({ onLoginSuccess }) {
 
         {error && <div className="login-error-alert">{error}</div>}
 
-        <div className="login-tabs">
+        {/* Cleanly Aligned Sign In / Create Account Tabs */}
+        <div
+          className="login-tabs mb-4"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '0.5rem',
+            background: 'rgba(255, 255, 255, 0.05)',
+            padding: '0.3rem',
+            borderRadius: '12px',
+            border: '1px solid rgba(255, 255, 255, 0.12)'
+          }}
+        >
           <button
             type="button"
             className={`tab-btn ${!isRegister ? 'active' : ''}`}
@@ -84,10 +96,26 @@ export default function Login({ onLoginSuccess }) {
               setIsRegister(false);
               setError('');
             }}
-            style={{ fontWeight: 800 }}
+            style={{
+              padding: '0.65rem',
+              borderRadius: '8px',
+              border: 'none',
+              fontWeight: 900,
+              fontSize: '0.9rem',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.4rem',
+              transition: 'all 0.15s ease',
+              background: !isRegister ? '#00F0FF' : 'transparent',
+              color: !isRegister ? '#000000' : '#FFFFFF',
+              boxShadow: !isRegister ? '0 0 10px rgba(0,240,255,0.4)' : 'none'
+            }}
           >
-            Sign In
+            <span>🔑</span> Sign In
           </button>
+
           <button
             type="button"
             className={`tab-btn ${isRegister ? 'active' : ''}`}
@@ -95,38 +123,60 @@ export default function Login({ onLoginSuccess }) {
               setIsRegister(true);
               setError('');
             }}
-            style={{ fontWeight: 800 }}
+            style={{
+              padding: '0.65rem',
+              borderRadius: '8px',
+              border: 'none',
+              fontWeight: 900,
+              fontSize: '0.9rem',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.4rem',
+              transition: 'all 0.15s ease',
+              background: isRegister ? '#00F0FF' : 'transparent',
+              color: isRegister ? '#000000' : '#FFFFFF',
+              boxShadow: isRegister ? '0 0 10px rgba(0,240,255,0.4)' : 'none'
+            }}
           >
-            Create Account
+            <span>✨</span> Create Account
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="login-form">
+          {/* Cleanly Aligned Role Option Buttons */}
           {isRegister && (
             <div className="form-group mb-4">
-              <label style={{ color: '#00F0FF', fontWeight: 900, fontSize: '0.85rem', letterSpacing: '0.08em' }}>
-                SELECT USER ROLE:
+              <label style={{ color: '#00F0FF', fontWeight: 900, fontSize: '0.85rem', letterSpacing: '0.08em', display: 'block', marginBottom: '0.4rem' }}>
+                SELECT ACCOUNT ROLE:
               </label>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginTop: '0.4rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
                 <button
                   type="button"
                   onClick={() => setRole('member')}
                   style={{
-                    padding: '0.85rem 0.5rem',
-                    borderRadius: '10px',
-                    border: role === 'member' ? '2.5px solid #00F0FF' : '1px solid rgba(255,255,255,0.15)',
+                    padding: '0.85rem 0.6rem',
+                    borderRadius: '12px',
+                    border: role === 'member' ? '2.5px solid #00F0FF' : '1.5px solid rgba(255,255,255,0.15)',
                     background: role === 'member' ? 'rgba(0, 240, 255, 0.2)' : 'rgba(255,255,255,0.03)',
                     color: '#fff',
                     textAlign: 'center',
                     cursor: 'pointer',
-                    boxShadow: role === 'member' ? '0 0 15px rgba(0, 240, 255, 0.3)' : 'none'
+                    minHeight: '68px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    boxShadow: role === 'member' ? '0 0 15px rgba(0, 240, 255, 0.3)' : 'none',
+                    transition: 'all 0.15s ease'
                   }}
                 >
                   <div style={{ fontWeight: 900, fontSize: '0.95rem', color: '#00F0FF', letterSpacing: '0.04em' }}>
                     🏋️ GYM MEMBER
                   </div>
                   <div style={{ fontSize: '0.72rem', opacity: 0.8, fontWeight: 500, marginTop: '3px' }}>
-                    Personal Workout Tracking
+                    Personal Fitness Tracking
                   </div>
                 </button>
 
@@ -134,21 +184,27 @@ export default function Login({ onLoginSuccess }) {
                   type="button"
                   onClick={() => setRole('gym_master')}
                   style={{
-                    padding: '0.85rem 0.5rem',
-                    borderRadius: '10px',
-                    border: role === 'gym_master' ? '2.5px solid #FFD700' : '1px solid rgba(255,255,255,0.15)',
+                    padding: '0.85rem 0.6rem',
+                    borderRadius: '12px',
+                    border: role === 'gym_master' ? '2.5px solid #FFD700' : '1.5px solid rgba(255,255,255,0.15)',
                     background: role === 'gym_master' ? 'rgba(255, 215, 0, 0.2)' : 'rgba(255,255,255,0.03)',
                     color: '#fff',
                     textAlign: 'center',
                     cursor: 'pointer',
-                    boxShadow: role === 'gym_master' ? '0 0 15px rgba(255, 215, 0, 0.3)' : 'none'
+                    minHeight: '68px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    boxShadow: role === 'gym_master' ? '0 0 15px rgba(255, 215, 0, 0.3)' : 'none',
+                    transition: 'all 0.15s ease'
                   }}
                 >
                   <div style={{ fontWeight: 900, fontSize: '0.95rem', color: '#FFD700', letterSpacing: '0.04em' }}>
                     👑 GYM MASTER
                   </div>
                   <div style={{ fontSize: '0.72rem', opacity: 0.8, fontWeight: 500, marginTop: '3px' }}>
-                    Coach & Trainer Management
+                    Coach & Trainer Control
                   </div>
                 </button>
               </div>
@@ -242,11 +298,22 @@ export default function Login({ onLoginSuccess }) {
             </div>
           )}
 
-          <button type="submit" className="login-submit-btn" style={{ fontWeight: 900, letterSpacing: '0.05em' }}>
+          <button
+            type="submit"
+            className="login-submit-btn"
+            style={{
+              fontWeight: 900,
+              letterSpacing: '0.05em',
+              minHeight: '48px',
+              borderRadius: '10px',
+              marginTop: '0.5rem'
+            }}
+          >
             {isRegister ? (role === 'gym_master' ? 'REGISTER GYM MASTER' : 'REGISTER GYM MEMBER') : 'AUTHENTICATE ACCESS'}
           </button>
         </form>
 
+        {/* Cleanly Aligned Demo User Option Buttons */}
         <div className="demo-section" style={{ marginTop: '1.75rem' }}>
           <div className="demo-divider mb-3">
             <span style={{ fontWeight: 900, color: '#00F0FF', letterSpacing: '0.08em', fontSize: '0.78rem' }}>
@@ -254,7 +321,7 @@ export default function Login({ onLoginSuccess }) {
             </span>
           </div>
 
-          <div className="demo-users-list" style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+          <div className="demo-users-list" style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
             {existingUsers.map((u) => {
               const isMaster = u.role === 'gym_master';
               return (
@@ -266,19 +333,28 @@ export default function Login({ onLoginSuccess }) {
                   style={{
                     borderColor: isMaster ? '#FFD700' : '#00F0FF',
                     borderWidth: '1.5px',
+                    borderRadius: '12px',
                     background: isMaster
                       ? 'linear-gradient(90deg, rgba(255,215,0,0.12) 0%, rgba(10,14,26,0.6) 100%)'
                       : 'linear-gradient(90deg, rgba(0,240,255,0.08) 0%, rgba(10,14,26,0.6) 100%)',
-                    padding: '0.75rem 1rem'
+                    padding: '0.85rem 1.1rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.85rem',
+                    cursor: 'pointer',
+                    width: '100%',
+                    transition: 'all 0.15s ease'
                   }}
                 >
                   <span
                     className="demo-user-avatar"
                     style={{
-                      width: '42px',
-                      height: '42px',
+                      width: '44px',
+                      height: '44px',
+                      borderRadius: '50%',
                       padding: 0,
                       overflow: 'hidden',
+                      flexShrink: 0,
                       border: isMaster ? '2px solid #FFD700' : '2px solid #00F0FF'
                     }}
                   >
@@ -289,12 +365,13 @@ export default function Login({ onLoginSuccess }) {
                     )}
                   </span>
 
-                  <div className="demo-user-info" style={{ textAlign: 'left', flex: 1 }}>
+                  <div className="demo-user-info" style={{ textAlign: 'left', flex: 1, display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
                       <span className="demo-user-name" style={{ fontWeight: 800, fontSize: '0.95rem', color: '#fff' }}>
                         {u.name}
                       </span>
-                      {/* BOLD & CLEAR ROLE BADGE */}
+
+                      {/* CLEAR & ALIGNED ROLE BADGE */}
                       <span
                         style={{
                           fontSize: '0.7rem',
@@ -312,12 +389,20 @@ export default function Login({ onLoginSuccess }) {
                       </span>
                     </div>
 
-                    <span className="demo-user-meta" style={{ fontSize: '0.75rem', opacity: 0.8, marginTop: '2px', display: 'block' }}>
+                    <span className="demo-user-meta" style={{ fontSize: '0.75rem', opacity: 0.8 }}>
                       {isMaster ? (u.specialty || 'Head Strength Coach') : `${u.fitness_level || 'Member'} • ${u.email}`}
                     </span>
                   </div>
 
-                  <span className="demo-user-arrow" style={{ color: isMaster ? '#FFD700' : '#00F0FF', fontWeight: 900, fontSize: '1.2rem' }}>
+                  <span
+                    className="demo-user-arrow"
+                    style={{
+                      color: isMaster ? '#FFD700' : '#00F0FF',
+                      fontWeight: 900,
+                      fontSize: '1.2rem',
+                      marginLeft: 'auto'
+                    }}
+                  >
                     →
                   </span>
                 </button>
@@ -326,24 +411,51 @@ export default function Login({ onLoginSuccess }) {
           </div>
         </div>
 
+        {/* Cleanly Aligned Export Buttons */}
         <div className="login-txt-export-section mt-4 pt-3" style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
           <div className="flex-between align-center mb-2" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', opacity: 0.7, fontWeight: 700 }}>💾 Text Storage Backup (.txt)</span>
           </div>
-          <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.6rem' }}>
             <button
               type="button"
               className="btn btn-secondary text-xs"
               onClick={() => db.exportLoginHistoryAsText()}
-              style={{ flex: 1, padding: '0.5rem', fontSize: '0.75rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6rem', color: '#fff', cursor: 'pointer', fontWeight: 600 }}
+              style={{
+                padding: '0.6rem 0.8rem',
+                fontSize: '0.75rem',
+                background: 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.15)',
+                borderRadius: '8px',
+                color: '#fff',
+                cursor: 'pointer',
+                fontWeight: 700,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.3rem'
+              }}
             >
-              📜 Download User Logins (.txt)
+              📜 Download Logins (.txt)
             </button>
             <button
               type="button"
               className="btn btn-secondary text-xs"
               onClick={() => db.exportDatabaseAsText()}
-              style={{ flex: 1, padding: '0.5rem', fontSize: '0.75rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6rem', color: '#fff', cursor: 'pointer', fontWeight: 600 }}
+              style={{
+                padding: '0.6rem 0.8rem',
+                fontSize: '0.75rem',
+                background: 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.15)',
+                borderRadius: '8px',
+                color: '#fff',
+                cursor: 'pointer',
+                fontWeight: 700,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.3rem'
+              }}
             >
               📄 Export Database (.txt)
             </button>

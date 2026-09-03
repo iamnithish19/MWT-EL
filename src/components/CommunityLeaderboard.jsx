@@ -114,20 +114,60 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
               ● Live names & user profile sync enabled
             </span>
           </div>
-          <div className="flex-gap">
+
+          {/* Cleanly Aligned Option Buttons Group */}
+          <div
+            style={{
+              display: 'flex',
+              gap: '0.4rem',
+              background: 'rgba(255, 255, 255, 0.06)',
+              padding: '0.3rem',
+              borderRadius: '10px',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
+              alignItems: 'center'
+            }}
+          >
             <button
-              className={`btn btn-sm ${tab === 'steps' ? 'btn-primary' : 'btn-secondary'}`}
+              type="button"
               onClick={() => setTab('steps')}
-              style={{ fontWeight: 900, fontSize: '0.85rem', padding: '0.5rem 1rem' }}
+              style={{
+                padding: '0.55rem 1.1rem',
+                borderRadius: '8px',
+                border: 'none',
+                fontWeight: 900,
+                fontSize: '0.85rem',
+                cursor: 'pointer',
+                background: tab === 'steps' ? '#00F0FF' : 'transparent',
+                color: tab === 'steps' ? '#000000' : '#FFFFFF',
+                boxShadow: tab === 'steps' ? '0 0 10px rgba(0, 240, 255, 0.4)' : 'none',
+                transition: 'all 0.15s ease',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.4rem'
+              }}
             >
-              👟 Step Leaders
+              <span>👟</span> Step Leaders
             </button>
             <button
-              className={`btn btn-sm ${tab === 'points' ? 'btn-primary' : 'btn-secondary'}`}
+              type="button"
               onClick={() => setTab('points')}
-              style={{ fontWeight: 900, fontSize: '0.85rem', padding: '0.5rem 1rem' }}
+              style={{
+                padding: '0.55rem 1.1rem',
+                borderRadius: '8px',
+                border: 'none',
+                fontWeight: 900,
+                fontSize: '0.85rem',
+                cursor: 'pointer',
+                background: tab === 'points' ? '#00F0FF' : 'transparent',
+                color: tab === 'points' ? '#000000' : '#FFFFFF',
+                boxShadow: tab === 'points' ? '0 0 10px rgba(0, 240, 255, 0.4)' : 'none',
+                transition: 'all 0.15s ease',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.4rem'
+              }}
             >
-              ⭐ Points Ranks
+              <span>⭐</span> Points Ranks
             </button>
           </div>
         </div>
@@ -136,7 +176,6 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
           {sortedRankings.map((userRank) => {
             const rowCleanName = (userRank.name || '').replace(/\s*\(You\)$/gi, '').trim();
 
-            // STRICT check: ONLY true for the single currently logged in user!
             const isCurrentUser = Boolean(
               currentUser && (
                 (userRank.user_id && Number(userRank.user_id) === Number(currentUser.user_id)) ||
