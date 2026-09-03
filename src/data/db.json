@@ -137,9 +137,9 @@
     { "msg_id": 1, "user_id": 1, "sender": "ai", "text": "Hello Ava! I am your AI Fitness Coach. Your sleep recovery score reached 92 today! Ready for your workout?", "timestamp": "09:30 AM" }
   ],
   "communityRankings": [
-    { "rank": 1, "name": "Liam Vance", "steps": 14200, "points": 2850, "badge": "Elite Runner", "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=250&q=80" },
-    { "rank": 2, "name": "Ava Thompson (You)", "steps": 10230, "points": 2410, "badge": "Consistency Champion", "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80" },
-    { "rank": 3, "name": "Sophia Chen", "steps": 9850, "points": 2180, "badge": "HIIT Specialist", "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=250&q=80" },
-    { "rank": 4, "name": "Coach Marcus Vance", "steps": 16500, "points": 3500, "badge": "Gym Master / Coach", "avatar": "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&fit=crop&w=250&q=80" }
+    { "rank": 1, "user_id": 3, "name": "Liam Vance", "steps": 14200, "points": 2850, "badge": "Elite Runner", "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=250&q=80" },
+    { "rank": 2, "user_id": 1, "name": "Ava Thompson", "steps": 10230, "points": 2410, "badge": "Consistency Champion", "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80" },
+    { "rank": 3, "user_id": 4, "name": "Sophia Chen", "steps": 9850, "points": 2180, "badge": "HIIT Specialist", "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=250&q=80" },
+    { "rank": 4, "user_id": 2, "name": "Coach Marcus Vance", "steps": 16500, "points": 3500, "badge": "Gym Master / Coach", "avatar": "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&fit=crop&w=250&q=80" }
   ]
 }

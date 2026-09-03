@@ -322,9 +322,51 @@ export function getUserLoginsText() {
   return window.localStorage.getItem(LOGIN_TXT_KEY) || generateUserLoginsText();
 }
 
-/** Update user profile */
+/** Update user profile and sync across leaderboard & login history */
 export function updateProfile(userId, profilePatch) {
-  return update('users', userId, profilePatch);
+  const updatedUser = update('users', userId, profilePatch);
+  
+  if (updatedUser) {
+    const data = loadRaw();
+    let modified = false;
+
+    // Sync with communityRankings
+    if (data.communityRankings) {
+      data.communityRankings = data.communityRankings.map((r) => {
+        if (r.user_id === userId || r.name.replace(/\s*\(You\)$/i, '') === updatedUser.name) {
+          modified = true;
+          return {
+            ...r,
+            user_id: userId,
+            name: updatedUser.name,
+            avatar: updatedUser.avatar || r.avatar
+          };
+        }
+        return r;
+      });
+    }
+
+    // Sync with userLogins
+    if (data.userLogins) {
+      data.userLogins = data.userLogins.map((l) => {
+        if (l.user_id === userId) {
+          modified = true;
+          return {
+            ...l,
+            name: updatedUser.name,
+            email: updatedUser.email || l.email
+          };
+        }
+        return l;
+      });
+    }
+
+    if (modified) {
+      persist(data);
+    }
+  }
+
+  return updatedUser;
 }
 
 /** Progress Report calculation */

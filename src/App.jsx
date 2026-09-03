@@ -340,7 +340,14 @@ export default function App() {
         );
 
       case 'community':
-        return <CommunityLeaderboard rankings={tables.communityRankings} />;
+        return (
+          <CommunityLeaderboard
+            rankings={tables.communityRankings}
+            currentUser={currentUser}
+            users={tables.users}
+            healthTrackers={tables.healthTrackers}
+          />
+        );
       case 'profile':
         return (
           <Profile
