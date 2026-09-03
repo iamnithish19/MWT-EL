@@ -21,6 +21,7 @@ import HabitTracker from './components/HabitTracker.jsx';
 import SupplementManager from './components/SupplementManager.jsx';
 import CommunityLeaderboard from './components/CommunityLeaderboard.jsx';
 import Settings from './components/Settings.jsx';
+import GymMasterPortal from './components/GymMasterPortal.jsx';
 
 import * as db from './services/db.js';
 
@@ -64,7 +65,11 @@ export default function App() {
     setCurrentUserId(user.user_id);
     localStorage.setItem(AUTH_STORAGE_KEY, String(user.user_id));
     db.recordUserLogin(user);
-    setPage('dashboard');
+    if (user.role === 'gym_master') {
+      setPage('gym-master');
+    } else {
+      setPage('dashboard');
+    }
     refresh();
   };
 
@@ -119,6 +124,20 @@ export default function App() {
 
   const renderPage = () => {
     switch (page) {
+      case 'gym-master':
+        return (
+          <GymMasterPortal
+            currentUser={currentUser}
+            allUsers={tables.users}
+            fitnessPlans={tables.fitnessPlans}
+            workouts={tables.workouts}
+            healthTrackers={tables.healthTrackers}
+            nutritionPlans={tables.nutritionPlans}
+            progressReports={tables.progressReports}
+            sleepLogs={tables.sleepLogs}
+            onRefresh={refresh}
+          />
+        );
       case 'dashboard':
         return (
           <Dashboard
@@ -348,9 +367,6 @@ export default function App() {
         onLogout={handleLogout}
       />
       <main className="main">{renderPage()}</main>
-
-
     </div>
   );
 }
-

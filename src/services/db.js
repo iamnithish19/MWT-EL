@@ -352,7 +352,9 @@ export function authenticateUser(emailOrName, password) {
       (u.email && u.email.toLowerCase() === term) ||
       (u.name && u.name.toLowerCase() === term) ||
       term === 'ava@companion.fit' ||
-      term === 'ava'
+      term === 'ava' ||
+      term === 'marcus@gymmaster.fit' ||
+      term === 'marcus'
   );
 
   if (!user) {
@@ -367,8 +369,8 @@ export function authenticateUser(emailOrName, password) {
   return user;
 }
 
-/** User Registration */
-export function registerUser({ name, email, password, age = 25, weight = 65 }) {
+/** User Registration with Role support */
+export function registerUser({ name, email, password, role = 'member', age = 25, weight = 65, gym_name = 'Gym Master Club', specialty = 'Head Coach' }) {
   const users = getAll('users');
   if (users.some((u) => u.email && u.email.toLowerCase() === email.toLowerCase())) {
     throw new Error('An account with this email already exists.');
@@ -378,38 +380,112 @@ export function registerUser({ name, email, password, age = 25, weight = 65 }) {
     name,
     email,
     password,
+    role: role || 'member',
     age: Number(age),
     weight: Number(weight),
     height: 170,
-    fitness_level: 'Beginner'
+    fitness_level: role === 'gym_master' ? 'Gym Master / Trainer' : 'Beginner',
+    gym_name: role === 'gym_master' ? gym_name : undefined,
+    specialty: role === 'gym_master' ? specialty : undefined,
+    avatar: role === 'gym_master' 
+      ? 'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&fit=crop&w=250&q=80'
+      : undefined
   });
 
   recordUserLogin(newUser);
 
-  const plan = insert('fitnessPlans', {
-    user_id: newUser.user_id,
-    plan_name: `${name}'s Starter Plan`,
-    start_date: new Date().toISOString().slice(0, 10)
-  });
+  if (role !== 'gym_master') {
+    const plan = insert('fitnessPlans', {
+      user_id: newUser.user_id,
+      plan_name: `${name}'s Starter Plan`,
+      start_date: new Date().toISOString().slice(0, 10)
+    });
 
-  const workout = insert('workouts', {
-    plan_id: plan.plan_id,
-    type: 'Full Body Circuit',
-    duration_minutes: 30
-  });
+    const workout = insert('workouts', {
+      plan_id: plan.plan_id,
+      type: 'Full Body Circuit',
+      duration_minutes: 30
+    });
 
-  insert('exercises', { workout_id: workout.workout_id, name: 'Bodyweight Squats', sets: 3, reps: 15 });
-  insert('exercises', { workout_id: workout.workout_id, name: 'Push Ups', sets: 3, reps: 10 });
-  insert('healthTrackers', { user_id: newUser.user_id, heart_rate: 72, steps: 5000, sys_bp: 120, dia_bp: 80, spo2: 99, timestamp: new Date().toISOString() });
-  insert('devices', { user_id: newUser.user_id, model: 'SmartBand Mini', sync_status: 'Synced', battery: 90, last_sync: 'Just now' });
-  insert('nutritionPlans', { user_id: newUser.user_id, daily_calories: 2000, diet_type: 'Balanced', protein_g: 130, carbs_g: 220, fats_g: 60 });
-  insert('hydrationLogs', { user_id: newUser.user_id, date: new Date().toISOString().slice(0, 10), amount_ml: 1500, target_ml: 3000 });
-  insert('sleepLogs', { user_id: newUser.user_id, date: new Date().toISOString().slice(0, 10), duration_hours: 7.5, score: 80, rem_hours: 1.5, deep_hours: 1.8, light_hours: 4.2, quality: 'Good' });
-  insert('bodyMeasurements', { user_id: newUser.user_id, date: new Date().toISOString().slice(0, 10), weight: Number(weight), body_fat: 22, muscle_mass: 45, chest_cm: 90, waist_cm: 72, hips_cm: 95, bicep_cm: 29 });
+    insert('exercises', { workout_id: workout.workout_id, name: 'Bodyweight Squats', sets: 3, reps: 15 });
+    insert('exercises', { workout_id: workout.workout_id, name: 'Push Ups', sets: 3, reps: 10 });
+    insert('healthTrackers', { user_id: newUser.user_id, heart_rate: 72, steps: 5000, sys_bp: 120, dia_bp: 80, spo2: 99, timestamp: new Date().toISOString() });
+    insert('devices', { user_id: newUser.user_id, model: 'SmartBand Mini', sync_status: 'Synced', battery: 90, last_sync: 'Just now' });
+    insert('nutritionPlans', { user_id: newUser.user_id, daily_calories: 2000, diet_type: 'Balanced', protein_g: 130, carbs_g: 220, fats_g: 60 });
+    insert('hydrationLogs', { user_id: newUser.user_id, date: new Date().toISOString().slice(0, 10), amount_ml: 1500, target_ml: 3000 });
+    insert('sleepLogs', { user_id: newUser.user_id, date: new Date().toISOString().slice(0, 10), duration_hours: 7.5, score: 80, rem_hours: 1.5, deep_hours: 1.8, light_hours: 4.2, quality: 'Good' });
+    insert('bodyMeasurements', { user_id: newUser.user_id, date: new Date().toISOString().slice(0, 10), weight: Number(weight), body_fat: 22, muscle_mass: 45, chest_cm: 90, waist_cm: 72, hips_cm: 95, bicep_cm: 29 });
 
-  generateProgressReport(newUser.user_id);
+    generateProgressReport(newUser.user_id);
+  }
 
   return newUser;
 }
 
+/** Gym Master Helper: Get all members */
+export function getAllMembers() {
+  return getAll('users').filter((u) => u.role !== 'gym_master');
+}
+
+/** Gym Master Helper: Assign workout plan to member */
+export function assignPlanToMember(memberId, planName, workoutType = 'Custom Workout Routine', duration = 45) {
+  const plan = insert('fitnessPlans', {
+    user_id: Number(memberId),
+    plan_name: planName,
+    start_date: new Date().toISOString().slice(0, 10),
+    assigned_by: 'Gym Master'
+  });
+
+  const workout = insert('workouts', {
+    plan_id: plan.plan_id,
+    type: workoutType,
+    duration_minutes: Number(duration)
+  });
+
+  insert('exercises', { workout_id: workout.workout_id, name: 'Barbell Squats', sets: 4, reps: 10 });
+  insert('exercises', { workout_id: workout.workout_id, name: 'Dumbbell Incline Press', sets: 4, reps: 12 });
+
+  return plan;
+}
+
+/** Gym Master Helper: Assign nutrition plan to member */
+export function assignNutritionToMember(memberId, { diet_type, daily_calories, protein_g, carbs_g, fats_g }) {
+  return insert('nutritionPlans', {
+    user_id: Number(memberId),
+    diet_type: diet_type || 'Custom Master Coach Plan',
+    daily_calories: Number(daily_calories) || 2200,
+    protein_g: Number(protein_g) || 150,
+    carbs_g: Number(carbs_g) || 200,
+    fats_g: Number(fats_g) || 60,
+    assigned_by: 'Gym Master'
+  });
+}
+
+/** Gym Master Helper: Compute Gym Overview Analytics */
+export function getGymAnalytics() {
+  const users = getAll('users');
+  const members = users.filter((u) => u.role !== 'gym_master');
+  const gymMasters = users.filter((u) => u.role === 'gym_master');
+  const fitnessPlans = getAll('fitnessPlans');
+  const workouts = getAll('workouts');
+  const progressReports = getAll('progressReports');
+  const healthTrackers = getAll('healthTrackers');
+
+  const avgCompletion = progressReports.length
+    ? Math.round(progressReports.reduce((sum, r) => sum + (r.completion_percentage || 0), 0) / progressReports.length)
+    : 75;
+
+  const totalSteps = healthTrackers.reduce((sum, h) => sum + (h.steps || 0), 0);
+
+  return {
+    totalMembers: members.length,
+    totalMasters: gymMasters.length,
+    totalActivePlans: fitnessPlans.length,
+    totalWorkouts: workouts.length,
+    avgCompletionRate: avgCompletion,
+    totalGymSteps: totalSteps
+  };
+}
+
 export { TABLES, PK };
+
