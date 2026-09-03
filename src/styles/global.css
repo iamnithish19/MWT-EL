@@ -74,25 +74,51 @@ body,
 body {
   margin: 0;
   background: var(--bg);
-  color: var(--text);
+  color: #0f172a;
   font-family: var(--font-body);
   font-weight: 700;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ULTRA BOLD & HIGH CONTRAST TYPOGRAPHY */
+/* ULTRA HIGH CONTRAST & CLEAR TEXT VISIBILITY RULES */
 h1, h2, h3, h4, h5, h6,
-.page-title, .section-title, .stat-num, .user-name, .demo-user-name, .btn, button, label {
+.page-title, .section-title, .card-title, .stat-num, .stat-value,
+.user-name, .demo-user-name, .btn, button, label, th {
   font-weight: 900 !important;
   letter-spacing: -0.01em;
 }
 
-button,
-input,
-select,
-textarea {
+.page-subtitle, .page-desc, .stat-lbl, .stat-sub, .text-secondary, p, span {
+  font-weight: 800;
+}
+
+input, select, textarea {
   font-family: inherit;
   box-sizing: border-box;
+  font-weight: 800 !important;
+  font-size: 0.95rem !important;
+  color: #000000 !important;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #475569 !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  color: #ffffff !important;
+  background-color: #1f2937 !important;
+  border-color: #4b5563 !important;
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: #9ca3af !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
 }
 
 ::selection {
@@ -153,11 +179,11 @@ textarea {
 
 .nav-category-header {
   font-family: var(--font-mono);
-  font-size: 9.5px;
+  font-size: 11px;
   letter-spacing: 1.2px;
-  color: #94a3b8;
+  color: #334155;
   margin: 12px 6px 6px 6px;
-  font-weight: 700;
+  font-weight: 900;
   text-transform: uppercase;
 }
 
@@ -176,10 +202,10 @@ textarea {
   gap: 10px;
   padding: 8px 12px;
   border-radius: 8px;
-  color: #475569;
+  color: #0f172a;
   cursor: pointer;
-  font-size: 13.5px;
-  font-weight: 600;
+  font-size: 14.5px;
+  font-weight: 800;
   border: 1px solid transparent;
   transition: all 0.15s ease;
   background: none;
