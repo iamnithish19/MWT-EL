@@ -1,0 +1,97 @@
+{
+  "users": [
+    {
+      "user_id": 1,
+      "name": "Ava Thompson",
+      "email": "ava@companion.fit",
+      "age": 28,
+      "weight": 63.5,
+      "height": 168,
+      "fitness_level": "Intermediate",
+      "bio": "Fitness enthusiast focusing on endurance, strength, and holistic recovery."
+    }
+  ],
+  "fitnessPlans": [
+    { "plan_id": 1, "user_id": 1, "plan_name": "Summer Shred", "start_date": "2026-06-01", "image": "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80" },
+    { "plan_id": 2, "user_id": 1, "plan_name": "Strength Foundations", "start_date": "2026-07-15", "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80" }
+  ],
+  "workouts": [
+    { "workout_id": 1, "plan_id": 1, "type": "Cardio Interval", "duration_minutes": 40, "image": "https://images.unsplash.com/photo-1538805060514-97d9cc17730c?auto=format&fit=crop&w=600&q=80" },
+    { "workout_id": 2, "plan_id": 1, "type": "HIIT Burner", "duration_minutes": 25, "image": "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3?auto=format&fit=crop&w=600&q=80" },
+    { "workout_id": 3, "plan_id": 2, "type": "Upper Body Strength", "duration_minutes": 50, "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80" }
+  ],
+  "exercises": [
+    { "exercise_id": 1, "workout_id": 1, "name": "Treadmill Run", "sets": 1, "reps": 1, "image": "https://images.unsplash.com/photo-1538805060514-97d9cc17730c?auto=format&fit=crop&w=300&q=80" },
+    { "exercise_id": 2, "workout_id": 1, "name": "Jump Rope", "sets": 4, "reps": 60, "image": "https://images.unsplash.com/photo-1434682881908-b43d0467b798?auto=format&fit=crop&w=300&q=80" },
+    { "exercise_id": 3, "workout_id": 2, "name": "Burpees", "sets": 5, "reps": 15, "image": "https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?auto=format&fit=crop&w=300&q=80" },
+    { "exercise_id": 4, "workout_id": 2, "name": "Mountain Climbers", "sets": 5, "reps": 20, "image": "https://images.unsplash.com/photo-1434682881908-b43d0467b798?auto=format&fit=crop&w=300&q=80" },
+    { "exercise_id": 5, "workout_id": 3, "name": "Bench Press", "sets": 4, "reps": 8, "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=300&q=80" },
+    { "exercise_id": 6, "workout_id": 3, "name": "Pull Ups", "sets": 4, "reps": 10, "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=300&q=80" }
+  ],
+  "healthTrackers": [
+    { "record_id": 1, "user_id": 1, "heart_rate": 72, "steps": 8450, "sys_bp": 118, "dia_bp": 78, "spo2": 99, "timestamp": "2026-08-22T07:30:00" },
+    { "record_id": 2, "user_id": 1, "heart_rate": 118, "steps": 10230, "sys_bp": 122, "dia_bp": 80, "spo2": 98, "timestamp": "2026-08-23T18:10:00" },
+    { "record_id": 3, "user_id": 1, "heart_rate": 68, "steps": 9120, "sys_bp": 115, "dia_bp": 76, "spo2": 99, "timestamp": "2026-08-24T09:05:00" }
+  ],
+  "devices": [
+    { "device_id": 1, "user_id": 1, "model": "PulseBand X3 Pro", "sync_status": "Synced", "battery": 84, "last_sync": "10 mins ago", "image": "https://images.unsplash.com/photo-1510017803434-a899398421b3?auto=format&fit=crop&w=400&q=80" },
+    { "device_id": 2, "user_id": 1, "model": "SmartScale BodyComposition v2", "sync_status": "Synced", "battery": 92, "last_sync": "1 hour ago", "image": "https://images.unsplash.com/photo-1576243345690-4e4b79b63288?auto=format&fit=crop&w=400&q=80" },
+    { "device_id": 3, "user_id": 1, "model": "HeartSync Chest Strap", "sync_status": "Pending", "battery": 45, "last_sync": "Yesterday", "image": "https://images.unsplash.com/photo-1557935728-e6d1eaabe558?auto=format&fit=crop&w=400&q=80" }
+  ],
+  "nutritionPlans": [
+    { "nutrition_id": 1, "user_id": 1, "daily_calories": 2100, "diet_type": "High Protein", "protein_g": 145, "carbs_g": 210, "fats_g": 65 }
+  ],
+  "progressReports": [
+    { "report_id": 1, "user_id": 1, "report_date": "2026-08-01", "completion_percentage": 62, "summary": "Baseline check-in. Solid strength start, working on cardio endurance.", "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=600&q=80" },
+    { "report_id": 2, "user_id": 1, "report_date": "2026-08-10", "completion_percentage": 78, "summary": "Noticeable definition in core and arms. Recovery score improved.", "image": "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80" },
+    { "report_id": 3, "user_id": 1, "report_date": "2026-08-20", "completion_percentage": 88, "summary": "Peak performance week! Body fat reached 20.1% target milestone.", "image": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=600&q=80" }
+  ],
+  "sleepLogs": [
+    { "sleep_id": 1, "user_id": 1, "date": "2026-08-22", "duration_hours": 7.8, "score": 85, "rem_hours": 1.9, "deep_hours": 2.1, "light_hours": 3.8, "quality": "Excellent" },
+    { "sleep_id": 2, "user_id": 1, "date": "2026-08-23", "duration_hours": 6.5, "score": 72, "rem_hours": 1.2, "deep_hours": 1.5, "light_hours": 3.8, "quality": "Fair" },
+    { "sleep_id": 3, "user_id": 1, "date": "2026-08-24", "duration_hours": 8.1, "score": 92, "rem_hours": 2.2, "deep_hours": 2.4, "light_hours": 3.5, "quality": "Optimal" }
+  ],
+  "hydrationLogs": [
+    { "hydration_id": 1, "user_id": 1, "date": "2026-08-24", "amount_ml": 2250, "target_ml": 3000 }
+  ],
+  "recipes": [
+    { "recipe_id": 1, "title": "Grilled Salmon Quinoa Bowl", "category": "High Protein", "calories": 520, "protein": 42, "carbs": 48, "fats": 16, "time": "20 mins", "prep": "Sear salmon with lemon pepper, serve over warm fluffy quinoa with avocado and steamed broccoli.", "image": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=600&q=80" },
+    { "recipe_id": 2, "title": "Berry Power Protein Smoothie", "category": "Breakfast", "calories": 380, "protein": 34, "carbs": 42, "fats": 6, "time": "5 mins", "prep": "Blend whey protein isolate, frozen blueberries, chia seeds, spinach, and almond milk.", "image": "https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=600&q=80" },
+    { "recipe_id": 3, "title": "Lean Turkey & Sweet Potato Skillet", "category": "Dinner", "calories": 460, "protein": 38, "carbs": 45, "fats": 12, "time": "25 mins", "prep": "Sauté ground turkey breast with diced sweet potatoes, bell peppers, and garlic in olive oil.", "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80" },
+    { "recipe_id": 4, "title": "Greek Yogurt Parfait with Honey", "category": "Snack", "calories": 290, "protein": 24, "carbs": 32, "fats": 5, "time": "5 mins", "prep": "Layer non-fat Greek yogurt, raw almonds, mixed berries, and a drizzle of organic honey.", "image": "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=600&q=80" },
+    { "recipe_id": 5, "title": "Avocado Egg Protein Toast", "category": "Breakfast", "calories": 350, "protein": 22, "carbs": 28, "fats": 14, "time": "10 mins", "prep": "Sourdough toast topped with smashed avocado, poached organic eggs, chili flakes, and hemp seeds.", "image": "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80" },
+    { "recipe_id": 6, "title": "Grilled Chicken Power Bowl", "category": "High Protein", "calories": 490, "protein": 46, "carbs": 40, "fats": 12, "time": "15 mins", "prep": "Grilled chicken breast, roasted sweet potatoes, kale, pumpkin seeds, and tahini dressing.", "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80" }
+  ],
+  "bodyMeasurements": [
+    { "measurement_id": 1, "user_id": 1, "date": "2026-08-01", "weight": 65.0, "body_fat": 21.5, "muscle_mass": 48.2, "chest_cm": 92, "waist_cm": 71, "hips_cm": 96, "bicep_cm": 30 },
+    { "measurement_id": 2, "user_id": 1, "date": "2026-08-15", "weight": 64.1, "body_fat": 20.8, "muscle_mass": 48.8, "chest_cm": 92.5, "waist_cm": 70, "hips_cm": 95, "bicep_cm": 30.5 },
+    { "measurement_id": 3, "user_id": 1, "date": "2026-08-24", "weight": 63.5, "body_fat": 20.1, "muscle_mass": 49.3, "chest_cm": 93, "waist_cm": 69, "hips_cm": 94, "bicep_cm": 31 }
+  ],
+  "goals": [
+    { "goal_id": 1, "user_id": 1, "title": "Reach 20% Body Fat", "category": "Body Composition", "target_value": "20%", "current_value": "20.1%", "status": "In Progress", "deadline": "2026-09-15" },
+    { "goal_id": 2, "user_id": 1, "title": "Run 10K under 50 mins", "category": "Cardio Endurance", "target_value": "49:59", "current_value": "52:40", "status": "In Progress", "deadline": "2026-10-01" },
+    { "goal_id": 3, "user_id": 1, "title": "Hit 10,000 Steps Daily", "category": "Habit", "target_value": "10k steps", "current_value": "9.2k steps", "status": "Achieved", "deadline": "2026-08-31" }
+  ],
+  "habits": [
+    { "habit_id": 1, "user_id": 1, "name": "Morning Hydration (500ml)", "category": "Health", "streak": 14, "completed_today": true },
+    { "habit_id": 2, "user_id": 1, "name": "10 Minute Mobility Stretch", "category": "Recovery", "streak": 8, "completed_today": true },
+    { "habit_id": 3, "user_id": 1, "name": "No Sugar After 8 PM", "category": "Nutrition", "streak": 5, "completed_today": false },
+    { "habit_id": 4, "user_id": 1, "name": "8 Hours Sleep Target", "category": "Rest", "streak": 12, "completed_today": true }
+  ],
+  "supplements": [
+    { "supp_id": 1, "user_id": 1, "name": "Whey Protein Isolate", "dosage": "30g", "timing": "Post-Workout", "taken_today": true, "stock_count": 24, "image": "https://images.unsplash.com/photo-1593095948071-474c5cc2989d?auto=format&fit=crop&w=300&q=80" },
+    { "supp_id": 2, "user_id": 1, "name": "Creatine Monohydrate", "dosage": "5g", "timing": "Morning", "taken_today": true, "stock_count": 45, "image": "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?auto=format&fit=crop&w=300&q=80" },
+    { "supp_id": 3, "user_id": 1, "name": "Omega-3 Fish Oil", "dosage": "1000mg", "timing": "With Lunch", "taken_today": true, "stock_count": 60, "image": "https://images.unsplash.com/photo-1577401239170-897942555fb3?auto=format&fit=crop&w=300&q=80" },
+    { "supp_id": 4, "user_id": 1, "name": "Magnesium Glycinate", "dosage": "400mg", "timing": "Before Bed", "taken_today": false, "stock_count": 30, "image": "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=300&q=80" }
+  ],
+  "chatMessages": [
+    { "msg_id": 1, "user_id": 1, "sender": "ai", "text": "Hello Ava! I am your AI Fitness Coach. Your sleep recovery score reached 92 today! Ready for your workout?", "timestamp": "09:30 AM" }
+  ],
+  "communityRankings": [
+    { "rank": 1, "name": "Liam Vance", "steps": 14200, "points": 2850, "badge": "Elite Runner", "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=250&q=80" },
+    { "rank": 2, "name": "Ava Thompson (You)", "steps": 10230, "points": 2410, "badge": "Consistency Champion", "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80" },
+    { "rank": 3, "name": "Sophia Chen", "steps": 9850, "points": 2180, "badge": "HIIT Specialist", "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=250&q=80" },
+    { "rank": 4, "name": "Marcus Miller", "steps": 8900, "points": 1950, "badge": "Powerlifter", "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=250&q=80" },
+    { "rank": 5, "name": "Elena Rostova", "steps": 8400, "points": 1820, "badge": "Yoga & Recovery", "avatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=250&q=80" }
+  ]
+}
