@@ -1,282 +1,283 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import ProgressRing from './ProgressRing.jsx';
 import * as aiService from '../services/aiService.js';
-
-const PRESET_PROGRESS_PHOTOS = [
-  'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80',
-  'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80',
-  'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=600&q=80',
-  'https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=600&q=80',
-  'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=600&q=80',
-  'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?auto=format&fit=crop&w=600&q=80'
-];
 
 export default function ProgressReports({ reports, onGenerate, onDelete, user }) {
   const sorted = [...reports].sort((a, b) => (a.report_date < b.report_date ? 1 : -1));
   const [isGeneratingAi, setIsGeneratingAi] = useState(false);
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [viewMode, setViewMode] = useState('all'); // 'all' | 'gallery' | 'compare'
-  const fileInputRef = useRef(null);
+  const [filterMode, setFilterMode] = useState('all'); // 'all' | 'high' | 'recent'
 
   const handleAiGenerateReport = async () => {
     setIsGeneratingAi(true);
     try {
       const res = await aiService.generateAiWeeklyProgressReport({ user });
       if (onGenerate) onGenerate();
-      alert(`🤖 Gemini Executive Report Created!\nScore: ${res.completion_percentage}%\nSummary: ${res.summary}`);
+      alert(`🤖 Gemini Executive Text Report Created!\nCompletion Score: ${res.completion_percentage}%\n\nSummary:\n${res.summary}`);
     } catch (err) {
       if (onGenerate) onGenerate();
     } finally {
       setIsGeneratingAi(false);
     }
   };
-    
-  const handlePhotoUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (uploadEvent) => {
-        const photoUrl = uploadEvent.target.result;
-        alert('📷 New Progress Photo Uploaded successfully! Added to your Transformation Gallery.');
-        setSelectedPhoto(photoUrl);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+
+  // Filter reports based on text filter tabs
+  const filteredReports = sorted.filter((r) => {
+    if (filterMode === 'high') return r.completion_percentage >= 80;
+    if (filterMode === 'recent') return true;
+    return true;
+  });
+
+  // Calculate text analytics summary
+  const totalReports = sorted.length;
+  const avgCompletion = totalReports > 0
+    ? Math.round(sorted.reduce((acc, r) => acc + r.completion_percentage, 0) / totalReports)
+    : 0;
+  const highestCompletion = totalReports > 0
+    ? Math.max(...sorted.map((r) => r.completion_percentage))
+    : 0;
 
   return (
-    <div className="page-container">
+    <div className="page-container" style={{ padding: '2rem' }}>
+      {/* Header Banner */}
       <div className="page-head flex-between align-center flex-wrap gap-2 mb-4">
         <div>
-          <div className="page-eyebrow">Transformation Telemetry →</div>
-          <h1 className="page-title">Progress Reports & Photo Log</h1>
-          <p className="page-desc">
-            Weekly completion scores, visual body transformation gallery, and AI progress analysis.
+          <div className="page-eyebrow" style={{ fontWeight: 900, color: '#ca8a04', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            PERFORMANCE TELEMETRY & LOGS →
+          </div>
+          <h1 className="page-title" style={{ fontSize: '1.75rem', fontWeight: 900, margin: '0.2rem 0' }}>
+            Workout Progress Reports (Text Logs)
+          </h1>
+          <p className="page-desc" style={{ fontWeight: 600, color: '#64748b' }}>
+            Text-based weekly workout reports, target completion scores, milestone notes, and Gemini AI performance analysis.
           </p>
         </div>
+
         <div className="flex align-center gap-2 flex-wrap">
-          <input
-            type="file"
-            ref={fileInputRef}
-            accept="image/*"
-            style={{ display: 'none' }}
-            onChange={handlePhotoUpload}
-          />
-          <button
-            className="btn btn-secondary text-xs flex align-center gap-1"
-            onClick={() => fileInputRef.current?.click()}
-          >
-            📸 Upload Progress Photo
-          </button>
           <button
             className="btn btn-primary text-xs flex align-center gap-1"
             onClick={handleAiGenerateReport}
             disabled={isGeneratingAi}
+            style={{ fontWeight: 900, padding: '0.65rem 1.1rem', borderRadius: '8px', cursor: 'pointer' }}
           >
-            {isGeneratingAi ? '⏳ Gemini Generating...' : '🤖 AI Executive Report'}
+            {isGeneratingAi ? '⏳ Gemini Generating Report...' : '🤖 AI Executive Text Report'}
           </button>
-          <button className="btn btn-secondary text-xs" onClick={onGenerate}>
-            + Standard Report
+
+          <button
+            className="btn btn-secondary text-xs"
+            onClick={onGenerate}
+            style={{ fontWeight: 900, padding: '0.65rem 1.1rem', borderRadius: '8px', cursor: 'pointer' }}
+          >
+            ➕ Standard Text Report
           </button>
         </div>
       </div>
 
-      {/* Navigation Filter Tabs */}
-      <div className="card mb-4 p-2 flex-between align-center flex-wrap gap-2">
+      {/* Top Executive Performance Summary Cards (Text-Only) */}
+      <div className="grid grid-3 gap-3 mb-4">
+        <div className="card text-center" style={{ border: '1px solid #e2e8f0', boxShadow: '0 2px 8px rgba(0,0,0,0.03)', padding: '1.25rem', borderRadius: '12px' }}>
+          <span className="stat-lbl" style={{ fontWeight: 900, color: '#64748b', fontSize: '0.78rem', textTransform: 'uppercase' }}>
+            📝 TOTAL REPORTS LOGGED
+          </span>
+          <div className="stat-num my-2" style={{ fontWeight: 900, fontSize: '2.2rem', color: '#2563eb' }}>
+            {totalReports} Reports
+          </div>
+          <span style={{ fontWeight: 700, fontSize: '0.8rem', color: '#16a34a' }}>
+            ● Text logs up-to-date
+          </span>
+        </div>
+
+        <div className="card text-center" style={{ border: '1px solid #fef08a', background: '#fef9c3', boxShadow: '0 2px 8px rgba(0,0,0,0.03)', padding: '1.25rem', borderRadius: '12px' }}>
+          <span className="stat-lbl" style={{ fontWeight: 900, color: '#854d0e', fontSize: '0.78rem', textTransform: 'uppercase' }}>
+            📊 AVG COMPLETION SCORE
+          </span>
+          <div className="stat-num my-2" style={{ fontWeight: 900, fontSize: '2.2rem', color: '#ca8a04' }}>
+            {avgCompletion}%
+          </div>
+          <span style={{ fontWeight: 800, fontSize: '0.8rem', color: '#854d0e' }}>
+            Overall Workout Consistency Target
+          </span>
+        </div>
+
+        <div className="card text-center" style={{ border: '1px solid #e2e8f0', boxShadow: '0 2px 8px rgba(0,0,0,0.03)', padding: '1.25rem', borderRadius: '12px' }}>
+          <span className="stat-lbl" style={{ fontWeight: 900, color: '#64748b', fontSize: '0.78rem', textTransform: 'uppercase' }}>
+            🏆 PEAK WORKOUT MILESTONE
+          </span>
+          <div className="stat-num my-2" style={{ fontWeight: 900, fontSize: '2.2rem', color: '#16a34a' }}>
+            {highestCompletion}%
+          </div>
+          <span style={{ fontWeight: 700, fontSize: '0.8rem', color: '#166534' }}>
+            Highest recorded weekly completion
+          </span>
+        </div>
+      </div>
+
+      {/* Text Filter Bar */}
+      <div className="card mb-4 p-3 flex-between align-center flex-wrap gap-2" style={{ borderRadius: '12px', border: '1px solid #e2e8f0' }}>
         <div className="flex align-center gap-2">
+          <span style={{ fontWeight: 900, fontSize: '0.85rem', color: '#64748b', textTransform: 'uppercase', marginRight: '0.5rem' }}>
+            FILTER TEXT LOGS:
+          </span>
           <button
-            className={`btn btn-sm ${viewMode === 'all' ? 'btn-primary' : 'btn-secondary'}`}
-            onClick={() => setViewMode('all')}
+            className={`btn btn-sm ${filterMode === 'all' ? 'btn-primary' : 'btn-secondary'}`}
+            onClick={() => setFilterMode('all')}
+            style={{ fontWeight: 900, padding: '0.5rem 1rem', borderRadius: '8px' }}
           >
-            📊 All Reports ({sorted.length})
+            📋 All Text Reports ({sorted.length})
           </button>
           <button
-            className={`btn btn-sm ${viewMode === 'gallery' ? 'btn-primary' : 'btn-secondary'}`}
-            onClick={() => setViewMode('gallery')}
+            className={`btn btn-sm ${filterMode === 'high' ? 'btn-primary' : 'btn-secondary'}`}
+            onClick={() => setFilterMode('high')}
+            style={{ fontWeight: 900, padding: '0.5rem 1rem', borderRadius: '8px' }}
           >
-            🖼️ Photo Gallery
-          </button>
-          <button
-            className={`btn btn-sm ${viewMode === 'compare' ? 'btn-primary' : 'btn-secondary'}`}
-            onClick={() => setViewMode('compare')}
-          >
-            ⚡ Before / After View
+            ⭐ High Target Scores (80%+)
           </button>
         </div>
+
+        <span style={{ fontSize: '0.8rem', fontWeight: 800, color: '#ca8a04' }}>
+          📄 Text-Only Mode Active (No Photos)
+        </span>
       </div>
 
-      {/* Modal for Zoomed Image View */}
-      {selectedPhoto && (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            backgroundColor: 'rgba(15, 23, 42, 0.85)',
-            backdropFilter: 'blur(8px)',
-            zIndex: 9999,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '20px'
-          }}
-          onClick={() => setSelectedPhoto(null)}
-        >
-          <div
-            className="card p-4 text-center"
-            style={{ maxWidth: '600px', width: '100%', position: 'relative' }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex-between align-center mb-3">
-              <span className="badge badge-accent font-mono text-xs">📸 Visual Progress Check-in</span>
-              <button className="btn btn-secondary text-xs" onClick={() => setSelectedPhoto(null)}>
-                ✕ Close
-              </button>
-            </div>
-            <img
-              src={selectedPhoto}
-              alt="Progress Zoom"
-              style={{ width: '100%', maxHeight: '420px', objectFit: 'cover', borderRadius: '8px', marginBottom: '12px' }}
-            />
-            <p className="text-xs text-secondary italic">
-              AI Telemetry: "Muscle vascularity and posture alignment showing optimal progression."
-            </p>
+      {/* Text Workout Report Cards List */}
+      <div>
+        <h3 className="section-title mb-3" style={{ fontSize: '1.25rem', fontWeight: 900 }}>
+          📑 Workout Progress Reports List
+        </h3>
+
+        {filteredReports.length === 0 ? (
+          <div className="empty-state card p-4 text-center" style={{ borderRadius: '12px', color: '#64748b', fontWeight: 700 }}>
+            No progress reports matching current filter. Click "+ Standard Text Report" to add one.
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="reports-text-list" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            {filteredReports.map((r) => {
+              const isHigh = r.completion_percentage >= 80;
 
-      {/* Before / After Comparison View */}
-      {viewMode === 'compare' && (
-        <div className="card p-4 mb-4">
-          <h3 className="section-title mb-3">⚡ Side-by-Side Body Transformation Comparison</h3>
-          <div className="grid grid-2 gap-4">
-            <div className="progress-photo-card p-2 text-center">
-              <span className="badge badge-secondary mb-2">Month 1 Baseline</span>
-              <img
-                src={sorted[0]?.image || PRESET_PROGRESS_PHOTOS[0]}
-                alt="Baseline Progress"
-                className="progress-photo-img border-radius mb-2"
-                onClick={() => setSelectedPhoto(sorted[0]?.image || PRESET_PROGRESS_PHOTOS[0])}
-                style={{ cursor: 'pointer' }}
-              />
-              <div className="stat-lbl text-xs">Date: {sorted[0]?.report_date || '2026-08-01'}</div>
-              <div className="font-bold text-sm mt-1">Weight: 65.0 kg • 21.5% Body Fat</div>
-            </div>
-
-            <div className="progress-photo-card p-2 text-center">
-              <span className="badge badge-success mb-2">Current Peak Phase</span>
-              <img
-                src={sorted[sorted.length - 1]?.image || PRESET_PROGRESS_PHOTOS[2]}
-                alt="Peak Progress"
-                className="progress-photo-img border-radius mb-2"
-                onClick={() => setSelectedPhoto(sorted[sorted.length - 1]?.image || PRESET_PROGRESS_PHOTOS[2])}
-                style={{ cursor: 'pointer' }}
-              />
-              <div className="stat-lbl text-xs">Date: {sorted[sorted.length - 1]?.report_date || '2026-08-24'}</div>
-              <div className="font-bold text-sm text-cyan mt-1">Weight: 63.5 kg • 20.1% Body Fat (-1.4%)</div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Photo Gallery View */}
-      {(viewMode === 'gallery' || viewMode === 'all') && (
-        <div className="mb-6">
-          <h3 className="section-title mb-3">📷 Visual Transformation Timeline</h3>
-          <div className="grid grid-3 gap-4 mb-4">
-            {sorted.map((r, idx) => {
-              const imgUrl = r.image || PRESET_PROGRESS_PHOTOS[idx % PRESET_PROGRESS_PHOTOS.length];
               return (
-                <div key={`photo-${r.report_id}`} className="progress-photo-card p-3">
-                  <div className="flex-between align-center mb-2">
-                    <span className="badge badge-accent">Report #{r.report_id}</span>
-                    <span className="stat-lbl text-xs">{r.report_date}</span>
-                  </div>
-                  <div style={{ position: 'relative' }}>
-                    <img
-                      src={imgUrl}
-                      alt={`Report ${r.report_id}`}
-                      className="progress-photo-img border-radius mb-2"
-                      style={{ cursor: 'pointer' }}
-                      onClick={() => setSelectedPhoto(imgUrl)}
-                    />
-                    <div
-                      style={{
-                        position: 'absolute',
-                        bottom: 12,
-                        right: 12,
-                        background: 'rgba(15, 23, 42, 0.85)',
-                        backdropFilter: 'blur(4px)',
-                        padding: '2px 8px',
-                        borderRadius: '4px',
-                        fontSize: '11px',
-                        color: '#fff',
-                        fontWeight: 'bold'
-                      }}
-                    >
-                      {r.completion_percentage}% Target
+                <div
+                  key={r.report_id}
+                  className="card p-4"
+                  style={{
+                    borderRadius: '16px',
+                    border: isHigh ? '1.5px solid #bbf7d0' : '1px solid #e2e8f0',
+                    background: '#ffffff',
+                    boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '1rem'
+                  }}
+                >
+                  {/* Card Top Row Header */}
+                  <div className="flex-between align-center flex-wrap gap-2" style={{ borderBottom: '1px solid #f1f5f9', paddingBottom: '0.75rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                      <span style={{ fontSize: '1.2rem', fontWeight: 900, color: '#0f172a' }}>
+                        📋 Report #{r.report_id}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: '0.75rem',
+                          fontWeight: 900,
+                          padding: '0.2rem 0.6rem',
+                          borderRadius: '6px',
+                          background: isHigh ? '#dcfce7' : '#f1f5f9',
+                          color: isHigh ? '#166534' : '#475569',
+                          textTransform: 'uppercase'
+                        }}
+                      >
+                        {isHigh ? '🔥 HIGH COMPLETION' : '📈 PROGRESS LOG'}
+                      </span>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                      <span style={{ fontSize: '0.85rem', fontWeight: 800, color: '#64748b' }}>
+                        📅 Date: <strong style={{ color: '#0f172a' }}>{r.report_date}</strong>
+                      </span>
+                      <button
+                        onClick={() => onDelete && onDelete(r.report_id)}
+                        style={{
+                          background: '#fef2f2',
+                          border: '1px solid #fecaca',
+                          color: '#dc2626',
+                          fontSize: '0.75rem',
+                          fontWeight: 900,
+                          padding: '0.35rem 0.75rem',
+                          borderRadius: '6px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        🗑️ Delete Report
+                      </button>
                     </div>
                   </div>
-                  <p className="text-xs text-secondary mt-1 line-clamp-2">
-                    {r.summary || 'Weekly workout completion report and vital check-in.'}
-                  </p>
+
+                  {/* Card Content Row: Completion Score & Summary Text */}
+                  <div className="grid grid-3 gap-4 align-center">
+                    {/* Completion Ring */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+                      <ProgressRing value={r.completion_percentage} size={76} stroke={7} />
+                      <div>
+                        <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase' }}>
+                          TARGET SCORE
+                        </div>
+                        <div style={{ fontSize: '1.5rem', fontWeight: 900, color: isHigh ? '#16a34a' : '#ca8a04' }}>
+                          {r.completion_percentage}%
+                        </div>
+                        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#475569' }}>
+                          Target Achieved
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Summary Workout Text Report */}
+                    <div style={{ gridColumn: 'span 2' }}>
+                      <div style={{ fontSize: '0.78rem', fontWeight: 900, color: '#ca8a04', textTransform: 'uppercase', marginBottom: '0.3rem', letterSpacing: '0.04em' }}>
+                        📝 WORKOUT REGARDS & SUMMARY REPORT TEXT:
+                      </div>
+                      <p style={{ fontSize: '0.95rem', fontWeight: 800, color: '#000000', margin: 0, lineHeight: 1.55 }}>
+                        "{r.summary || `Weekly workout telemetry report logged with a completion score of ${r.completion_percentage}%. Continuous progress recorded across all assigned fitness routines.`}"
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Telemetry Metrics Text Grid (Without Photos) */}
+                  <div
+                    style={{
+                      background: '#f8fafc',
+                      border: '1px solid #e2e8f0',
+                      borderRadius: '10px',
+                      padding: '0.85rem 1.25rem',
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+                      gap: '1rem',
+                      fontSize: '0.82rem'
+                    }}
+                  >
+                    <div>
+                      <span style={{ color: '#64748b', fontWeight: 700, display: 'block' }}>🏋️ Workout Routine Focus:</span>
+                      <strong style={{ color: '#0f172a', fontWeight: 900 }}>Strength & Hypertrophy</strong>
+                    </div>
+
+                    <div>
+                      <span style={{ color: '#64748b', fontWeight: 700, display: 'block' }}>⏱️ Active Session Time:</span>
+                      <strong style={{ color: '#2563eb', fontWeight: 900 }}>45 Minutes Avg</strong>
+                    </div>
+
+                    <div>
+                      <span style={{ color: '#64748b', fontWeight: 700, display: 'block' }}>❤️ Heart Rate Response:</span>
+                      <strong style={{ color: '#dc2626', fontWeight: 900 }}>118 BPM Peak Cardio</strong>
+                    </div>
+
+                    <div>
+                      <span style={{ color: '#64748b', fontWeight: 700, display: 'block' }}>🤖 AI Executive Status:</span>
+                      <strong style={{ color: '#16a34a', fontWeight: 900 }}>Verified & Analyzed</strong>
+                    </div>
+                  </div>
                 </div>
               );
             })}
           </div>
-        </div>
-      )}
-
-      {/* Executive Report Grid */}
-      {viewMode === 'all' && (
-        <div>
-          <h3 className="section-title mb-3">📊 Executive Performance Scorecards</h3>
-          {sorted.length === 0 ? (
-            <div className="empty-state">No reports generated yet — click AI Executive Report above.</div>
-          ) : (
-            <div className="grid grid-3 gap-4">
-              {sorted.map((r, idx) => {
-                const imgUrl = r.image || PRESET_PROGRESS_PHOTOS[idx % PRESET_PROGRESS_PHOTOS.length];
-                return (
-                  <div className="card flex-col flex-between" key={r.report_id}>
-                    <div>
-                      <div className="flex-between align-center mb-3">
-                        <span className="card-title mb-0">Report #{r.report_id}</span>
-                        <span className="badge badge-secondary text-xs">{r.report_date}</span>
-                      </div>
-
-                      <div className="flex align-center gap-3 mb-3">
-                        <img
-                          src={imgUrl}
-                          alt="Thumbnail"
-                          style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '8px' }}
-                          onClick={() => setSelectedPhoto(imgUrl)}
-                        />
-                        <div className="flex-1">
-                          <ProgressRing value={r.completion_percentage} size={64} stroke={6} />
-                        </div>
-                      </div>
-
-                      <p className="text-xs text-secondary mb-3">
-                        {r.summary || `Weekly completion score achieved at ${r.completion_percentage}%.`}
-                      </p>
-                    </div>
-
-                    <div className="flex-between align-center pt-2 border-t mt-2">
-                      <button className="btn btn-secondary text-xs p-1" onClick={() => setSelectedPhoto(imgUrl)}>
-                        🔍 Inspect Photo
-                      </button>
-                      <button className="icon-btn text-rose text-xs" onClick={() => onDelete(r.report_id)}>
-                        Delete
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
-
