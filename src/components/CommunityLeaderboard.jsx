@@ -22,6 +22,7 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
           ...masterList[existingIdx],
           user_id: u.user_id,
           name: u.name,
+          role: u.role || masterList[existingIdx].role,
           avatar: u.avatar || masterList[existingIdx].avatar,
           steps: Math.max(masterList[existingIdx].steps || 0, userSteps)
         };
@@ -30,6 +31,7 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
           rank: masterList.length + 1,
           user_id: u.user_id,
           name: u.name,
+          role: u.role || 'member',
           steps: userSteps,
           points: 2100 + u.user_id * 150,
           badge: u.role === 'gym_master' ? 'Gym Master / Coach' : 'Fitness Challenger',
@@ -65,63 +67,67 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
       </header>
 
       <div className="grid grid-3 gap-3 mb-4">
-        <div className="card text-center" style={{ border: '1px solid rgba(255, 215, 0, 0.3)', background: 'rgba(255, 215, 0, 0.05)' }}>
-          <span className="stat-lbl">YOUR LEADERBOARD RANK</span>
-          <div className="stat-num text-amber my-2" style={{ fontWeight: 900 }}>
+        <div className="card text-center" style={{ border: '1px solid rgba(255, 215, 0, 0.4)', background: 'rgba(255, 215, 0, 0.08)' }}>
+          <span className="stat-lbl" style={{ fontWeight: 800 }}>YOUR LEADERBOARD RANK</span>
+          <div className="stat-num text-amber my-2" style={{ fontWeight: 900, fontSize: '2.2rem' }}>
             🏆 #{userRankNumber}
           </div>
-          <span className="badge badge-accent">
+          <span className="badge badge-accent" style={{ fontWeight: 800 }}>
             {currentUser?.role === 'gym_master' ? '👑 Gym Master' : userRankEntry?.badge || 'Consistency Champion'}
           </span>
         </div>
 
         <div className="card text-center">
-          <span className="stat-lbl">WEEKLY COMMUNITY POINTS</span>
-          <div className="stat-num text-cyan my-2" style={{ fontWeight: 900 }}>
+          <span className="stat-lbl" style={{ fontWeight: 800 }}>WEEKLY COMMUNITY POINTS</span>
+          <div className="stat-num text-cyan my-2" style={{ fontWeight: 900, fontSize: '2.2rem' }}>
             {userRankEntry ? `${userRankEntry.points.toLocaleString()} pts` : '2,410 pts'}
           </div>
           <span className="stat-lbl">+350 pts from yesterday</span>
         </div>
 
         <div className="card text-center">
-          <span className="stat-lbl">ACTIVE CHALLENGE</span>
-          <div className="stat-num text-emerald my-2" style={{ fontWeight: 900 }}>70K Steps</div>
-          <span className="badge badge-success">85% Completed</span>
+          <span className="stat-lbl" style={{ fontWeight: 800 }}>ACTIVE CHALLENGE</span>
+          <div className="stat-num text-emerald my-2" style={{ fontWeight: 900, fontSize: '2.2rem' }}>70K Steps</div>
+          <span className="badge badge-success" style={{ fontWeight: 800 }}>85% Completed</span>
         </div>
       </div>
 
       <div className="card mb-4">
         <div className="flex-between align-center mb-3" style={{ flexWrap: 'wrap', gap: '1rem' }}>
           <div>
-            <h3 className="section-title" style={{ margin: 0 }}>Weekly Fitness Leaderboard</h3>
-            <span style={{ fontSize: '0.78rem', opacity: 0.7 }}>
-              Names & profile photos are live-synced with user accounts
+            <h3 className="section-title" style={{ margin: 0, fontSize: '1.4rem', fontWeight: 900 }}>
+              🏆 Weekly Fitness Leaderboard
+            </h3>
+            <span style={{ fontSize: '0.8rem', opacity: 0.8, color: '#00F0FF', fontWeight: 600 }}>
+              ● Live names & user profile sync enabled
             </span>
           </div>
           <div className="flex-gap">
             <button
               className={`btn btn-sm ${tab === 'steps' ? 'btn-primary' : 'btn-secondary'}`}
               onClick={() => setTab('steps')}
-              style={{ fontWeight: 700 }}
+              style={{ fontWeight: 900, fontSize: '0.85rem', padding: '0.5rem 1rem' }}
             >
               👟 Step Leaders
             </button>
             <button
               className={`btn btn-sm ${tab === 'points' ? 'btn-primary' : 'btn-secondary'}`}
               onClick={() => setTab('points')}
-              style={{ fontWeight: 700 }}
+              style={{ fontWeight: 900, fontSize: '0.85rem', padding: '0.5rem 1rem' }}
             >
               ⭐ Points Ranks
             </button>
           </div>
         </div>
 
-        <div className="rankings-list">
+        <div className="rankings-list" style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
           {sortedRankings.map((userRank) => {
             const isCurrentUser =
               currentUser &&
               (userRank.user_id === currentUser.user_id ||
                 userRank.name.replace(/\s*\(You\)$/i, '') === currentUser.name);
+
+            const isGymMaster = userRank.role === 'gym_master' || (isCurrentUser && currentUser?.role === 'gym_master');
 
             const displayName = isCurrentUser ? `${currentUser.name} (You)` : userRank.name;
             const displayAvatar = isCurrentUser
@@ -131,29 +137,58 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
             return (
               <div
                 key={userRank.user_id || userRank.rank}
-                className={`rank-row p-3 mb-2 border-radius flex-between align-center ${isCurrentUser ? 'user-highlight' : ''}`}
+                className="rank-row flex-between align-center"
                 style={{
-                  border: isCurrentUser ? '2px solid #00F0FF' : '1px solid rgba(255,255,255,0.08)',
+                  padding: '1rem 1.25rem',
+                  border: isCurrentUser
+                    ? '2.5px solid #00F0FF'
+                    : isGymMaster
+                    ? '1.5px solid #FFD700'
+                    : '1px solid rgba(255,255,255,0.12)',
                   background: isCurrentUser
-                    ? 'linear-gradient(90deg, rgba(0, 240, 255, 0.15) 0%, rgba(10, 14, 26, 0.6) 100%)'
-                    : 'rgba(255, 255, 255, 0.02)',
-                  borderRadius: '12px'
+                    ? 'linear-gradient(90deg, rgba(0, 240, 255, 0.18) 0%, rgba(10, 14, 26, 0.75) 100%)'
+                    : isGymMaster
+                    ? 'linear-gradient(90deg, rgba(255, 215, 0, 0.1) 0%, rgba(10, 14, 26, 0.6) 100%)'
+                    : 'rgba(255, 255, 255, 0.03)',
+                  borderRadius: '14px',
+                  boxShadow: isCurrentUser
+                    ? '0 0 15px rgba(0, 240, 255, 0.25)'
+                    : isGymMaster
+                    ? '0 0 12px rgba(255, 215, 0, 0.15)'
+                    : 'none',
+                  transition: 'all 0.2s ease-in-out'
                 }}
               >
-                <div className="flex-gap align-center">
+                <div className="flex-gap align-center" style={{ gap: '1.25rem' }}>
+                  {/* Rank Badge */}
                   <span
-                    className={`rank-num ${userRank.rank === 1 ? 'gold' : userRank.rank === 2 ? 'silver' : 'bronze'}`}
-                    style={{ fontWeight: 900, fontSize: '1.1rem', minWidth: '36px' }}
+                    style={{
+                      fontWeight: 900,
+                      fontSize: '1.2rem',
+                      minWidth: '40px',
+                      color: userRank.rank === 1 ? '#FFD700' : userRank.rank === 2 ? '#C0C0C0' : userRank.rank === 3 ? '#CD7F32' : '#00F0FF'
+                    }}
                   >
                     #{userRank.rank}
                   </span>
+
+                  {/* Avatar */}
                   <div
                     style={{
-                      width: '42px',
-                      height: '42px',
+                      width: '48px',
+                      height: '48px',
                       borderRadius: '50%',
                       overflow: 'hidden',
-                      border: isCurrentUser ? '2px solid #00F0FF' : '1px solid rgba(255,255,255,0.2)'
+                      border: isCurrentUser
+                        ? '2.5px solid #00F0FF'
+                        : isGymMaster
+                        ? '2.5px solid #FFD700'
+                        : '1.5px solid rgba(255,255,255,0.3)',
+                      boxShadow: isCurrentUser
+                        ? '0 0 10px rgba(0,240,255,0.5)'
+                        : isGymMaster
+                        ? '0 0 10px rgba(255,215,0,0.5)'
+                        : 'none'
                     }}
                   >
                     <img
@@ -162,28 +197,98 @@ export default function CommunityLeaderboard({ rankings = [], currentUser, users
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
                   </div>
+
+                  {/* User Name & Role Info */}
                   <div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                      <h4 className="font-bold text-md mb-0" style={{ color: isCurrentUser ? '#00F0FF' : '#fff', fontWeight: 800 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
+                      {/* BOLD & CLEAR DISPLAY NAME */}
+                      <h4
+                        style={{
+                          margin: 0,
+                          fontSize: '1.15rem',
+                          fontWeight: 900,
+                          color: isCurrentUser ? '#00F0FF' : isGymMaster ? '#FFD700' : '#FFFFFF',
+                          letterSpacing: '0.02em',
+                          textShadow: isCurrentUser ? '0 0 10px rgba(0, 240, 255, 0.4)' : 'none'
+                        }}
+                      >
                         {displayName}
                       </h4>
-                      {isCurrentUser && (
-                        <span style={{ fontSize: '0.65rem', background: '#00F0FF', color: '#000', fontWeight: 900, padding: '0.1rem 0.4rem', borderRadius: '4px' }}>
-                          YOU
+
+                      {/* CLEAR ROLE TAG */}
+                      {isGymMaster ? (
+                        <span
+                          style={{
+                            fontSize: '0.68rem',
+                            background: '#FFD700',
+                            color: '#000000',
+                            fontWeight: 900,
+                            padding: '0.15rem 0.5rem',
+                            borderRadius: '5px',
+                            letterSpacing: '0.05em',
+                            textTransform: 'uppercase',
+                            boxShadow: '0 0 8px rgba(255, 215, 0, 0.4)'
+                          }}
+                        >
+                          👑 GYM MASTER
+                        </span>
+                      ) : isCurrentUser ? (
+                        <span
+                          style={{
+                            fontSize: '0.68rem',
+                            background: '#00F0FF',
+                            color: '#000000',
+                            fontWeight: 900,
+                            padding: '0.15rem 0.5rem',
+                            borderRadius: '5px',
+                            letterSpacing: '0.05em',
+                            textTransform: 'uppercase',
+                            boxShadow: '0 0 8px rgba(0, 240, 255, 0.4)'
+                          }}
+                        >
+                          🏋️ YOU
+                        </span>
+                      ) : (
+                        <span
+                          style={{
+                            fontSize: '0.65rem',
+                            background: 'rgba(255, 255, 255, 0.1)',
+                            color: 'rgba(255, 255, 255, 0.8)',
+                            fontWeight: 800,
+                            padding: '0.15rem 0.45rem',
+                            borderRadius: '5px',
+                            textTransform: 'uppercase'
+                          }}
+                        >
+                          🏋️ MEMBER
                         </span>
                       )}
                     </div>
-                    <span className="badge badge-secondary text-xs" style={{ marginTop: '0.2rem', display: 'inline-block' }}>
+
+                    <span
+                      className="badge badge-secondary text-xs"
+                      style={{
+                        marginTop: '0.25rem',
+                        display: 'inline-block',
+                        fontWeight: 700,
+                        opacity: 0.85
+                      }}
+                    >
                       {userRank.badge}
                     </span>
                   </div>
                 </div>
 
-                <div className="flex-gap align-center text-right">
-                  <div>
-                    <div className="font-bold text-lg text-cyan" style={{ fontWeight: 800 }}>
-                      {tab === 'steps' ? `${userRank.steps.toLocaleString()} steps` : `${userRank.points.toLocaleString()} pts`}
-                    </div>
+                {/* Score Stats */}
+                <div className="text-right">
+                  <div
+                    style={{
+                      fontWeight: 900,
+                      fontSize: '1.2rem',
+                      color: tab === 'steps' ? '#00F0FF' : '#FFD700'
+                    }}
+                  >
+                    {tab === 'steps' ? `${userRank.steps.toLocaleString()} steps` : `${userRank.points.toLocaleString()} pts`}
                   </div>
                 </div>
               </div>
