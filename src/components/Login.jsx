@@ -58,19 +58,19 @@ export default function Login({ onLoginSuccess }) {
 
   return (
     <div className="login-wrapper">
-      <div className="login-card" style={{ maxWidth: '520px' }}>
+      <div className="login-card" style={{ maxWidth: '540px', padding: '2.25rem' }}>
         <div className="login-header">
           <div className="brand">
             <span className="brand-mark">SFC//</span>
             <span className="brand-sub">Smart Fitness Companion</span>
           </div>
-          <h2 className="login-title">
-            {isRegister ? 'REGISTER USER ACCOUNT' : 'MULTI-USER SYSTEM ACCESS'}
+          <h2 className="login-title" style={{ fontSize: '1.5rem', fontWeight: 900 }}>
+            {isRegister ? 'REGISTER NEW ACCOUNT' : 'MULTI-USER SYSTEM LOGIN'}
           </h2>
           <p className="login-subtitle">
             {isRegister
-              ? 'Select your user role (Gym Master or Member) to create your account.'
-              : 'Sign in to access your personalized Member Dashboard or Gym Master Control Center.'}
+              ? 'Choose your role: GYM MASTER (Coach/Admin) or GYM MEMBER (Athlete).'
+              : 'Sign in to access your GYM MEMBER Dashboard or GYM MASTER Portal.'}
           </p>
         </div>
 
@@ -84,6 +84,7 @@ export default function Login({ onLoginSuccess }) {
               setIsRegister(false);
               setError('');
             }}
+            style={{ fontWeight: 800 }}
           >
             Sign In
           </button>
@@ -94,6 +95,7 @@ export default function Login({ onLoginSuccess }) {
               setIsRegister(true);
               setError('');
             }}
+            style={{ fontWeight: 800 }}
           >
             Create Account
           </button>
@@ -101,45 +103,53 @@ export default function Login({ onLoginSuccess }) {
 
         <form onSubmit={handleSubmit} className="login-form">
           {isRegister && (
-            <div className="form-group mb-3">
-              <label style={{ color: '#00F0FF', fontWeight: 600 }}>SELECT ACCOUNT ROLE</label>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginTop: '0.25rem' }}>
+            <div className="form-group mb-4">
+              <label style={{ color: '#00F0FF', fontWeight: 900, fontSize: '0.85rem', letterSpacing: '0.08em' }}>
+                SELECT USER ROLE:
+              </label>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginTop: '0.4rem' }}>
                 <button
                   type="button"
                   onClick={() => setRole('member')}
                   style={{
-                    padding: '0.75rem',
-                    borderRadius: '8px',
-                    border: role === 'member' ? '2px solid #00F0FF' : '1px solid rgba(255,255,255,0.15)',
-                    background: role === 'member' ? 'rgba(0, 240, 255, 0.15)' : 'rgba(255,255,255,0.03)',
+                    padding: '0.85rem 0.5rem',
+                    borderRadius: '10px',
+                    border: role === 'member' ? '2.5px solid #00F0FF' : '1px solid rgba(255,255,255,0.15)',
+                    background: role === 'member' ? 'rgba(0, 240, 255, 0.2)' : 'rgba(255,255,255,0.03)',
                     color: '#fff',
                     textAlign: 'center',
                     cursor: 'pointer',
-                    fontWeight: 600,
-                    fontSize: '0.85rem'
+                    boxShadow: role === 'member' ? '0 0 15px rgba(0, 240, 255, 0.3)' : 'none'
                   }}
                 >
-                  🏋️ Gym Member
-                  <div style={{ fontSize: '0.7rem', opacity: 0.7, fontWeight: 400, marginTop: '2px' }}>Personal fitness tracking</div>
+                  <div style={{ fontWeight: 900, fontSize: '0.95rem', color: '#00F0FF', letterSpacing: '0.04em' }}>
+                    🏋️ GYM MEMBER
+                  </div>
+                  <div style={{ fontSize: '0.72rem', opacity: 0.8, fontWeight: 500, marginTop: '3px' }}>
+                    Personal Workout Tracking
+                  </div>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setRole('gym_master')}
                   style={{
-                    padding: '0.75rem',
-                    borderRadius: '8px',
-                    border: role === 'gym_master' ? '2px solid #FFD700' : '1px solid rgba(255,255,255,0.15)',
-                    background: role === 'gym_master' ? 'rgba(255, 215, 0, 0.15)' : 'rgba(255,255,255,0.03)',
+                    padding: '0.85rem 0.5rem',
+                    borderRadius: '10px',
+                    border: role === 'gym_master' ? '2.5px solid #FFD700' : '1px solid rgba(255,255,255,0.15)',
+                    background: role === 'gym_master' ? 'rgba(255, 215, 0, 0.2)' : 'rgba(255,255,255,0.03)',
                     color: '#fff',
                     textAlign: 'center',
                     cursor: 'pointer',
-                    fontWeight: 600,
-                    fontSize: '0.85rem'
+                    boxShadow: role === 'gym_master' ? '0 0 15px rgba(255, 215, 0, 0.3)' : 'none'
                   }}
                 >
-                  👑 Gym Master / Coach
-                  <div style={{ fontSize: '0.7rem', opacity: 0.7, fontWeight: 400, marginTop: '2px' }}>Manage members & plans</div>
+                  <div style={{ fontWeight: 900, fontSize: '0.95rem', color: '#FFD700', letterSpacing: '0.04em' }}>
+                    👑 GYM MASTER
+                  </div>
+                  <div style={{ fontSize: '0.72rem', opacity: 0.8, fontWeight: 500, marginTop: '3px' }}>
+                    Coach & Trainer Management
+                  </div>
                 </button>
               </div>
             </div>
@@ -147,7 +157,7 @@ export default function Login({ onLoginSuccess }) {
 
           {isRegister && (
             <div className="form-group">
-              <label>FULL NAME</label>
+              <label style={{ fontWeight: 700 }}>FULL NAME</label>
               <input
                 type="text"
                 placeholder={role === 'gym_master' ? 'e.g. Master Coach Vance' : 'e.g. Alex Morgan'}
@@ -159,7 +169,7 @@ export default function Login({ onLoginSuccess }) {
           )}
 
           <div className="form-group">
-            <label>{isRegister ? 'EMAIL ADDRESS' : 'EMAIL OR USERNAME'}</label>
+            <label style={{ fontWeight: 700 }}>{isRegister ? 'EMAIL ADDRESS' : 'EMAIL OR USERNAME'}</label>
             <input
               type="text"
               placeholder={isRegister ? (role === 'gym_master' ? 'coach@gymmaster.fit' : 'alex@example.com') : 'marcus@gymmaster.fit or ava@companion.fit'}
@@ -170,7 +180,7 @@ export default function Login({ onLoginSuccess }) {
           </div>
 
           <div className="form-group">
-            <label>PASSWORD</label>
+            <label style={{ fontWeight: 700 }}>PASSWORD</label>
             <input
               type="password"
               placeholder="••••••••"
@@ -182,7 +192,7 @@ export default function Login({ onLoginSuccess }) {
           {isRegister && role === 'member' && (
             <div className="form-row">
               <div className="form-group">
-                <label>AGE (YRS)</label>
+                <label style={{ fontWeight: 700 }}>AGE (YRS)</label>
                 <input
                   type="number"
                   min="12"
@@ -193,7 +203,7 @@ export default function Login({ onLoginSuccess }) {
                 />
               </div>
               <div className="form-group">
-                <label>WEIGHT (KG)</label>
+                <label style={{ fontWeight: 700 }}>WEIGHT (KG)</label>
                 <input
                   type="number"
                   step="0.1"
@@ -210,7 +220,7 @@ export default function Login({ onLoginSuccess }) {
           {isRegister && role === 'gym_master' && (
             <div className="form-row">
               <div className="form-group">
-                <label>GYM / CLUB NAME</label>
+                <label style={{ fontWeight: 700 }}>GYM / CLUB NAME</label>
                 <input
                   type="text"
                   placeholder="Iron Forge Gym"
@@ -220,7 +230,7 @@ export default function Login({ onLoginSuccess }) {
                 />
               </div>
               <div className="form-group">
-                <label>SPECIALTY TITLE</label>
+                <label style={{ fontWeight: 700 }}>SPECIALTY TITLE</label>
                 <input
                   type="text"
                   placeholder="Head Strength Coach"
@@ -232,17 +242,19 @@ export default function Login({ onLoginSuccess }) {
             </div>
           )}
 
-          <button type="submit" className="login-submit-btn">
-            {isRegister ? (role === 'gym_master' ? 'REGISTER GYM MASTER' : 'REGISTER MEMBER') : 'AUTHENTICATE'}
+          <button type="submit" className="login-submit-btn" style={{ fontWeight: 900, letterSpacing: '0.05em' }}>
+            {isRegister ? (role === 'gym_master' ? 'REGISTER GYM MASTER' : 'REGISTER GYM MEMBER') : 'AUTHENTICATE ACCESS'}
           </button>
         </form>
 
-        <div className="demo-section">
-          <div className="demo-divider">
-            <span>SELECT DEMO USER LOGIN</span>
+        <div className="demo-section" style={{ marginTop: '1.75rem' }}>
+          <div className="demo-divider mb-3">
+            <span style={{ fontWeight: 900, color: '#00F0FF', letterSpacing: '0.08em', fontSize: '0.78rem' }}>
+              ⚡ QUICK LOGIN (GYM MASTER & GYM MEMBER)
+            </span>
           </div>
 
-          <div className="demo-users-list" style={{ gap: '0.5rem' }}>
+          <div className="demo-users-list" style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
             {existingUsers.map((u) => {
               const isMaster = u.role === 'gym_master';
               return (
@@ -252,55 +264,78 @@ export default function Login({ onLoginSuccess }) {
                   className="demo-user-btn"
                   onClick={() => handleDemoLogin(u)}
                   style={{
-                    borderColor: isMaster ? 'rgba(255, 215, 0, 0.4)' : 'rgba(0, 240, 255, 0.2)',
-                    background: isMaster ? 'linear-gradient(90deg, rgba(255,215,0,0.08) 0%, rgba(255,255,255,0.02) 100%)' : undefined
+                    borderColor: isMaster ? '#FFD700' : '#00F0FF',
+                    borderWidth: '1.5px',
+                    background: isMaster
+                      ? 'linear-gradient(90deg, rgba(255,215,0,0.12) 0%, rgba(10,14,26,0.6) 100%)'
+                      : 'linear-gradient(90deg, rgba(0,240,255,0.08) 0%, rgba(10,14,26,0.6) 100%)',
+                    padding: '0.75rem 1rem'
                   }}
                 >
-                  <span className="demo-user-avatar" style={{ padding: 0, overflow: 'hidden', border: isMaster ? '2px solid #FFD700' : '1px solid #00F0FF' }}>
+                  <span
+                    className="demo-user-avatar"
+                    style={{
+                      width: '42px',
+                      height: '42px',
+                      padding: 0,
+                      overflow: 'hidden',
+                      border: isMaster ? '2px solid #FFD700' : '2px solid #00F0FF'
+                    }}
+                  >
                     {u.avatar ? (
                       <img src={u.avatar} alt={u.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : (
                       u.name.charAt(0)
                     )}
                   </span>
-                  <div className="demo-user-info" style={{ textAlign: 'left' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                      <span className="demo-user-name" style={{ fontWeight: 600 }}>{u.name}</span>
+
+                  <div className="demo-user-info" style={{ textAlign: 'left', flex: 1 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                      <span className="demo-user-name" style={{ fontWeight: 800, fontSize: '0.95rem', color: '#fff' }}>
+                        {u.name}
+                      </span>
+                      {/* BOLD & CLEAR ROLE BADGE */}
                       <span
                         style={{
-                          fontSize: '0.65rem',
-                          padding: '0.1rem 0.4rem',
-                          borderRadius: '4px',
-                          fontWeight: 700,
-                          background: isMaster ? '#FFD700' : 'rgba(0, 240, 255, 0.2)',
-                          color: isMaster ? '#000' : '#00F0FF',
-                          textTransform: 'uppercase'
+                          fontSize: '0.7rem',
+                          padding: '0.2rem 0.55rem',
+                          borderRadius: '6px',
+                          fontWeight: 900,
+                          letterSpacing: '0.06em',
+                          background: isMaster ? '#FFD700' : '#00F0FF',
+                          color: '#000000',
+                          textTransform: 'uppercase',
+                          boxShadow: isMaster ? '0 0 10px rgba(255,215,0,0.4)' : '0 0 10px rgba(0,240,255,0.4)'
                         }}
                       >
-                        {isMaster ? '👑 GYM MASTER' : '🏋️ MEMBER'}
+                        {isMaster ? '👑 GYM MASTER' : '🏋️ GYM MEMBER'}
                       </span>
                     </div>
-                    <span className="demo-user-meta" style={{ fontSize: '0.75rem', opacity: 0.7 }}>
-                      {isMaster ? (u.specialty || 'Head Coach') : `${u.fitness_level || 'Member'} • ${u.email}`}
+
+                    <span className="demo-user-meta" style={{ fontSize: '0.75rem', opacity: 0.8, marginTop: '2px', display: 'block' }}>
+                      {isMaster ? (u.specialty || 'Head Strength Coach') : `${u.fitness_level || 'Member'} • ${u.email}`}
                     </span>
                   </div>
-                  <span className="demo-user-arrow" style={{ color: isMaster ? '#FFD700' : '#00F0FF' }}>→</span>
+
+                  <span className="demo-user-arrow" style={{ color: isMaster ? '#FFD700' : '#00F0FF', fontWeight: 900, fontSize: '1.2rem' }}>
+                    →
+                  </span>
                 </button>
               );
             })}
           </div>
         </div>
 
-        <div className="login-txt-export-section mt-4 pt-3 border-t border-secondary" style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+        <div className="login-txt-export-section mt-4 pt-3" style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
           <div className="flex-between align-center mb-2" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', opacity: 0.7 }}>💾 Text Storage Backup (.txt)</span>
+            <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', opacity: 0.7, fontWeight: 700 }}>💾 Text Storage Backup (.txt)</span>
           </div>
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             <button
               type="button"
               className="btn btn-secondary text-xs"
               onClick={() => db.exportLoginHistoryAsText()}
-              style={{ flex: 1, padding: '0.5rem', fontSize: '0.75rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6rem', color: '#fff', cursor: 'pointer' }}
+              style={{ flex: 1, padding: '0.5rem', fontSize: '0.75rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6rem', color: '#fff', cursor: 'pointer', fontWeight: 600 }}
             >
               📜 Download User Logins (.txt)
             </button>
@@ -308,7 +343,7 @@ export default function Login({ onLoginSuccess }) {
               type="button"
               className="btn btn-secondary text-xs"
               onClick={() => db.exportDatabaseAsText()}
-              style={{ flex: 1, padding: '0.5rem', fontSize: '0.75rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6rem', color: '#fff', cursor: 'pointer' }}
+              style={{ flex: 1, padding: '0.5rem', fontSize: '0.75rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6rem', color: '#fff', cursor: 'pointer', fontWeight: 600 }}
             >
               📄 Export Database (.txt)
             </button>
