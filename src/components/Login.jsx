@@ -1,9 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as db from '../services/db.js';
 
 export default function Login({ onLoginSuccess }) {
   const [isRegister, setIsRegister] = useState(false);
   const [error, setError] = useState('');
+
+  // Instant Theme Switcher state
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('sfc_theme') || 'light';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('sfc_theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
+
+  const isDark = theme === 'dark';
 
   // Form states
   const [role, setRole] = useState('member'); // 'member' | 'gym_master'
@@ -64,12 +80,15 @@ export default function Login({ onLoginSuccess }) {
         width: '100%',
         display: 'grid',
         gridTemplateColumns: 'minmax(360px, 1.1fr) minmax(400px, 0.9fr)',
-        background: '#f8fafc',
-        color: '#0f172a',
-        fontFamily: "'Inter', sans-serif"
+        background: isDark
+          ? 'radial-gradient(circle at 15% 20%, #0d1628 0%, #050811 100%)'
+          : '#f8fafc',
+        color: isDark ? '#f9fafb' : '#0f172a',
+        fontFamily: "'Inter', sans-serif",
+        transition: 'background 0.3s ease, color 0.3s ease'
       }}
     >
-      {/* LEFT HALF: HOMEPAGE HERO SHOWCASE (LIGHT THEME) */}
+      {/* LEFT HALF: HOMEPAGE HERO SHOWCASE */}
       <div
         className="homepage-left-hero"
         style={{
@@ -77,34 +96,62 @@ export default function Login({ onLoginSuccess }) {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          borderRight: '1px solid #e2e8f0',
-          background: 'linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%)'
+          borderRight: isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid #e2e8f0',
+          background: isDark
+            ? 'linear-gradient(135deg, rgba(0, 240, 255, 0.04) 0%, rgba(255, 215, 0, 0.02) 100%)'
+            : 'linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%)'
         }}
       >
         <div>
-          {/* Brand Header */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '2.5rem' }}>
-            <div
+          {/* Brand & Instant Theme Switcher Header */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <div
+                style={{
+                  background: isDark ? 'linear-gradient(135deg, #00F0FF 0%, #FFD700 100%)' : '#ca8a04',
+                  color: isDark ? '#000' : '#ffffff',
+                  fontWeight: 900,
+                  fontSize: '1.25rem',
+                  padding: '0.4rem 0.8rem',
+                  borderRadius: '10px',
+                  letterSpacing: '0.05em'
+                }}
+              >
+                SFC//
+              </div>
+              <div>
+                <span style={{ fontWeight: 900, fontSize: '1rem', letterSpacing: '0.05em', color: isDark ? '#fff' : '#0f172a', display: 'block' }}>
+                  SMART FITNESS COMPANION
+                </span>
+                <span style={{ fontSize: '0.72rem', color: isDark ? '#00F0FF' : '#ca8a04', fontWeight: 800, letterSpacing: '0.1em' }}>
+                  MULTI-USER GYM ECOSYSTEM
+                </span>
+              </div>
+            </div>
+
+            {/* INSTANT THEME SWITCHER BUTTON ON FIRST PAGE */}
+            <button
+              type="button"
+              onClick={toggleTheme}
               style={{
-                background: '#ca8a04',
-                color: '#ffffff',
+                padding: '0.55rem 1.1rem',
+                borderRadius: '20px',
+                border: isDark ? '2px solid #FFD700' : '2px solid #2563eb',
+                background: isDark ? 'rgba(255, 215, 0, 0.15)' : '#dbeafe',
+                color: isDark ? '#FFD700' : '#1e40af',
                 fontWeight: 900,
-                fontSize: '1.25rem',
-                padding: '0.4rem 0.8rem',
-                borderRadius: '10px',
-                letterSpacing: '0.05em'
+                fontSize: '0.82rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                boxShadow: isDark ? '0 0 12px rgba(255,215,0,0.3)' : '0 2px 8px rgba(37,99,235,0.2)',
+                transition: 'all 0.2s ease'
               }}
             >
-              SFC//
-            </div>
-            <div>
-              <span style={{ fontWeight: 900, fontSize: '1rem', letterSpacing: '0.05em', color: '#0f172a', display: 'block' }}>
-                SMART FITNESS COMPANION
-              </span>
-              <span style={{ fontSize: '0.72rem', color: '#ca8a04', fontWeight: 800, letterSpacing: '0.1em' }}>
-                MULTI-USER GYM ECOSYSTEM
-              </span>
-            </div>
+              <span>{isDark ? '🌙 DARK THEME' : '☀️ LIGHT THEME'}</span>
+              <span style={{ fontSize: '0.7rem', opacity: 0.8 }}>(CLICK TO TOGGLE)</span>
+            </button>
           </div>
 
           {/* Hero Titles */}
@@ -114,14 +161,14 @@ export default function Login({ onLoginSuccess }) {
               fontWeight: 900,
               lineHeight: 1.15,
               marginBottom: '1.25rem',
-              color: '#0f172a'
+              color: isDark ? '#ffffff' : '#0f172a'
             }}
           >
             NEXT-GEN FITNESS & <br />
-            <span style={{ color: '#ca8a04' }}>GYM MASTER PLATFORM</span>
+            <span style={{ color: isDark ? '#00F0FF' : '#ca8a04' }}>GYM MASTER PLATFORM</span>
           </h1>
 
-          <p style={{ fontSize: '1.05rem', color: '#475569', lineHeight: 1.6, maxWidth: '560px', marginBottom: '2.5rem' }}>
+          <p style={{ fontSize: '1.05rem', color: isDark ? 'rgba(255, 255, 255, 0.8)' : '#475569', lineHeight: 1.6, maxWidth: '560px', marginBottom: '2.5rem' }}>
             A complete dual-role ecosystem for <strong>Gym Masters</strong> & <strong>Gym Members</strong>. Monitor member vitals, assign custom workout routines, track daily macros, and compete on live synced leaderboards.
           </p>
 
@@ -129,68 +176,68 @@ export default function Login({ onLoginSuccess }) {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '2.5rem' }}>
             <div
               style={{
-                background: '#fef9c3',
-                border: '1px solid #fef08a',
+                background: isDark ? 'rgba(255, 215, 0, 0.06)' : '#fef9c3',
+                border: isDark ? '1px solid rgba(255, 215, 0, 0.25)' : '1px solid #fef08a',
                 borderRadius: '14px',
                 padding: '1.25rem'
               }}
             >
               <div style={{ fontSize: '1.5rem', marginBottom: '0.4rem' }}>👑</div>
-              <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#854d0e', margin: '0 0 0.3rem 0' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 900, color: isDark ? '#FFD700' : '#854d0e', margin: '0 0 0.3rem 0' }}>
                 GYM MASTER PORTAL
               </h3>
-              <p style={{ fontSize: '0.8rem', color: '#713f12', margin: 0, lineHeight: 1.4 }}>
+              <p style={{ fontSize: '0.8rem', color: isDark ? 'rgba(255,255,255,0.7)' : '#713f12', margin: 0, lineHeight: 1.4 }}>
                 Control center to audit member vitals, create workout plans, and set daily nutrition targets.
               </p>
             </div>
 
             <div
               style={{
-                background: '#dbeafe',
-                border: '1px solid #bfdbfe',
+                background: isDark ? 'rgba(0, 240, 255, 0.06)' : '#dbeafe',
+                border: isDark ? '1px solid rgba(0, 240, 255, 0.25)' : '1px solid #bfdbfe',
                 borderRadius: '14px',
                 padding: '1.25rem'
               }}
             >
               <div style={{ fontSize: '1.5rem', marginBottom: '0.4rem' }}>🏋️</div>
-              <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#1e40af', margin: '0 0 0.3rem 0' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 900, color: isDark ? '#00F0FF' : '#1e40af', margin: '0 0 0.3rem 0' }}>
                 MEMBER DASHBOARD
               </h3>
-              <p style={{ fontSize: '0.8rem', color: '#1e3a8a', margin: 0, lineHeight: 1.4 }}>
+              <p style={{ fontSize: '0.8rem', color: isDark ? 'rgba(255,255,255,0.7)' : '#1e3a8a', margin: 0, lineHeight: 1.4 }}>
                 Personal fitness hub for live workout tracking, heart rate zones, sleep logs & habit streaks.
               </p>
             </div>
 
             <div
               style={{
-                background: '#dcfce7',
-                border: '1px solid #bbf7d0',
+                background: isDark ? 'rgba(57, 255, 20, 0.06)' : '#dcfce7',
+                border: isDark ? '1px solid rgba(57, 255, 20, 0.25)' : '1px solid #bbf7d0',
                 borderRadius: '14px',
                 padding: '1.25rem'
               }}
             >
               <div style={{ fontSize: '1.5rem', marginBottom: '0.4rem' }}>🏆</div>
-              <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#166534', margin: '0 0 0.3rem 0' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 900, color: isDark ? '#39FF14' : '#166534', margin: '0 0 0.3rem 0' }}>
                 LIVE LEADERBOARD
               </h3>
-              <p style={{ fontSize: '0.8rem', color: '#14532d', margin: 0, lineHeight: 1.4 }}>
+              <p style={{ fontSize: '0.8rem', color: isDark ? 'rgba(255,255,255,0.7)' : '#14532d', margin: 0, lineHeight: 1.4 }}>
                 Compete with gym members with live profile name & avatar synchronization.
               </p>
             </div>
 
             <div
               style={{
-                background: '#f3e8ff',
-                border: '1px solid #e9d5ff',
+                background: isDark ? 'rgba(255, 0, 85, 0.06)' : '#f3e8ff',
+                border: isDark ? '1px solid rgba(255, 0, 85, 0.25)' : '1px solid #e9d5ff',
                 borderRadius: '14px',
                 padding: '1.25rem'
               }}
             >
               <div style={{ fontSize: '1.5rem', marginBottom: '0.4rem' }}>🤖</div>
-              <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#6b21a8', margin: '0 0 0.3rem 0' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 900, color: isDark ? '#FF0055' : '#6b21a8', margin: '0 0 0.3rem 0' }}>
                 AI COACH INTELLIGENCE
               </h3>
-              <p style={{ fontSize: '0.8rem', color: '#581c87', margin: 0, lineHeight: 1.4 }}>
+              <p style={{ fontSize: '0.8rem', color: isDark ? 'rgba(255,255,255,0.7)' : '#581c87', margin: 0, lineHeight: 1.4 }}>
                 AI insights on sleep recovery scores, optimal cardio zones & supplement stacks.
               </p>
             </div>
@@ -198,14 +245,14 @@ export default function Login({ onLoginSuccess }) {
         </div>
 
         {/* Footer System Badges */}
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', borderTop: '1px solid #e2e8f0', paddingTop: '1.25rem' }}>
-          <span style={{ fontSize: '0.75rem', color: '#2563eb', fontWeight: 800 }}>● Multi-User Roles Active</span>
-          <span style={{ fontSize: '0.75rem', color: '#ca8a04', fontWeight: 800 }}>● Gym Master Portal Included</span>
-          <span style={{ fontSize: '0.75rem', color: '#16a34a', fontWeight: 800 }}>● 100% Local DB Storage</span>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', borderTop: isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid #e2e8f0', paddingTop: '1.25rem' }}>
+          <span style={{ fontSize: '0.75rem', color: isDark ? '#00F0FF' : '#2563eb', fontWeight: 800 }}>● Multi-User Roles Active</span>
+          <span style={{ fontSize: '0.75rem', color: isDark ? '#FFD700' : '#ca8a04', fontWeight: 800 }}>● Gym Master Portal Included</span>
+          <span style={{ fontSize: '0.75rem', color: isDark ? '#39FF14' : '#16a34a', fontWeight: 800 }}>● 100% Local DB Storage</span>
         </div>
       </div>
 
-      {/* RIGHT HALF: LOGIN & ACCOUNT REGISTRATION PANEL (LIGHT THEME) */}
+      {/* RIGHT HALF: LOGIN & ACCOUNT REGISTRATION PANEL */}
       <div
         className="homepage-right-login"
         style={{
@@ -213,17 +260,17 @@ export default function Login({ onLoginSuccess }) {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          background: '#f8fafc',
+          background: isDark ? '#0a0e1a' : '#f8fafc',
           overflowY: 'auto'
         }}
       >
         <div style={{ maxWidth: '480px', margin: '0 auto', width: '100%' }}>
           {/* Header */}
           <div style={{ marginBottom: '1.5rem', textAlign: 'center' }}>
-            <h2 style={{ fontSize: '1.65rem', fontWeight: 900, margin: 0, color: '#0f172a' }}>
+            <h2 style={{ fontSize: '1.65rem', fontWeight: 900, margin: 0, color: isDark ? '#fff' : '#0f172a' }}>
               SYSTEM ACCESS PORTAL
             </h2>
-            <p style={{ fontSize: '0.85rem', color: '#475569', marginTop: '0.3rem' }}>
+            <p style={{ fontSize: '0.85rem', color: isDark ? 'rgba(255,255,255,0.7)' : '#475569', marginTop: '0.3rem' }}>
               Sign in to your account or register a new Gym Master / Member profile below.
             </p>
           </div>
@@ -231,9 +278,9 @@ export default function Login({ onLoginSuccess }) {
           {error && (
             <div
               style={{
-                background: '#fef2f2',
-                border: '1px solid #fecaca',
-                color: '#dc2626',
+                background: isDark ? 'rgba(239,68,68,0.2)' : '#fef2f2',
+                border: isDark ? '1px solid #ef4444' : '1px solid #fecaca',
+                color: isDark ? '#ff6b6b' : '#dc2626',
                 padding: '0.75rem 1rem',
                 borderRadius: '10px',
                 fontSize: '0.85rem',
@@ -252,9 +299,10 @@ export default function Login({ onLoginSuccess }) {
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
               gap: '0.75rem',
-              background: '#e2e8f0',
-              padding: '0.35rem',
-              borderRadius: '14px'
+              background: isDark ? 'rgba(255, 255, 255, 0.04)' : '#e2e8f0',
+              padding: '0.4rem',
+              borderRadius: '14px',
+              border: isDark ? '1px solid rgba(255, 255, 255, 0.12)' : '1px solid #cbd5e1'
             }}
           >
             {/* OPTION 1: SIGN IN */}
@@ -267,12 +315,12 @@ export default function Login({ onLoginSuccess }) {
               style={{
                 padding: '0.85rem 0.5rem',
                 borderRadius: '10px',
-                border: !isRegister ? '2px solid #2563eb' : '1px solid transparent',
-                background: !isRegister ? '#ffffff' : 'transparent',
-                color: !isRegister ? '#1e40af' : '#475569',
+                border: !isRegister ? (isDark ? '2.5px solid #00F0FF' : '2.5px solid #2563eb') : '1px solid transparent',
+                background: !isRegister ? (isDark ? 'rgba(0, 240, 255, 0.2)' : '#ffffff') : 'transparent',
+                color: !isRegister ? (isDark ? '#00F0FF' : '#1e40af') : (isDark ? 'rgba(255,255,255,0.7)' : '#475569'),
                 cursor: 'pointer',
                 textAlign: 'center',
-                boxShadow: !isRegister ? '0 2px 8px rgba(0, 0, 0, 0.08)' : 'none',
+                boxShadow: !isRegister ? '0 2px 10px rgba(0,0,0,0.1)' : 'none',
                 transition: 'all 0.15s ease'
               }}
             >
@@ -294,12 +342,12 @@ export default function Login({ onLoginSuccess }) {
               style={{
                 padding: '0.85rem 0.5rem',
                 borderRadius: '10px',
-                border: isRegister ? '2px solid #ca8a04' : '1px solid transparent',
-                background: isRegister ? '#ffffff' : 'transparent',
-                color: isRegister ? '#854d0e' : '#475569',
+                border: isRegister ? (isDark ? '2.5px solid #FFD700' : '2.5px solid #ca8a04') : '1px solid transparent',
+                background: isRegister ? (isDark ? 'rgba(255, 215, 0, 0.2)' : '#ffffff') : 'transparent',
+                color: isRegister ? (isDark ? '#FFD700' : '#854d0e') : (isDark ? 'rgba(255,255,255,0.7)' : '#475569'),
                 cursor: 'pointer',
                 textAlign: 'center',
-                boxShadow: isRegister ? '0 2px 8px rgba(0, 0, 0, 0.08)' : 'none',
+                boxShadow: isRegister ? '0 2px 10px rgba(0,0,0,0.1)' : 'none',
                 transition: 'all 0.15s ease'
               }}
             >
@@ -317,17 +365,17 @@ export default function Login({ onLoginSuccess }) {
             onSubmit={handleSubmit}
             className="login-form"
             style={{
-              background: '#ffffff',
+              background: isDark ? '#111827' : '#ffffff',
               padding: '1.5rem',
               borderRadius: '16px',
-              border: '1px solid #e2e8f0',
-              boxShadow: '0 4px 15px rgba(0,0,0,0.03)'
+              border: isDark ? '1px solid #1f2937' : '1px solid #e2e8f0',
+              boxShadow: '0 4px 15px rgba(0,0,0,0.04)'
             }}
           >
             {/* ROLE SELECTOR (VISIBLE DURING REGISTRATION) */}
             {isRegister && (
               <div className="form-group mb-4">
-                <label style={{ color: '#ca8a04', fontWeight: 900, fontSize: '0.85rem', letterSpacing: '0.08em', display: 'block', marginBottom: '0.4rem' }}>
+                <label style={{ color: isDark ? '#FFD700' : '#ca8a04', fontWeight: 900, fontSize: '0.85rem', letterSpacing: '0.08em', display: 'block', marginBottom: '0.4rem' }}>
                   CHOOSE YOUR ACCOUNT ROLE:
                 </label>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
@@ -337,9 +385,9 @@ export default function Login({ onLoginSuccess }) {
                     style={{
                       padding: '0.85rem 0.6rem',
                       borderRadius: '12px',
-                      border: role === 'member' ? '2.5px solid #2563eb' : '1.5px solid #e2e8f0',
-                      background: role === 'member' ? '#dbeafe' : '#f8fafc',
-                      color: '#000000',
+                      border: role === 'member' ? (isDark ? '2.5px solid #00F0FF' : '2.5px solid #2563eb') : '1.5px solid #e2e8f0',
+                      background: role === 'member' ? (isDark ? 'rgba(0, 240, 255, 0.2)' : '#dbeafe') : (isDark ? '#1f2937' : '#f8fafc'),
+                      color: isDark ? '#fff' : '#000',
                       textAlign: 'center',
                       cursor: 'pointer',
                       minHeight: '68px',
@@ -347,14 +395,13 @@ export default function Login({ onLoginSuccess }) {
                       flexDirection: 'column',
                       justifyContent: 'center',
                       alignItems: 'center',
-                      boxShadow: role === 'member' ? '0 2px 10px rgba(37,99,235,0.15)' : 'none',
                       transition: 'all 0.15s ease'
                     }}
                   >
-                    <div style={{ fontWeight: 900, fontSize: '0.95rem', color: '#1e40af', letterSpacing: '0.04em' }}>
+                    <div style={{ fontWeight: 900, fontSize: '0.95rem', color: isDark ? '#00F0FF' : '#1e40af', letterSpacing: '0.04em' }}>
                       🏋️ GYM MEMBER
                     </div>
-                    <div style={{ fontSize: '0.72rem', color: '#1e3a8a', fontWeight: 600, marginTop: '3px' }}>
+                    <div style={{ fontSize: '0.72rem', color: isDark ? 'rgba(255,255,255,0.8)' : '#1e3a8a', fontWeight: 600, marginTop: '3px' }}>
                       Personal Fitness Tracking
                     </div>
                   </button>
@@ -365,9 +412,9 @@ export default function Login({ onLoginSuccess }) {
                     style={{
                       padding: '0.85rem 0.6rem',
                       borderRadius: '12px',
-                      border: role === 'gym_master' ? '2.5px solid #ca8a04' : '1.5px solid #e2e8f0',
-                      background: role === 'gym_master' ? '#fef9c3' : '#f8fafc',
-                      color: '#000000',
+                      border: role === 'gym_master' ? (isDark ? '2.5px solid #FFD700' : '2.5px solid #ca8a04') : '1.5px solid #e2e8f0',
+                      background: role === 'gym_master' ? (isDark ? 'rgba(255, 215, 0, 0.2)' : '#fef9c3') : (isDark ? '#1f2937' : '#f8fafc'),
+                      color: isDark ? '#fff' : '#000',
                       textAlign: 'center',
                       cursor: 'pointer',
                       minHeight: '68px',
@@ -375,14 +422,13 @@ export default function Login({ onLoginSuccess }) {
                       flexDirection: 'column',
                       justifyContent: 'center',
                       alignItems: 'center',
-                      boxShadow: role === 'gym_master' ? '0 2px 10px rgba(202,138,4,0.15)' : 'none',
                       transition: 'all 0.15s ease'
                     }}
                   >
-                    <div style={{ fontWeight: 900, fontSize: '0.95rem', color: '#854d0e', letterSpacing: '0.04em' }}>
+                    <div style={{ fontWeight: 900, fontSize: '0.95rem', color: isDark ? '#FFD700' : '#854d0e', letterSpacing: '0.04em' }}>
                       👑 GYM MASTER
                     </div>
-                    <div style={{ fontSize: '0.72rem', color: '#713f12', fontWeight: 600, marginTop: '3px' }}>
+                    <div style={{ fontSize: '0.72rem', color: isDark ? 'rgba(255,255,255,0.8)' : '#713f12', fontWeight: 600, marginTop: '3px' }}>
                       Coach & Trainer Control
                     </div>
                   </button>
@@ -392,45 +438,45 @@ export default function Login({ onLoginSuccess }) {
 
             {isRegister && (
               <div className="form-group mb-3">
-                <label style={{ fontWeight: 700, fontSize: '0.85rem', color: '#0f172a', display: 'block', marginBottom: '0.2rem' }}>FULL NAME</label>
+                <label style={{ fontWeight: 700, fontSize: '0.85rem', color: isDark ? '#fff' : '#0f172a', display: 'block', marginBottom: '0.2rem' }}>FULL NAME</label>
                 <input
                   type="text"
                   placeholder={role === 'gym_master' ? 'e.g. Master Coach Vance' : 'e.g. Alex Morgan'}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
-                  style={{ width: '100%', padding: '0.7rem', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '8px', color: '#0f172a' }}
+                  style={{ width: '100%', padding: '0.7rem', background: isDark ? '#1f2937' : '#ffffff', border: isDark ? '1px solid #374151' : '1px solid #cbd5e1', borderRadius: '8px', color: isDark ? '#fff' : '#0f172a' }}
                 />
               </div>
             )}
 
             <div className="form-group mb-3">
-              <label style={{ fontWeight: 700, fontSize: '0.85rem', color: '#0f172a', display: 'block', marginBottom: '0.2rem' }}>{isRegister ? 'EMAIL ADDRESS' : 'EMAIL OR USERNAME'}</label>
+              <label style={{ fontWeight: 700, fontSize: '0.85rem', color: isDark ? '#fff' : '#0f172a', display: 'block', marginBottom: '0.2rem' }}>{isRegister ? 'EMAIL ADDRESS' : 'EMAIL OR USERNAME'}</label>
               <input
                 type="text"
                 placeholder={isRegister ? (role === 'gym_master' ? 'coach@gymmaster.fit' : 'alex@example.com') : 'marcus@gymmaster.fit or ava@companion.fit'}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                style={{ width: '100%', padding: '0.7rem', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '8px', color: '#0f172a' }}
+                style={{ width: '100%', padding: '0.7rem', background: isDark ? '#1f2937' : '#ffffff', border: isDark ? '1px solid #374151' : '1px solid #cbd5e1', borderRadius: '8px', color: isDark ? '#fff' : '#0f172a' }}
               />
             </div>
 
             <div className="form-group mb-3">
-              <label style={{ fontWeight: 700, fontSize: '0.85rem', color: '#0f172a', display: 'block', marginBottom: '0.2rem' }}>PASSWORD</label>
+              <label style={{ fontWeight: 700, fontSize: '0.85rem', color: isDark ? '#fff' : '#0f172a', display: 'block', marginBottom: '0.2rem' }}>PASSWORD</label>
               <input
                 type="password"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                style={{ width: '100%', padding: '0.7rem', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '8px', color: '#0f172a' }}
+                style={{ width: '100%', padding: '0.7rem', background: isDark ? '#1f2937' : '#ffffff', border: isDark ? '1px solid #374151' : '1px solid #cbd5e1', borderRadius: '8px', color: isDark ? '#fff' : '#0f172a' }}
               />
             </div>
 
             {isRegister && role === 'member' && (
               <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginBottom: '1rem' }}>
                 <div className="form-group">
-                  <label style={{ fontWeight: 700, fontSize: '0.85rem', color: '#0f172a', display: 'block', marginBottom: '0.2rem' }}>AGE (YRS)</label>
+                  <label style={{ fontWeight: 700, fontSize: '0.85rem', color: isDark ? '#fff' : '#0f172a', display: 'block', marginBottom: '0.2rem' }}>AGE (YRS)</label>
                   <input
                     type="number"
                     min="12"
@@ -438,11 +484,11 @@ export default function Login({ onLoginSuccess }) {
                     value={age}
                     onChange={(e) => setAge(e.target.value)}
                     required
-                    style={{ width: '100%', padding: '0.7rem', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '8px', color: '#0f172a' }}
+                    style={{ width: '100%', padding: '0.7rem', background: isDark ? '#1f2937' : '#ffffff', border: isDark ? '1px solid #374151' : '1px solid #cbd5e1', borderRadius: '8px', color: isDark ? '#fff' : '#0f172a' }}
                   />
                 </div>
                 <div className="form-group">
-                  <label style={{ fontWeight: 700, fontSize: '0.85rem', color: '#0f172a', display: 'block', marginBottom: '0.2rem' }}>WEIGHT (KG)</label>
+                  <label style={{ fontWeight: 700, fontSize: '0.85rem', color: isDark ? '#fff' : '#0f172a', display: 'block', marginBottom: '0.2rem' }}>WEIGHT (KG)</label>
                   <input
                     type="number"
                     step="0.1"
@@ -451,7 +497,7 @@ export default function Login({ onLoginSuccess }) {
                     value={weight}
                     onChange={(e) => setWeight(e.target.value)}
                     required
-                    style={{ width: '100%', padding: '0.7rem', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '8px', color: '#0f172a' }}
+                    style={{ width: '100%', padding: '0.7rem', background: isDark ? '#1f2937' : '#ffffff', border: isDark ? '1px solid #374151' : '1px solid #cbd5e1', borderRadius: '8px', color: isDark ? '#fff' : '#0f172a' }}
                   />
                 </div>
               </div>
@@ -460,25 +506,25 @@ export default function Login({ onLoginSuccess }) {
             {isRegister && role === 'gym_master' && (
               <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginBottom: '1rem' }}>
                 <div className="form-group">
-                  <label style={{ fontWeight: 700, fontSize: '0.85rem', color: '#0f172a', display: 'block', marginBottom: '0.2rem' }}>GYM / CLUB NAME</label>
+                  <label style={{ fontWeight: 700, fontSize: '0.85rem', color: isDark ? '#fff' : '#0f172a', display: 'block', marginBottom: '0.2rem' }}>GYM / CLUB NAME</label>
                   <input
                     type="text"
                     placeholder="Iron Forge Gym"
                     value={gymName}
                     onChange={(e) => setGymName(e.target.value)}
                     required
-                    style={{ width: '100%', padding: '0.7rem', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '8px', color: '#0f172a' }}
+                    style={{ width: '100%', padding: '0.7rem', background: isDark ? '#1f2937' : '#ffffff', border: isDark ? '1px solid #374151' : '1px solid #cbd5e1', borderRadius: '8px', color: isDark ? '#fff' : '#0f172a' }}
                   />
                 </div>
                 <div className="form-group">
-                  <label style={{ fontWeight: 700, fontSize: '0.85rem', color: '#0f172a', display: 'block', marginBottom: '0.2rem' }}>SPECIALTY TITLE</label>
+                  <label style={{ fontWeight: 700, fontSize: '0.85rem', color: isDark ? '#fff' : '#0f172a', display: 'block', marginBottom: '0.2rem' }}>SPECIALTY TITLE</label>
                   <input
                     type="text"
                     placeholder="Head Strength Coach"
                     value={specialty}
                     onChange={(e) => setSpecialty(e.target.value)}
                     required
-                    style={{ width: '100%', padding: '0.7rem', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '8px', color: '#0f172a' }}
+                    style={{ width: '100%', padding: '0.7rem', background: isDark ? '#1f2937' : '#ffffff', border: isDark ? '1px solid #374151' : '1px solid #cbd5e1', borderRadius: '8px', color: isDark ? '#fff' : '#0f172a' }}
                   />
                 </div>
               </div>
@@ -493,8 +539,8 @@ export default function Login({ onLoginSuccess }) {
                 fontWeight: 900,
                 letterSpacing: '0.05em',
                 borderRadius: '10px',
-                background: isRegister ? '#ca8a04' : '#2563eb',
-                color: '#ffffff',
+                background: isRegister ? (isDark ? '#FFD700' : '#ca8a04') : (isDark ? '#00F0FF' : '#2563eb'),
+                color: isRegister ? '#000000' : (isDark ? '#000000' : '#ffffff'),
                 border: 'none',
                 cursor: 'pointer',
                 fontSize: '0.95rem',
@@ -506,10 +552,10 @@ export default function Login({ onLoginSuccess }) {
             </button>
           </form>
 
-          {/* DEMO USER QUICK SELECTION (LIGHT THEME) */}
+          {/* DEMO USER QUICK SELECTION */}
           <div className="demo-section" style={{ marginTop: '1.75rem' }}>
             <div className="demo-divider mb-3" style={{ textAlign: 'center' }}>
-              <span style={{ fontWeight: 900, color: '#ca8a04', letterSpacing: '0.08em', fontSize: '0.78rem' }}>
+              <span style={{ fontWeight: 900, color: isDark ? '#00F0FF' : '#ca8a04', letterSpacing: '0.08em', fontSize: '0.78rem' }}>
                 ⚡ QUICK DEMO ACCOUNTS (GYM MASTER & MEMBERS)
               </span>
             </div>
@@ -524,10 +570,12 @@ export default function Login({ onLoginSuccess }) {
                     className="demo-user-btn"
                     onClick={() => handleDemoLogin(u)}
                     style={{
-                      borderColor: isMaster ? '#fef08a' : '#bfdbfe',
+                      borderColor: isMaster ? (isDark ? '#FFD700' : '#fef08a') : (isDark ? '#00F0FF' : '#bfdbfe'),
                       borderWidth: '1.5px',
                       borderRadius: '12px',
-                      background: isMaster ? '#fef9c3' : '#ffffff',
+                      background: isMaster
+                        ? (isDark ? 'linear-gradient(90deg, rgba(255,215,0,0.15) 0%, rgba(10,14,26,0.6) 100%)' : '#fef9c3')
+                        : (isDark ? 'linear-gradient(90deg, rgba(0,240,255,0.1) 0%, rgba(10,14,26,0.6) 100%)' : '#ffffff'),
                       padding: '0.85rem 1.1rem',
                       display: 'flex',
                       alignItems: 'center',
@@ -559,8 +607,7 @@ export default function Login({ onLoginSuccess }) {
 
                     <div className="demo-user-info" style={{ textAlign: 'left', flex: 1, display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
-                        {/* BOLD BLACK FONT DEMO USER NAME */}
-                        <span className="demo-user-name" style={{ fontWeight: 900, fontSize: '0.95rem', color: '#000000' }}>
+                        <span className="demo-user-name" style={{ fontWeight: 900, fontSize: '0.95rem', color: isDark ? '#fff' : '#000000' }}>
                           {u.name}
                         </span>
 
@@ -571,8 +618,8 @@ export default function Login({ onLoginSuccess }) {
                             borderRadius: '6px',
                             fontWeight: 900,
                             letterSpacing: '0.06em',
-                            background: isMaster ? '#ca8a04' : '#2563eb',
-                            color: '#ffffff',
+                            background: isMaster ? (isDark ? '#FFD700' : '#ca8a04') : (isDark ? '#00F0FF' : '#2563eb'),
+                            color: isDark ? '#000' : '#ffffff',
                             textTransform: 'uppercase'
                           }}
                         >
@@ -580,7 +627,7 @@ export default function Login({ onLoginSuccess }) {
                         </span>
                       </div>
 
-                      <span className="demo-user-meta" style={{ fontSize: '0.75rem', color: '#475569', fontWeight: 600 }}>
+                      <span className="demo-user-meta" style={{ fontSize: '0.75rem', color: isDark ? 'rgba(255,255,255,0.7)' : '#475569', fontWeight: 600 }}>
                         {isMaster ? (u.specialty || 'Head Strength Coach') : `${u.fitness_level || 'Member'} • ${u.email}`}
                       </span>
                     </div>
@@ -588,7 +635,7 @@ export default function Login({ onLoginSuccess }) {
                     <span
                       className="demo-user-arrow"
                       style={{
-                        color: isMaster ? '#ca8a04' : '#2563eb',
+                        color: isMaster ? (isDark ? '#FFD700' : '#ca8a04') : (isDark ? '#00F0FF' : '#2563eb'),
                         fontWeight: 900,
                         fontSize: '1.2rem',
                         marginLeft: 'auto'
@@ -603,9 +650,9 @@ export default function Login({ onLoginSuccess }) {
           </div>
 
           {/* BACKUP DATA EXPORTS */}
-          <div className="login-txt-export-section mt-4 pt-3" style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid #e2e8f0' }}>
+          <div className="login-txt-export-section mt-4 pt-3" style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid #e2e8f0' }}>
             <div className="flex-between align-center mb-2" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#64748b', fontWeight: 800 }}>💾 Text Storage Backup (.txt)</span>
+              <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: isDark ? 'rgba(255,255,255,0.6)' : '#64748b', fontWeight: 800 }}>💾 Text Storage Backup (.txt)</span>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.6rem' }}>
               <button
@@ -615,10 +662,10 @@ export default function Login({ onLoginSuccess }) {
                 style={{
                   padding: '0.6rem 0.8rem',
                   fontSize: '0.75rem',
-                  background: '#ffffff',
-                  border: '1px solid #cbd5e1',
+                  background: isDark ? 'rgba(255,255,255,0.05)' : '#ffffff',
+                  border: isDark ? '1px solid rgba(255,255,255,0.15)' : '1px solid #cbd5e1',
                   borderRadius: '8px',
-                  color: '#0f172a',
+                  color: isDark ? '#fff' : '#0f172a',
                   cursor: 'pointer',
                   fontWeight: 700,
                   display: 'flex',
@@ -636,10 +683,10 @@ export default function Login({ onLoginSuccess }) {
                 style={{
                   padding: '0.6rem 0.8rem',
                   fontSize: '0.75rem',
-                  background: '#ffffff',
-                  border: '1px solid #cbd5e1',
+                  background: isDark ? 'rgba(255,255,255,0.05)' : '#ffffff',
+                  border: isDark ? '1px solid rgba(255,255,255,0.15)' : '1px solid #cbd5e1',
                   borderRadius: '8px',
-                  color: '#0f172a',
+                  color: isDark ? '#fff' : '#0f172a',
                   cursor: 'pointer',
                   fontWeight: 700,
                   display: 'flex',
