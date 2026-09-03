@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { HashRouter, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 
 import Sidebar from './components/Sidebar.jsx';
 import Dashboard from './components/Dashboard.jsx';
@@ -29,36 +29,37 @@ import * as db from './services/db.js';
 
 const AUTH_STORAGE_KEY = 'sfc_auth_user_id';
 
+const loadAllTables = () => ({
+  users: db.getAll('users'),
+  fitnessPlans: db.getAll('fitnessPlans'),
+  workouts: db.getAll('workouts'),
+  exercises: db.getAll('exercises'),
+  healthTrackers: db.getAll('healthTrackers'),
+  devices: db.getAll('devices'),
+  nutritionPlans: db.getAll('nutritionPlans'),
+  progressReports: db.getAll('progressReports'),
+  sleepLogs: db.getAll('sleepLogs'),
+  hydrationLogs: db.getAll('hydrationLogs'),
+  recipes: db.getAll('recipes'),
+  bodyMeasurements: db.getAll('bodyMeasurements'),
+  goals: db.getAll('goals'),
+  habits: db.getAll('habits'),
+  supplements: db.getAll('supplements'),
+  chatMessages: db.getAll('chatMessages'),
+  communityRankings: db.getAll('communityRankings')
+});
+
 function MainAppShell() {
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const [tables, setTables] = useState(null);
+  const [tables, setTables] = useState(loadAllTables);
   const [currentUserId, setCurrentUserId] = useState(() => {
     const saved = localStorage.getItem(AUTH_STORAGE_KEY);
     return saved ? Number(saved) : null;
   });
 
   const refresh = useCallback(() => {
-    setTables({
-      users: db.getAll('users'),
-      fitnessPlans: db.getAll('fitnessPlans'),
-      workouts: db.getAll('workouts'),
-      exercises: db.getAll('exercises'),
-      healthTrackers: db.getAll('healthTrackers'),
-      devices: db.getAll('devices'),
-      nutritionPlans: db.getAll('nutritionPlans'),
-      progressReports: db.getAll('progressReports'),
-      sleepLogs: db.getAll('sleepLogs'),
-      hydrationLogs: db.getAll('hydrationLogs'),
-      recipes: db.getAll('recipes'),
-      bodyMeasurements: db.getAll('bodyMeasurements'),
-      goals: db.getAll('goals'),
-      habits: db.getAll('habits'),
-      supplements: db.getAll('supplements'),
-      chatMessages: db.getAll('chatMessages'),
-      communityRankings: db.getAll('communityRankings')
-    });
+    setTables(loadAllTables());
   }, []);
 
   useEffect(() => {
@@ -91,17 +92,11 @@ function MainAppShell() {
     navigate('/');
   };
 
-  if (!tables) return null;
+  const currentUser = tables?.users?.find((u) => u.user_id === currentUserId);
 
-  const currentUser = tables.users.find((u) => u.user_id === currentUserId) || tables.users[0];
-
-  // If not logged in, show Login page route
+  // If not logged in or invalid user ID, render Login landing page
   if (!currentUserId || !currentUser) {
-    return (
-      <Routes>
-        <Route path="*" element={<Login onLoginSuccess={handleLoginSuccess} />} />
-      </Routes>
-    );
+    return <Login onLoginSuccess={handleLoginSuccess} />;
   }
 
   const scoped = (rows) => (rows || []).filter((r) => !r.user_id || r.user_id === currentUserId);
