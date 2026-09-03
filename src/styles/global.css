@@ -18,6 +18,7 @@
   --font-mono: 'JetBrains Mono', monospace;
 }
 
+/* ---------- DARK THEME PERFECT COLOR MATCHING SYSTEM ---------- */
 [data-theme="dark"] {
   --bg: #090d16;
   --panel: #111827;
@@ -25,40 +26,136 @@
   --line: #374151;
   --text: #f9fafb;
   --text-sub: #9ca3af;
-  --muted: #6b7280;
+  --muted: #94a3b8;
   --yellow-light: rgba(234, 179, 8, 0.15);
   --yellow-border: rgba(234, 179, 8, 0.3);
 }
 
-[data-theme="dark"] body {
-  background: #090d16;
-  color: #f9fafb;
+[data-theme="dark"] body,
+[data-theme="dark"] .main,
+[data-theme="dark"] .page-container {
+  background: #090d16 !important;
+  color: #f9fafb !important;
 }
 
+/* Card & Box Containers in Dark Theme */
+[data-theme="dark"] .card,
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .progress-photo-card,
+[data-theme="dark"] .master-banner,
+[data-theme="dark"] .rank-row,
+[data-theme="dark"] div[style*="background: #ffffff"],
+[data-theme="dark"] div[style*="background:#ffffff"],
+[data-theme="dark"] div[style*="background: white"] {
+  background-color: #111827 !important;
+  border-color: #374151 !important;
+  color: #f9fafb !important;
+}
+
+[data-theme="dark"] div[style*="background: #f8fafc"],
+[data-theme="dark"] div[style*="background: #f1f5f9"] {
+  background-color: #1f2937 !important;
+  border-color: #374151 !important;
+  color: #f9fafb !important;
+}
+
+/* Headings & Text in Dark Theme */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6,
+[data-theme="dark"] .page-title,
+[data-theme="dark"] .section-title,
+[data-theme="dark"] .stat-num,
+[data-theme="dark"] .stat-value,
+[data-theme="dark"] .user-name,
+[data-theme="dark"] .demo-user-name,
+[data-theme="dark"] p[style*="color: #000000"],
+[data-theme="dark"] strong[style*="color: #000000"],
+[data-theme="dark"] h4[style*="color: #000000"],
+[data-theme="dark"] span[style*="color: #000000"] {
+  color: #f9fafb !important;
+}
+
+[data-theme="dark"] .page-subtitle,
+[data-theme="dark"] .page-desc,
+[data-theme="dark"] .stat-lbl,
+[data-theme="dark"] .stat-sub,
+[data-theme="dark"] .text-secondary {
+  color: #cbd5e1 !important;
+}
+
+/* Sidebar in Dark Theme */
 [data-theme="dark"] .sidebar {
   background: #111827 !important;
   color: #f9fafb !important;
   border-right-color: #1f2937 !important;
 }
 
-[data-theme="dark"] .card {
-  background: #111827 !important;
-  border-color: #1f2937 !important;
+[data-theme="dark"] .user-badge {
+  background: #1f2937 !important;
+  border-color: #374151 !important;
   color: #f9fafb !important;
 }
 
-[data-theme="dark"] .page-container {
-  background: #090d16 !important;
+[data-theme="dark"] .nav-category-header {
+  color: #94a3b8 !important;
+}
+
+[data-theme="dark"] .nav-item {
+  color: #f3f4f6 !important;
+}
+
+[data-theme="dark"] .nav-item:hover {
+  background: #1f2937 !important;
+  color: #00F0FF !important;
+}
+
+[data-theme="dark"] .nav-item.active {
+  background: rgba(0, 240, 255, 0.15) !important;
+  border-color: #00F0FF !important;
+  color: #00F0FF !important;
+}
+
+/* Inputs, Selects & Buttons in Dark Theme */
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  color: #ffffff !important;
+  background-color: #1f2937 !important;
+  border-color: #4b5563 !important;
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: #9ca3af !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
+}
+
+[data-theme="dark"] .btn-secondary {
+  background: #1f2937 !important;
+  border-color: #374151 !important;
   color: #f9fafb !important;
 }
 
-[data-theme="dark"] .page-title,
-[data-theme="dark"] .section-title,
-[data-theme="dark"] h1,
-[data-theme="dark"] h2,
-[data-theme="dark"] h3,
-[data-theme="dark"] h4 {
+[data-theme="dark"] .btn-secondary:hover {
+  background: #374151 !important;
+  border-color: #4b5563 !important;
+}
+
+/* Dark Theme Table & List Items */
+[data-theme="dark"] table,
+[data-theme="dark"] th,
+[data-theme="dark"] td {
+  border-color: #374151 !important;
   color: #f9fafb !important;
+}
+
+[data-theme="dark"] th {
+  background-color: #1f2937 !important;
 }
 
 * {
