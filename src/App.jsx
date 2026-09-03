@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { HashRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
-
 import Sidebar from './components/Sidebar.jsx';
 import Dashboard from './components/Dashboard.jsx';
 import Profile from './components/Profile.jsx';
@@ -29,37 +27,34 @@ import * as db from './services/db.js';
 
 const AUTH_STORAGE_KEY = 'sfc_auth_user_id';
 
-const loadAllTables = () => ({
-  users: db.getAll('users'),
-  fitnessPlans: db.getAll('fitnessPlans'),
-  workouts: db.getAll('workouts'),
-  exercises: db.getAll('exercises'),
-  healthTrackers: db.getAll('healthTrackers'),
-  devices: db.getAll('devices'),
-  nutritionPlans: db.getAll('nutritionPlans'),
-  progressReports: db.getAll('progressReports'),
-  sleepLogs: db.getAll('sleepLogs'),
-  hydrationLogs: db.getAll('hydrationLogs'),
-  recipes: db.getAll('recipes'),
-  bodyMeasurements: db.getAll('bodyMeasurements'),
-  goals: db.getAll('goals'),
-  habits: db.getAll('habits'),
-  supplements: db.getAll('supplements'),
-  chatMessages: db.getAll('chatMessages'),
-  communityRankings: db.getAll('communityRankings')
-});
-
-function MainAppShell() {
-  const navigate = useNavigate();
-
-  const [tables, setTables] = useState(loadAllTables);
+export default function App() {
+  const [page, setPage] = useState('dashboard');
+  const [tables, setTables] = useState(null);
   const [currentUserId, setCurrentUserId] = useState(() => {
     const saved = localStorage.getItem(AUTH_STORAGE_KEY);
     return saved ? Number(saved) : null;
   });
 
   const refresh = useCallback(() => {
-    setTables(loadAllTables());
+    setTables({
+      users: db.getAll('users'),
+      fitnessPlans: db.getAll('fitnessPlans'),
+      workouts: db.getAll('workouts'),
+      exercises: db.getAll('exercises'),
+      healthTrackers: db.getAll('healthTrackers'),
+      devices: db.getAll('devices'),
+      nutritionPlans: db.getAll('nutritionPlans'),
+      progressReports: db.getAll('progressReports'),
+      sleepLogs: db.getAll('sleepLogs'),
+      hydrationLogs: db.getAll('hydrationLogs'),
+      recipes: db.getAll('recipes'),
+      bodyMeasurements: db.getAll('bodyMeasurements'),
+      goals: db.getAll('goals'),
+      habits: db.getAll('habits'),
+      supplements: db.getAll('supplements'),
+      chatMessages: db.getAll('chatMessages'),
+      communityRankings: db.getAll('communityRankings')
+    });
   }, []);
 
   useEffect(() => {
@@ -70,13 +65,12 @@ function MainAppShell() {
     setCurrentUserId(user.user_id);
     localStorage.setItem(AUTH_STORAGE_KEY, String(user.user_id));
     db.recordUserLogin(user);
-    refresh();
-
     if (user.role === 'gym_master') {
-      navigate('/gym-master');
+      setPage('gym-master');
     } else {
-      navigate('/dashboard');
+      setPage('dashboard');
     }
+    refresh();
   };
 
   useEffect(() => {
@@ -89,12 +83,12 @@ function MainAppShell() {
   const handleLogout = () => {
     setCurrentUserId(null);
     localStorage.removeItem(AUTH_STORAGE_KEY);
-    navigate('/');
   };
 
-  const currentUser = tables?.users?.find((u) => u.user_id === currentUserId);
+  if (!tables) return null;
 
-  // If not logged in or invalid user ID, render Login landing page
+  const currentUser = tables.users.find((u) => u.user_id === currentUserId) || tables.users[0];
+
   if (!currentUserId || !currentUser) {
     return <Login onLoginSuccess={handleLoginSuccess} />;
   }
@@ -106,332 +100,289 @@ function MainAppShell() {
       db.insert('fitnessPlans', { user_id: currentUserId, ...payload });
       refresh();
     },
-    onDeletePlan: (planId) => {
-      db.remove('fitnessPlans', planId);
+    onDeletePlan: (id) => {
+      db.remove('fitnessPlans', id);
       refresh();
     },
     onAddWorkout: (planId, payload) => {
       db.insert('workouts', { plan_id: planId, ...payload });
       refresh();
     },
-    onDeleteWorkout: (workoutId) => {
-      db.remove('workouts', workoutId);
+    onDeleteWorkout: (id) => {
+      db.remove('workouts', id);
       refresh();
     },
     onAddExercise: (workoutId, payload) => {
       db.insert('exercises', { workout_id: workoutId, ...payload });
       refresh();
     },
-    onDeleteExercise: (exerciseId) => {
-      db.remove('exercises', exerciseId);
+    onDeleteExercise: (id) => {
+      db.remove('exercises', id);
       refresh();
     }
   };
 
-  const healthActions = {
-    onAddHealth: (payload) => {
-      db.insert('healthTrackers', { user_id: currentUserId, timestamp: new Date().toISOString(), ...payload });
-      refresh();
-    },
-    onDeleteHealth: (id) => {
-      db.remove('healthTrackers', id);
-      refresh();
+  const renderPage = () => {
+    switch (page) {
+      case 'gym-master':
+        return (
+          <GymMasterPortal
+            currentUser={currentUser}
+            allUsers={tables.users}
+            fitnessPlans={tables.fitnessPlans}
+            workouts={tables.workouts}
+            healthTrackers={tables.healthTrackers}
+            nutritionPlans={tables.nutritionPlans}
+            progressReports={tables.progressReports}
+            sleepLogs={tables.sleepLogs}
+            onRefresh={refresh}
+          />
+        );
+      case 'dashboard':
+        return (
+          <Dashboard
+            user={currentUser}
+            fitnessPlans={scoped(tables.fitnessPlans)}
+            workouts={tables.workouts}
+            healthTrackers={scoped(tables.healthTrackers)}
+            devices={scoped(tables.devices)}
+            progressReports={scoped(tables.progressReports)}
+            onNavigate={setPage}
+            onAddNutrition={(payload) => {
+              db.insert('nutritionPlans', { user_id: currentUserId, ...payload });
+              refresh();
+            }}
+            onAddPlan={(payload) => {
+              const plan = planActions.onAddPlan(payload);
+              refresh();
+              return plan;
+            }}
+          />
+        );
+      case 'workout-live':
+        return (
+          <WorkoutLive
+            workouts={tables.workouts}
+            exercises={tables.exercises}
+            onCompleteSession={() => {
+              db.generateProgressReport(currentUserId);
+              refresh();
+            }}
+          />
+        );
+      case 'plans':
+        return (
+          <FitnessPlans
+            plans={scoped(tables.fitnessPlans)}
+            workouts={tables.workouts}
+            exercises={tables.exercises}
+            actions={planActions}
+            user={currentUser}
+          />
+        );
+      case 'health':
+        return (
+          <HealthTracker
+            records={scoped(tables.healthTrackers)}
+            onAdd={(payload) => {
+              db.insert('healthTrackers', { user_id: currentUserId, ...payload });
+              refresh();
+            }}
+            onDelete={(id) => {
+              db.remove('healthTrackers', id);
+              refresh();
+            }}
+          />
+        );
+      case 'sleep':
+        return (
+          <SleepAnalytics
+            sleepLogs={scoped(tables.sleepLogs)}
+            user={currentUser}
+            onAddSleep={(payload) => {
+              db.insert('sleepLogs', { user_id: currentUserId, ...payload });
+              refresh();
+            }}
+          />
+        );
+      case 'heart-zones':
+        return <HeartCardioZones user={currentUser} />;
+      case 'hydration':
+        return (
+          <HydrationTracker
+            hydrationLogs={scoped(tables.hydrationLogs)}
+            onAddHydration={(payload) => {
+              db.insert('hydrationLogs', { user_id: currentUserId, ...payload });
+              refresh();
+            }}
+          />
+        );
+      case 'nutrition':
+        return (
+          <NutritionPlan
+            plans={scoped(tables.nutritionPlans)}
+            user={currentUser}
+            onAdd={(payload) => {
+              db.insert('nutritionPlans', { user_id: currentUserId, ...payload });
+              refresh();
+            }}
+            onDelete={(id) => {
+              db.remove('nutritionPlans', id);
+              refresh();
+            }}
+          />
+        );
+      case 'recipes':
+        return (
+          <RecipeLibrary
+            recipes={tables.recipes}
+            onAddToPlan={(recipe) => {
+              db.insert('nutritionPlans', {
+                user_id: currentUserId,
+                daily_calories: recipe.calories,
+                diet_type: recipe.category,
+                protein_g: recipe.protein,
+                carbs_g: recipe.carbs,
+                fats_g: recipe.fats
+              });
+              refresh();
+            }}
+          />
+        );
+      case 'macro-calc':
+        return (
+          <MacroCalculator
+            user={currentUser}
+            onSaveTarget={(patch) => {
+              db.insert('nutritionPlans', { user_id: currentUserId, diet_type: 'Calculated Macro Goal', ...patch });
+              refresh();
+            }}
+          />
+        );
+      case 'body-comp':
+        return (
+          <BodyComposition
+            measurements={scoped(tables.bodyMeasurements)}
+            user={currentUser}
+            onAddMeasurement={(payload) => {
+              db.insert('bodyMeasurements', { user_id: currentUserId, ...payload });
+              if (payload.weight) db.updateProfile(currentUserId, { weight: payload.weight });
+              refresh();
+            }}
+          />
+        );
+      case 'goals':
+        return (
+          <GoalsMilestones
+            goals={scoped(tables.goals)}
+            onAddGoal={(payload) => {
+              db.insert('goals', { user_id: currentUserId, ...payload });
+              refresh();
+            }}
+            onToggleGoal={(id, status) => {
+              db.update('goals', id, { status });
+              refresh();
+            }}
+          />
+        );
+      case 'habits':
+        return (
+          <HabitTracker
+            habits={scoped(tables.habits)}
+            onAddHabit={(payload) => {
+              db.insert('habits', { user_id: currentUserId, ...payload });
+              refresh();
+            }}
+            onToggleHabit={(id, completed) => {
+              const habit = (tables.habits || []).find((h) => h.habit_id === id);
+              const newStreak = completed ? (habit?.streak || 0) + 1 : Math.max(0, (habit?.streak || 1) - 1);
+              db.update('habits', id, { completed_today: completed, streak: newStreak });
+              refresh();
+            }}
+          />
+        );
+      case 'supplements':
+        return (
+          <SupplementManager
+            supplements={scoped(tables.supplements)}
+            onAddSupplement={(payload) => {
+              db.insert('supplements', { user_id: currentUserId, ...payload });
+              refresh();
+            }}
+            onToggleTaken={(id, taken) => {
+              db.update('supplements', id, { taken_today: taken });
+              refresh();
+            }}
+          />
+        );
+      case 'devices':
+        return (
+          <Devices
+            devices={scoped(tables.devices)}
+            onAdd={(payload) => {
+              db.insert('devices', { user_id: currentUserId, ...payload });
+              refresh();
+            }}
+            onDelete={(id) => {
+              db.remove('devices', id);
+              refresh();
+            }}
+            onToggleSync={(id, current) => {
+              db.update('devices', id, { sync_status: current === 'Synced' ? 'Pending' : 'Synced' });
+              refresh();
+            }}
+          />
+        );
+      case 'reports':
+        return (
+          <ProgressReports
+            reports={scoped(tables.progressReports)}
+            onGenerate={() => {
+              db.generateProgressReport(currentUserId);
+              refresh();
+            }}
+            onDelete={(id) => {
+              db.remove('progressReports', id);
+              refresh();
+            }}
+          />
+        );
+
+      case 'community':
+        return (
+          <CommunityLeaderboard
+            rankings={tables.communityRankings}
+            currentUser={currentUser}
+            users={tables.users}
+            healthTrackers={tables.healthTrackers}
+          />
+        );
+      case 'profile':
+        return (
+          <Profile
+            user={currentUser}
+            onUpdateProfile={(id, patch) => {
+              db.updateProfile(id, patch);
+              refresh();
+            }}
+          />
+        );
+      case 'settings':
+        return <Settings onRefreshData={refresh} />;
+      default:
+        return null;
     }
   };
-
-  const deviceActions = {
-    onAddDevice: (payload) => {
-      db.insert('devices', { user_id: currentUserId, sync_status: 'Synced', last_sync: 'Just now', battery: 100, ...payload });
-      refresh();
-    },
-    onSyncDevice: (id) => {
-      db.update('devices', id, { sync_status: 'Synced', last_sync: 'Just now' });
-      refresh();
-    },
-    onDeleteDevice: (id) => {
-      db.remove('devices', id);
-      refresh();
-    }
-  };
-
-  const nutritionActions = {
-    onAddNutrition: (payload) => {
-      db.insert('nutritionPlans', { user_id: currentUserId, ...payload });
-      refresh();
-    },
-    onDeleteNutrition: (id) => {
-      db.remove('nutritionPlans', id);
-      refresh();
-    }
-  };
-
-  const reportActions = {
-    onGenerateReport: () => {
-      db.generateProgressReport(currentUserId);
-      refresh();
-    },
-    onDeleteReport: (id) => {
-      db.remove('progressReports', id);
-      refresh();
-    }
-  };
-
-  const handleUpdateProfile = (userId, patch) => {
-    db.updateProfile(userId, patch);
-    refresh();
-  };
-
-  const navigateToRoute = (routeKey) => {
-    navigate(`/${routeKey}`);
-  };
-
-  const defaultRoute = currentUser.role === 'gym_master' ? '/gym-master' : '/dashboard';
 
   return (
-    <div className="app-shell">
-      <Sidebar currentUser={currentUser} onLogout={handleLogout} />
-
-      <main className="main-content">
-        <Routes>
-          <Route path="/" element={<Navigate to={defaultRoute} replace />} />
-          <Route path="/login" element={<Navigate to={defaultRoute} replace />} />
-
-          {/* Route Concept Navigation Pages */}
-          <Route
-            path="/dashboard"
-            element={
-              <Dashboard
-                user={currentUser}
-                plans={scoped(tables.fitnessPlans)}
-                workouts={tables.workouts}
-                health={scoped(tables.healthTrackers)}
-                devices={scoped(tables.devices)}
-                nutrition={scoped(tables.nutritionPlans)}
-                reports={scoped(tables.progressReports)}
-                sleep={scoped(tables.sleepLogs)}
-                onNavigate={navigateToRoute}
-              />
-            }
-          />
-
-          <Route
-            path="/gym-master"
-            element={
-              <GymMasterPortal
-                currentUser={currentUser}
-                allUsers={tables.users}
-                fitnessPlans={tables.fitnessPlans}
-                workouts={tables.workouts}
-                healthTrackers={tables.healthTrackers}
-                nutritionPlans={tables.nutritionPlans}
-                progressReports={tables.progressReports}
-                sleepLogs={tables.sleepLogs}
-                onRefresh={refresh}
-              />
-            }
-          />
-
-          <Route
-            path="/plans"
-            element={
-              <FitnessPlans
-                plans={scoped(tables.fitnessPlans)}
-                workouts={tables.workouts}
-                exercises={tables.exercises}
-                actions={planActions}
-              />
-            }
-          />
-
-          <Route
-            path="/workout-live"
-            element={
-              <WorkoutLive
-                plans={scoped(tables.fitnessPlans)}
-                workouts={tables.workouts}
-                exercises={tables.exercises}
-                user={currentUser}
-              />
-            }
-          />
-
-          <Route
-            path="/reports"
-            element={
-              <ProgressReports
-                reports={scoped(tables.progressReports)}
-                onGenerate={reportActions.onGenerateReport}
-                onDelete={reportActions.onDeleteReport}
-                user={currentUser}
-              />
-            }
-          />
-
-          <Route
-            path="/health"
-            element={
-              <HealthTracker
-                records={scoped(tables.healthTrackers)}
-                onAdd={healthActions.onAddHealth}
-                onDelete={healthActions.onDeleteHealth}
-              />
-            }
-          />
-
-          <Route
-            path="/sleep"
-            element={
-              <SleepAnalytics
-                sleepLogs={scoped(tables.sleepLogs)}
-                user={currentUser}
-                onRefresh={refresh}
-              />
-            }
-          />
-
-          <Route
-            path="/heart-zones"
-            element={
-              <HeartCardioZones
-                healthTrackers={scoped(tables.healthTrackers)}
-                user={currentUser}
-              />
-            }
-          />
-
-          <Route
-            path="/hydration"
-            element={
-              <HydrationTracker
-                hydrationLogs={scoped(tables.hydrationLogs)}
-                user={currentUser}
-                onRefresh={refresh}
-              />
-            }
-          />
-
-          <Route
-            path="/supplements"
-            element={
-              <SupplementManager
-                supplements={scoped(tables.supplements)}
-                user={currentUser}
-                onRefresh={refresh}
-              />
-            }
-          />
-
-          <Route
-            path="/nutrition"
-            element={
-              <NutritionPlan
-                plans={scoped(tables.nutritionPlans)}
-                onAdd={nutritionActions.onAddNutrition}
-                onDelete={nutritionActions.onDeleteNutrition}
-                user={currentUser}
-              />
-            }
-          />
-
-          <Route
-            path="/recipes"
-            element={
-              <RecipeLibrary
-                recipes={tables.recipes}
-                user={currentUser}
-                onRefresh={refresh}
-              />
-            }
-          />
-
-          <Route
-            path="/macro-calc"
-            element={<MacroCalculator user={currentUser} />}
-          />
-
-          <Route
-            path="/body-comp"
-            element={
-              <BodyComposition
-                measurements={scoped(tables.bodyMeasurements)}
-                user={currentUser}
-                onRefresh={refresh}
-              />
-            }
-          />
-
-          <Route
-            path="/community"
-            element={
-              <CommunityLeaderboard
-                rankings={tables.communityRankings}
-                currentUser={currentUser}
-                users={tables.users}
-                healthTrackers={tables.healthTrackers}
-              />
-            }
-          />
-
-          <Route
-            path="/habits"
-            element={
-              <HabitTracker
-                habits={scoped(tables.habits)}
-                user={currentUser}
-                onRefresh={refresh}
-              />
-            }
-          />
-
-          <Route
-            path="/devices"
-            element={
-              <Devices
-                devices={scoped(tables.devices)}
-                onAdd={deviceActions.onAddDevice}
-                onSync={deviceActions.onSyncDevice}
-                onDelete={deviceActions.onDeleteDevice}
-              />
-            }
-          />
-
-          <Route
-            path="/profile"
-            element={
-              <Profile
-                user={currentUser}
-                onUpdateProfile={handleUpdateProfile}
-              />
-            }
-          />
-
-          <Route
-            path="/settings"
-            element={<Settings user={currentUser} />}
-          />
-
-          <Route
-            path="/goals"
-            element={
-              <GoalsMilestones
-                goals={scoped(tables.goals)}
-                user={currentUser}
-                onRefresh={refresh}
-              />
-            }
-          />
-
-          <Route path="*" element={<Navigate to={defaultRoute} replace />} />
-        </Routes>
-      </main>
+    <div className="app-shell relative">
+      <Sidebar
+        active={page}
+        onNavigate={setPage}
+        currentUser={currentUser}
+        onLogout={handleLogout}
+      />
+      <main className="main">{renderPage()}</main>
     </div>
-  );
-}
-
-export default function App() {
-  return (
-    <HashRouter>
-      <MainAppShell />
-    </HashRouter>
   );
 }

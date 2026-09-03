@@ -110,7 +110,7 @@ export default function ProgressReports({ reports, onGenerate, onDelete, user })
           </span>
         </div>
       </div>
-
+               
       {/* Text Filter Bar */}
       <div className="card mb-4 p-3 flex-between align-center flex-wrap gap-2" style={{ borderRadius: '12px', border: '1px solid #e2e8f0' }}>
         <div className="flex align-center gap-2">
@@ -281,3 +281,4 @@ export default function ProgressReports({ reports, onGenerate, onDelete, user })
     </div>
   );
 }
+ 
