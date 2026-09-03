@@ -63,13 +63,13 @@ export default function Login({ onLoginSuccess }) {
         minHeight: '100vh',
         width: '100%',
         display: 'grid',
-        gridTemplateColumns: 'minmax(350px, 1.1fr) minmax(400px, 0.9fr)',
-        background: 'radial-gradient(circle at 15% 20%, #0d1628 0%, #050811 100%)',
-        color: '#fff',
+        gridTemplateColumns: 'minmax(360px, 1.1fr) minmax(400px, 0.9fr)',
+        background: '#f8fafc',
+        color: '#0f172a',
         fontFamily: "'Inter', sans-serif"
       }}
     >
-      {/* LEFT HALF: HOMEPAGE HERO SHOWCASE */}
+      {/* LEFT HALF: HOMEPAGE HERO SHOWCASE (LIGHT THEME) */}
       <div
         className="homepage-left-hero"
         style={{
@@ -77,8 +77,8 @@ export default function Login({ onLoginSuccess }) {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          borderRight: '1px solid rgba(255, 255, 255, 0.1)',
-          background: 'linear-gradient(135deg, rgba(0, 240, 255, 0.04) 0%, rgba(255, 215, 0, 0.02) 100%)'
+          borderRight: '1px solid #e2e8f0',
+          background: 'linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%)'
         }}
       >
         <div>
@@ -86,8 +86,8 @@ export default function Login({ onLoginSuccess }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '2.5rem' }}>
             <div
               style={{
-                background: 'linear-gradient(135deg, #00F0FF 0%, #FFD700 100%)',
-                color: '#000',
+                background: '#ca8a04',
+                color: '#ffffff',
                 fontWeight: 900,
                 fontSize: '1.25rem',
                 padding: '0.4rem 0.8rem',
@@ -98,10 +98,10 @@ export default function Login({ onLoginSuccess }) {
               SFC//
             </div>
             <div>
-              <span style={{ fontWeight: 800, fontSize: '1rem', letterSpacing: '0.05em', color: '#fff', display: 'block' }}>
+              <span style={{ fontWeight: 900, fontSize: '1rem', letterSpacing: '0.05em', color: '#0f172a', display: 'block' }}>
                 SMART FITNESS COMPANION
               </span>
-              <span style={{ fontSize: '0.72rem', color: '#00F0FF', fontWeight: 700, letterSpacing: '0.1em' }}>
+              <span style={{ fontSize: '0.72rem', color: '#ca8a04', fontWeight: 800, letterSpacing: '0.1em' }}>
                 MULTI-USER GYM ECOSYSTEM
               </span>
             </div>
@@ -114,15 +114,14 @@ export default function Login({ onLoginSuccess }) {
               fontWeight: 900,
               lineHeight: 1.15,
               marginBottom: '1.25rem',
-              background: 'linear-gradient(135deg, #FFFFFF 0%, #00F0FF 50%, #FFD700 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
+              color: '#0f172a'
             }}
           >
-            NEXT-GEN FITNESS & GYM MASTER PLATFORM
+            NEXT-GEN FITNESS & <br />
+            <span style={{ color: '#ca8a04' }}>GYM MASTER PLATFORM</span>
           </h1>
 
-          <p style={{ fontSize: '1.05rem', color: 'rgba(255, 255, 255, 0.8)', lineHeight: 1.6, maxWidth: '560px', marginBottom: '2.5rem' }}>
+          <p style={{ fontSize: '1.05rem', color: '#475569', lineHeight: 1.6, maxWidth: '560px', marginBottom: '2.5rem' }}>
             A complete dual-role ecosystem for <strong>Gym Masters</strong> & <strong>Gym Members</strong>. Monitor member vitals, assign custom workout routines, track daily macros, and compete on live synced leaderboards.
           </p>
 
@@ -130,68 +129,68 @@ export default function Login({ onLoginSuccess }) {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '2.5rem' }}>
             <div
               style={{
-                background: 'rgba(255, 215, 0, 0.06)',
-                border: '1px solid rgba(255, 215, 0, 0.25)',
+                background: '#fef9c3',
+                border: '1px solid #fef08a',
                 borderRadius: '14px',
                 padding: '1.25rem'
               }}
             >
               <div style={{ fontSize: '1.5rem', marginBottom: '0.4rem' }}>👑</div>
-              <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#FFD700', margin: '0 0 0.3rem 0' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#854d0e', margin: '0 0 0.3rem 0' }}>
                 GYM MASTER PORTAL
               </h3>
-              <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', margin: 0, lineHeight: 1.4 }}>
+              <p style={{ fontSize: '0.8rem', color: '#713f12', margin: 0, lineHeight: 1.4 }}>
                 Control center to audit member vitals, create workout plans, and set daily nutrition targets.
               </p>
             </div>
 
             <div
               style={{
-                background: 'rgba(0, 240, 255, 0.06)',
-                border: '1px solid rgba(0, 240, 255, 0.25)',
+                background: '#dbeafe',
+                border: '1px solid #bfdbfe',
                 borderRadius: '14px',
                 padding: '1.25rem'
               }}
             >
               <div style={{ fontSize: '1.5rem', marginBottom: '0.4rem' }}>🏋️</div>
-              <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#00F0FF', margin: '0 0 0.3rem 0' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#1e40af', margin: '0 0 0.3rem 0' }}>
                 MEMBER DASHBOARD
               </h3>
-              <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', margin: 0, lineHeight: 1.4 }}>
+              <p style={{ fontSize: '0.8rem', color: '#1e3a8a', margin: 0, lineHeight: 1.4 }}>
                 Personal fitness hub for live workout tracking, heart rate zones, sleep logs & habit streaks.
               </p>
             </div>
 
             <div
               style={{
-                background: 'rgba(57, 255, 20, 0.06)',
-                border: '1px solid rgba(57, 255, 20, 0.25)',
+                background: '#dcfce7',
+                border: '1px solid #bbf7d0',
                 borderRadius: '14px',
                 padding: '1.25rem'
               }}
             >
               <div style={{ fontSize: '1.5rem', marginBottom: '0.4rem' }}>🏆</div>
-              <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#39FF14', margin: '0 0 0.3rem 0' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#166534', margin: '0 0 0.3rem 0' }}>
                 LIVE LEADERBOARD
               </h3>
-              <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', margin: 0, lineHeight: 1.4 }}>
+              <p style={{ fontSize: '0.8rem', color: '#14532d', margin: 0, lineHeight: 1.4 }}>
                 Compete with gym members with live profile name & avatar synchronization.
               </p>
             </div>
 
             <div
               style={{
-                background: 'rgba(255, 0, 85, 0.06)',
-                border: '1px solid rgba(255, 0, 85, 0.25)',
+                background: '#f3e8ff',
+                border: '1px solid #e9d5ff',
                 borderRadius: '14px',
                 padding: '1.25rem'
               }}
             >
               <div style={{ fontSize: '1.5rem', marginBottom: '0.4rem' }}>🤖</div>
-              <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#FF0055', margin: '0 0 0.3rem 0' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#6b21a8', margin: '0 0 0.3rem 0' }}>
                 AI COACH INTELLIGENCE
               </h3>
-              <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', margin: 0, lineHeight: 1.4 }}>
+              <p style={{ fontSize: '0.8rem', color: '#581c87', margin: 0, lineHeight: 1.4 }}>
                 AI insights on sleep recovery scores, optimal cardio zones & supplement stacks.
               </p>
             </div>
@@ -199,14 +198,14 @@ export default function Login({ onLoginSuccess }) {
         </div>
 
         {/* Footer System Badges */}
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '1.25rem' }}>
-          <span style={{ fontSize: '0.75rem', color: '#00F0FF', fontWeight: 700 }}>● Multi-User Roles Active</span>
-          <span style={{ fontSize: '0.75rem', color: '#FFD700', fontWeight: 700 }}>● Gym Master Portal Included</span>
-          <span style={{ fontSize: '0.75rem', color: '#39FF14', fontWeight: 700 }}>● 100% Local DB Storage</span>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', borderTop: '1px solid #e2e8f0', paddingTop: '1.25rem' }}>
+          <span style={{ fontSize: '0.75rem', color: '#2563eb', fontWeight: 800 }}>● Multi-User Roles Active</span>
+          <span style={{ fontSize: '0.75rem', color: '#ca8a04', fontWeight: 800 }}>● Gym Master Portal Included</span>
+          <span style={{ fontSize: '0.75rem', color: '#16a34a', fontWeight: 800 }}>● 100% Local DB Storage</span>
         </div>
       </div>
 
-      {/* RIGHT HALF: LOGIN & ACCOUNT REGISTRATION PANEL */}
+      {/* RIGHT HALF: LOGIN & ACCOUNT REGISTRATION PANEL (LIGHT THEME) */}
       <div
         className="homepage-right-login"
         style={{
@@ -214,21 +213,37 @@ export default function Login({ onLoginSuccess }) {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
+          background: '#f8fafc',
           overflowY: 'auto'
         }}
       >
         <div style={{ maxWidth: '480px', margin: '0 auto', width: '100%' }}>
           {/* Header */}
           <div style={{ marginBottom: '1.5rem', textAlign: 'center' }}>
-            <h2 style={{ fontSize: '1.65rem', fontWeight: 900, margin: 0, color: '#fff' }}>
+            <h2 style={{ fontSize: '1.65rem', fontWeight: 900, margin: 0, color: '#0f172a' }}>
               SYSTEM ACCESS PORTAL
             </h2>
-            <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)', marginTop: '0.3rem' }}>
+            <p style={{ fontSize: '0.85rem', color: '#475569', marginTop: '0.3rem' }}>
               Sign in to your account or register a new Gym Master / Member profile below.
             </p>
           </div>
 
-          {error && <div className="login-error-alert mb-3">{error}</div>}
+          {error && (
+            <div
+              style={{
+                background: '#fef2f2',
+                border: '1px solid #fecaca',
+                color: '#dc2626',
+                padding: '0.75rem 1rem',
+                borderRadius: '10px',
+                fontSize: '0.85rem',
+                fontWeight: 700,
+                marginBottom: '1rem'
+              }}
+            >
+              {error}
+            </div>
+          )}
 
           {/* DUAL VISIBLE OPTIONS: BOTH SIGN IN & CREATE ACCOUNT ARE PROMINENTLY VISIBLE */}
           <div
@@ -237,10 +252,9 @@ export default function Login({ onLoginSuccess }) {
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
               gap: '0.75rem',
-              background: 'rgba(255, 255, 255, 0.04)',
-              padding: '0.4rem',
-              borderRadius: '14px',
-              border: '1px solid rgba(255, 255, 255, 0.12)'
+              background: '#e2e8f0',
+              padding: '0.35rem',
+              borderRadius: '14px'
             }}
           >
             {/* OPTION 1: SIGN IN */}
@@ -253,19 +267,19 @@ export default function Login({ onLoginSuccess }) {
               style={{
                 padding: '0.85rem 0.5rem',
                 borderRadius: '10px',
-                border: !isRegister ? '2.5px solid #00F0FF' : '1px solid transparent',
-                background: !isRegister ? 'rgba(0, 240, 255, 0.18)' : 'transparent',
-                color: !isRegister ? '#00F0FF' : 'rgba(255,255,255,0.7)',
+                border: !isRegister ? '2px solid #2563eb' : '1px solid transparent',
+                background: !isRegister ? '#ffffff' : 'transparent',
+                color: !isRegister ? '#1e40af' : '#475569',
                 cursor: 'pointer',
                 textAlign: 'center',
-                boxShadow: !isRegister ? '0 0 12px rgba(0, 240, 255, 0.3)' : 'none',
+                boxShadow: !isRegister ? '0 2px 8px rgba(0, 0, 0, 0.08)' : 'none',
                 transition: 'all 0.15s ease'
               }}
             >
               <div style={{ fontWeight: 900, fontSize: '0.95rem', letterSpacing: '0.04em' }}>
                 🔑 SIGN IN
               </div>
-              <div style={{ fontSize: '0.7rem', opacity: 0.8, fontWeight: 600, marginTop: '2px' }}>
+              <div style={{ fontSize: '0.7rem', opacity: 0.8, fontWeight: 700, marginTop: '2px' }}>
                 Existing Accounts
               </div>
             </button>
@@ -280,30 +294,40 @@ export default function Login({ onLoginSuccess }) {
               style={{
                 padding: '0.85rem 0.5rem',
                 borderRadius: '10px',
-                border: isRegister ? '2.5px solid #FFD700' : '1px solid transparent',
-                background: isRegister ? 'rgba(255, 215, 0, 0.18)' : 'transparent',
-                color: isRegister ? '#FFD700' : 'rgba(255,255,255,0.7)',
+                border: isRegister ? '2px solid #ca8a04' : '1px solid transparent',
+                background: isRegister ? '#ffffff' : 'transparent',
+                color: isRegister ? '#854d0e' : '#475569',
                 cursor: 'pointer',
                 textAlign: 'center',
-                boxShadow: isRegister ? '0 0 12px rgba(255, 215, 0, 0.3)' : 'none',
+                boxShadow: isRegister ? '0 2px 8px rgba(0, 0, 0, 0.08)' : 'none',
                 transition: 'all 0.15s ease'
               }}
             >
               <div style={{ fontWeight: 900, fontSize: '0.95rem', letterSpacing: '0.04em' }}>
                 ✨ CREATE ACCOUNT
               </div>
-              <div style={{ fontSize: '0.7rem', opacity: 0.8, fontWeight: 600, marginTop: '2px' }}>
+              <div style={{ fontSize: '0.7rem', opacity: 0.8, fontWeight: 700, marginTop: '2px' }}>
                 Register New User
               </div>
             </button>
           </div>
 
           {/* ACTIVE FORM CONTAINER */}
-          <form onSubmit={handleSubmit} className="login-form">
+          <form
+            onSubmit={handleSubmit}
+            className="login-form"
+            style={{
+              background: '#ffffff',
+              padding: '1.5rem',
+              borderRadius: '16px',
+              border: '1px solid #e2e8f0',
+              boxShadow: '0 4px 15px rgba(0,0,0,0.03)'
+            }}
+          >
             {/* ROLE SELECTOR (VISIBLE DURING REGISTRATION) */}
             {isRegister && (
               <div className="form-group mb-4">
-                <label style={{ color: '#FFD700', fontWeight: 900, fontSize: '0.85rem', letterSpacing: '0.08em', display: 'block', marginBottom: '0.4rem' }}>
+                <label style={{ color: '#ca8a04', fontWeight: 900, fontSize: '0.85rem', letterSpacing: '0.08em', display: 'block', marginBottom: '0.4rem' }}>
                   CHOOSE YOUR ACCOUNT ROLE:
                 </label>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
@@ -313,9 +337,9 @@ export default function Login({ onLoginSuccess }) {
                     style={{
                       padding: '0.85rem 0.6rem',
                       borderRadius: '12px',
-                      border: role === 'member' ? '2.5px solid #00F0FF' : '1.5px solid rgba(255,255,255,0.15)',
-                      background: role === 'member' ? 'rgba(0, 240, 255, 0.2)' : 'rgba(255,255,255,0.03)',
-                      color: '#fff',
+                      border: role === 'member' ? '2.5px solid #2563eb' : '1.5px solid #e2e8f0',
+                      background: role === 'member' ? '#dbeafe' : '#f8fafc',
+                      color: '#000000',
                       textAlign: 'center',
                       cursor: 'pointer',
                       minHeight: '68px',
@@ -323,14 +347,14 @@ export default function Login({ onLoginSuccess }) {
                       flexDirection: 'column',
                       justifyContent: 'center',
                       alignItems: 'center',
-                      boxShadow: role === 'member' ? '0 0 15px rgba(0, 240, 255, 0.3)' : 'none',
+                      boxShadow: role === 'member' ? '0 2px 10px rgba(37,99,235,0.15)' : 'none',
                       transition: 'all 0.15s ease'
                     }}
                   >
-                    <div style={{ fontWeight: 900, fontSize: '0.95rem', color: '#00F0FF', letterSpacing: '0.04em' }}>
+                    <div style={{ fontWeight: 900, fontSize: '0.95rem', color: '#1e40af', letterSpacing: '0.04em' }}>
                       🏋️ GYM MEMBER
                     </div>
-                    <div style={{ fontSize: '0.72rem', opacity: 0.8, fontWeight: 500, marginTop: '3px' }}>
+                    <div style={{ fontSize: '0.72rem', color: '#1e3a8a', fontWeight: 600, marginTop: '3px' }}>
                       Personal Fitness Tracking
                     </div>
                   </button>
@@ -341,9 +365,9 @@ export default function Login({ onLoginSuccess }) {
                     style={{
                       padding: '0.85rem 0.6rem',
                       borderRadius: '12px',
-                      border: role === 'gym_master' ? '2.5px solid #FFD700' : '1.5px solid rgba(255,255,255,0.15)',
-                      background: role === 'gym_master' ? 'rgba(255, 215, 0, 0.2)' : 'rgba(255,255,255,0.03)',
-                      color: '#fff',
+                      border: role === 'gym_master' ? '2.5px solid #ca8a04' : '1.5px solid #e2e8f0',
+                      background: role === 'gym_master' ? '#fef9c3' : '#f8fafc',
+                      color: '#000000',
                       textAlign: 'center',
                       cursor: 'pointer',
                       minHeight: '68px',
@@ -351,14 +375,14 @@ export default function Login({ onLoginSuccess }) {
                       flexDirection: 'column',
                       justifyContent: 'center',
                       alignItems: 'center',
-                      boxShadow: role === 'gym_master' ? '0 0 15px rgba(255, 215, 0, 0.3)' : 'none',
+                      boxShadow: role === 'gym_master' ? '0 2px 10px rgba(202,138,4,0.15)' : 'none',
                       transition: 'all 0.15s ease'
                     }}
                   >
-                    <div style={{ fontWeight: 900, fontSize: '0.95rem', color: '#FFD700', letterSpacing: '0.04em' }}>
+                    <div style={{ fontWeight: 900, fontSize: '0.95rem', color: '#854d0e', letterSpacing: '0.04em' }}>
                       👑 GYM MASTER
                     </div>
-                    <div style={{ fontSize: '0.72rem', opacity: 0.8, fontWeight: 500, marginTop: '3px' }}>
+                    <div style={{ fontSize: '0.72rem', color: '#713f12', fontWeight: 600, marginTop: '3px' }}>
                       Coach & Trainer Control
                     </div>
                   </button>
@@ -368,45 +392,45 @@ export default function Login({ onLoginSuccess }) {
 
             {isRegister && (
               <div className="form-group mb-3">
-                <label style={{ fontWeight: 700, fontSize: '0.85rem' }}>FULL NAME</label>
+                <label style={{ fontWeight: 700, fontSize: '0.85rem', color: '#0f172a', display: 'block', marginBottom: '0.2rem' }}>FULL NAME</label>
                 <input
                   type="text"
                   placeholder={role === 'gym_master' ? 'e.g. Master Coach Vance' : 'e.g. Alex Morgan'}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
-                  style={{ width: '100%', padding: '0.7rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '8px', color: '#fff' }}
+                  style={{ width: '100%', padding: '0.7rem', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '8px', color: '#0f172a' }}
                 />
               </div>
             )}
 
             <div className="form-group mb-3">
-              <label style={{ fontWeight: 700, fontSize: '0.85rem' }}>{isRegister ? 'EMAIL ADDRESS' : 'EMAIL OR USERNAME'}</label>
+              <label style={{ fontWeight: 700, fontSize: '0.85rem', color: '#0f172a', display: 'block', marginBottom: '0.2rem' }}>{isRegister ? 'EMAIL ADDRESS' : 'EMAIL OR USERNAME'}</label>
               <input
                 type="text"
                 placeholder={isRegister ? (role === 'gym_master' ? 'coach@gymmaster.fit' : 'alex@example.com') : 'marcus@gymmaster.fit or ava@companion.fit'}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                style={{ width: '100%', padding: '0.7rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '8px', color: '#fff' }}
+                style={{ width: '100%', padding: '0.7rem', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '8px', color: '#0f172a' }}
               />
             </div>
 
             <div className="form-group mb-3">
-              <label style={{ fontWeight: 700, fontSize: '0.85rem' }}>PASSWORD</label>
+              <label style={{ fontWeight: 700, fontSize: '0.85rem', color: '#0f172a', display: 'block', marginBottom: '0.2rem' }}>PASSWORD</label>
               <input
                 type="password"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                style={{ width: '100%', padding: '0.7rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '8px', color: '#fff' }}
+                style={{ width: '100%', padding: '0.7rem', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '8px', color: '#0f172a' }}
               />
             </div>
 
             {isRegister && role === 'member' && (
               <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginBottom: '1rem' }}>
                 <div className="form-group">
-                  <label style={{ fontWeight: 700, fontSize: '0.85rem' }}>AGE (YRS)</label>
+                  <label style={{ fontWeight: 700, fontSize: '0.85rem', color: '#0f172a', display: 'block', marginBottom: '0.2rem' }}>AGE (YRS)</label>
                   <input
                     type="number"
                     min="12"
@@ -414,11 +438,11 @@ export default function Login({ onLoginSuccess }) {
                     value={age}
                     onChange={(e) => setAge(e.target.value)}
                     required
-                    style={{ width: '100%', padding: '0.7rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '8px', color: '#fff' }}
+                    style={{ width: '100%', padding: '0.7rem', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '8px', color: '#0f172a' }}
                   />
                 </div>
                 <div className="form-group">
-                  <label style={{ fontWeight: 700, fontSize: '0.85rem' }}>WEIGHT (KG)</label>
+                  <label style={{ fontWeight: 700, fontSize: '0.85rem', color: '#0f172a', display: 'block', marginBottom: '0.2rem' }}>WEIGHT (KG)</label>
                   <input
                     type="number"
                     step="0.1"
@@ -427,7 +451,7 @@ export default function Login({ onLoginSuccess }) {
                     value={weight}
                     onChange={(e) => setWeight(e.target.value)}
                     required
-                    style={{ width: '100%', padding: '0.7rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '8px', color: '#fff' }}
+                    style={{ width: '100%', padding: '0.7rem', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '8px', color: '#0f172a' }}
                   />
                 </div>
               </div>
@@ -436,25 +460,25 @@ export default function Login({ onLoginSuccess }) {
             {isRegister && role === 'gym_master' && (
               <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginBottom: '1rem' }}>
                 <div className="form-group">
-                  <label style={{ fontWeight: 700, fontSize: '0.85rem' }}>GYM / CLUB NAME</label>
+                  <label style={{ fontWeight: 700, fontSize: '0.85rem', color: '#0f172a', display: 'block', marginBottom: '0.2rem' }}>GYM / CLUB NAME</label>
                   <input
                     type="text"
                     placeholder="Iron Forge Gym"
                     value={gymName}
                     onChange={(e) => setGymName(e.target.value)}
                     required
-                    style={{ width: '100%', padding: '0.7rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '8px', color: '#fff' }}
+                    style={{ width: '100%', padding: '0.7rem', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '8px', color: '#0f172a' }}
                   />
                 </div>
                 <div className="form-group">
-                  <label style={{ fontWeight: 700, fontSize: '0.85rem' }}>SPECIALTY TITLE</label>
+                  <label style={{ fontWeight: 700, fontSize: '0.85rem', color: '#0f172a', display: 'block', marginBottom: '0.2rem' }}>SPECIALTY TITLE</label>
                   <input
                     type="text"
                     placeholder="Head Strength Coach"
                     value={specialty}
                     onChange={(e) => setSpecialty(e.target.value)}
                     required
-                    style={{ width: '100%', padding: '0.7rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '8px', color: '#fff' }}
+                    style={{ width: '100%', padding: '0.7rem', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '8px', color: '#0f172a' }}
                   />
                 </div>
               </div>
@@ -469,12 +493,12 @@ export default function Login({ onLoginSuccess }) {
                 fontWeight: 900,
                 letterSpacing: '0.05em',
                 borderRadius: '10px',
-                background: isRegister ? '#FFD700' : '#00F0FF',
-                color: '#000000',
+                background: isRegister ? '#ca8a04' : '#2563eb',
+                color: '#ffffff',
                 border: 'none',
                 cursor: 'pointer',
                 fontSize: '0.95rem',
-                boxShadow: isRegister ? '0 0 15px rgba(255,215,0,0.3)' : '0 0 15px rgba(0,240,255,0.3)',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                 marginTop: '0.5rem'
               }}
             >
@@ -482,10 +506,10 @@ export default function Login({ onLoginSuccess }) {
             </button>
           </form>
 
-          {/* DEMO USER QUICK SELECTION */}
+          {/* DEMO USER QUICK SELECTION (LIGHT THEME) */}
           <div className="demo-section" style={{ marginTop: '1.75rem' }}>
             <div className="demo-divider mb-3" style={{ textAlign: 'center' }}>
-              <span style={{ fontWeight: 900, color: '#00F0FF', letterSpacing: '0.08em', fontSize: '0.78rem' }}>
+              <span style={{ fontWeight: 900, color: '#ca8a04', letterSpacing: '0.08em', fontSize: '0.78rem' }}>
                 ⚡ QUICK DEMO ACCOUNTS (GYM MASTER & MEMBERS)
               </span>
             </div>
@@ -500,18 +524,17 @@ export default function Login({ onLoginSuccess }) {
                     className="demo-user-btn"
                     onClick={() => handleDemoLogin(u)}
                     style={{
-                      borderColor: isMaster ? '#FFD700' : '#00F0FF',
+                      borderColor: isMaster ? '#fef08a' : '#bfdbfe',
                       borderWidth: '1.5px',
                       borderRadius: '12px',
-                      background: isMaster
-                        ? 'linear-gradient(90deg, rgba(255,215,0,0.12) 0%, rgba(10,14,26,0.6) 100%)'
-                        : 'linear-gradient(90deg, rgba(0,240,255,0.08) 0%, rgba(10,14,26,0.6) 100%)',
+                      background: isMaster ? '#fef9c3' : '#ffffff',
                       padding: '0.85rem 1.1rem',
                       display: 'flex',
                       alignItems: 'center',
                       gap: '0.85rem',
                       cursor: 'pointer',
                       width: '100%',
+                      boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
                       transition: 'all 0.15s ease'
                     }}
                   >
@@ -524,7 +547,7 @@ export default function Login({ onLoginSuccess }) {
                         padding: 0,
                         overflow: 'hidden',
                         flexShrink: 0,
-                        border: isMaster ? '2px solid #FFD700' : '2px solid #00F0FF'
+                        border: isMaster ? '2px solid #ca8a04' : '2px solid #2563eb'
                       }}
                     >
                       {u.avatar ? (
@@ -536,7 +559,8 @@ export default function Login({ onLoginSuccess }) {
 
                     <div className="demo-user-info" style={{ textAlign: 'left', flex: 1, display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
-                        <span className="demo-user-name" style={{ fontWeight: 800, fontSize: '0.95rem', color: '#fff' }}>
+                        {/* BOLD BLACK FONT DEMO USER NAME */}
+                        <span className="demo-user-name" style={{ fontWeight: 900, fontSize: '0.95rem', color: '#000000' }}>
                           {u.name}
                         </span>
 
@@ -547,17 +571,16 @@ export default function Login({ onLoginSuccess }) {
                             borderRadius: '6px',
                             fontWeight: 900,
                             letterSpacing: '0.06em',
-                            background: isMaster ? '#FFD700' : '#00F0FF',
-                            color: '#000000',
-                            textTransform: 'uppercase',
-                            boxShadow: isMaster ? '0 0 10px rgba(255,215,0,0.4)' : '0 0 10px rgba(0,240,255,0.4)'
+                            background: isMaster ? '#ca8a04' : '#2563eb',
+                            color: '#ffffff',
+                            textTransform: 'uppercase'
                           }}
                         >
                           {isMaster ? '👑 GYM MASTER' : '🏋️ GYM MEMBER'}
                         </span>
                       </div>
 
-                      <span className="demo-user-meta" style={{ fontSize: '0.75rem', opacity: 0.8 }}>
+                      <span className="demo-user-meta" style={{ fontSize: '0.75rem', color: '#475569', fontWeight: 600 }}>
                         {isMaster ? (u.specialty || 'Head Strength Coach') : `${u.fitness_level || 'Member'} • ${u.email}`}
                       </span>
                     </div>
@@ -565,7 +588,7 @@ export default function Login({ onLoginSuccess }) {
                     <span
                       className="demo-user-arrow"
                       style={{
-                        color: isMaster ? '#FFD700' : '#00F0FF',
+                        color: isMaster ? '#ca8a04' : '#2563eb',
                         fontWeight: 900,
                         fontSize: '1.2rem',
                         marginLeft: 'auto'
@@ -580,9 +603,9 @@ export default function Login({ onLoginSuccess }) {
           </div>
 
           {/* BACKUP DATA EXPORTS */}
-          <div className="login-txt-export-section mt-4 pt-3" style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+          <div className="login-txt-export-section mt-4 pt-3" style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid #e2e8f0' }}>
             <div className="flex-between align-center mb-2" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', opacity: 0.7, fontWeight: 700 }}>💾 Text Storage Backup (.txt)</span>
+              <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#64748b', fontWeight: 800 }}>💾 Text Storage Backup (.txt)</span>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.6rem' }}>
               <button
@@ -592,10 +615,10 @@ export default function Login({ onLoginSuccess }) {
                 style={{
                   padding: '0.6rem 0.8rem',
                   fontSize: '0.75rem',
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.15)',
+                  background: '#ffffff',
+                  border: '1px solid #cbd5e1',
                   borderRadius: '8px',
-                  color: '#fff',
+                  color: '#0f172a',
                   cursor: 'pointer',
                   fontWeight: 700,
                   display: 'flex',
@@ -613,10 +636,10 @@ export default function Login({ onLoginSuccess }) {
                 style={{
                   padding: '0.6rem 0.8rem',
                   fontSize: '0.75rem',
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.15)',
+                  background: '#ffffff',
+                  border: '1px solid #cbd5e1',
                   borderRadius: '8px',
-                  color: '#fff',
+                  color: '#0f172a',
                   cursor: 'pointer',
                   fontWeight: 700,
                   display: 'flex',

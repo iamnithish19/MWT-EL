@@ -67,7 +67,7 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
   };
 
   return (
-    <div className="gym-master-portal p-6" style={{ padding: '2rem' }}>
+    <div className="gym-master-portal p-6" style={{ padding: '2rem', background: '#f8fafc', minHeight: '100vh', color: '#0f172a' }}>
       {/* Toast Notification */}
       {notification && (
         <div
@@ -75,32 +75,33 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
             position: 'fixed',
             top: '20px',
             right: '20px',
-            background: '#00F0FF',
-            color: '#0A0E1A',
+            background: '#ca8a04',
+            color: '#ffffff',
             padding: '1rem 1.5rem',
             borderRadius: '12px',
-            fontWeight: 700,
+            fontWeight: 800,
             zIndex: 9999,
-            boxShadow: '0 10px 30px rgba(0, 240, 255, 0.4)'
+            boxShadow: '0 10px 25px rgba(202, 138, 4, 0.3)'
           }}
         >
           {notification}
         </div>
       )}
 
-      {/* Top Banner Header */}
+      {/* Top Banner Header (Light Theme) */}
       <div
         className="master-banner mb-6"
         style={{
-          background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(10, 14, 26, 0.8) 100%)',
-          border: '1px solid rgba(255, 215, 0, 0.3)',
+          background: 'linear-gradient(135deg, #fef9c3 0%, #ffffff 100%)',
+          border: '1px solid #fef08a',
           borderRadius: '16px',
           padding: '2rem',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           flexWrap: 'wrap',
-          gap: '1.5rem'
+          gap: '1.5rem',
+          boxShadow: '0 4px 15px rgba(0,0,0,0.03)'
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
@@ -110,8 +111,8 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
               height: '72px',
               borderRadius: '50%',
               overflow: 'hidden',
-              border: '3px solid #FFD700',
-              boxShadow: '0 0 20px rgba(255, 215, 0, 0.3)'
+              border: '3px solid #ca8a04',
+              boxShadow: '0 4px 12px rgba(202, 138, 4, 0.2)'
             }}
           >
             <img
@@ -122,24 +123,24 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-              <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#fff', margin: 0 }}>
+              <h1 style={{ fontSize: '1.75rem', fontWeight: 900, color: '#0f172a', margin: 0 }}>
                 {currentUser.name}
               </h1>
               <span
                 style={{
-                  background: '#FFD700',
-                  color: '#000',
+                  background: '#ca8a04',
+                  color: '#ffffff',
                   padding: '0.2rem 0.6rem',
                   borderRadius: '6px',
                   fontSize: '0.75rem',
-                  fontWeight: 800,
+                  fontWeight: 900,
                   textTransform: 'uppercase'
                 }}
               >
                 👑 GYM MASTER / COACH
               </span>
             </div>
-            <p style={{ color: 'rgba(255,255,255,0.7)', margin: '0.25rem 0 0 0', fontSize: '0.9rem' }}>
+            <p style={{ color: '#475569', margin: '0.25rem 0 0 0', fontSize: '0.9rem', fontWeight: 600 }}>
               {currentUser.gym_name || 'Iron Forge Performance Gym'} • {currentUser.specialty || 'Head Performance Coach'}
             </p>
           </div>
@@ -155,13 +156,14 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
               }
             }}
             style={{
-              background: '#FFD700',
-              color: '#0A0E1A',
-              fontWeight: 700,
+              background: '#ca8a04',
+              color: '#ffffff',
+              fontWeight: 800,
               padding: '0.75rem 1.25rem',
               borderRadius: '10px',
               border: 'none',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              boxShadow: '0 4px 12px rgba(202, 138, 4, 0.2)'
             }}
           >
             ➕ Assign New Plan
@@ -181,19 +183,20 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
         <div
           className="stat-card"
           style={{
-            background: 'rgba(255, 255, 255, 0.03)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            background: '#ffffff',
+            border: '1px solid #e2e8f0',
             borderRadius: '14px',
-            padding: '1.5rem'
+            padding: '1.5rem',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.03)'
           }}
         >
-          <div style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          <div style={{ color: '#64748b', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 800 }}>
             🏋️ ACTIVE GYM MEMBERS
           </div>
-          <div style={{ fontSize: '2.2rem', fontWeight: 800, color: '#00F0FF', marginTop: '0.5rem' }}>
+          <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#2563eb', marginTop: '0.5rem' }}>
             {analytics.totalMembers}
           </div>
-          <div style={{ fontSize: '0.8rem', color: '#39FF14', marginTop: '0.25rem' }}>
+          <div style={{ fontSize: '0.8rem', color: '#16a34a', fontWeight: 700, marginTop: '0.25rem' }}>
             ● All accounts registered & active
           </div>
         </div>
@@ -201,19 +204,20 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
         <div
           className="stat-card"
           style={{
-            background: 'rgba(255, 255, 255, 0.03)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            background: '#ffffff',
+            border: '1px solid #e2e8f0',
             borderRadius: '14px',
-            padding: '1.5rem'
+            padding: '1.5rem',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.03)'
           }}
         >
-          <div style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          <div style={{ color: '#64748b', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 800 }}>
             📋 ACTIVE WORKOUT PLANS
           </div>
-          <div style={{ fontSize: '2.2rem', fontWeight: 800, color: '#FFD700', marginTop: '0.5rem' }}>
+          <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#ca8a04', marginTop: '0.5rem' }}>
             {analytics.totalActivePlans}
           </div>
-          <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', marginTop: '0.25rem' }}>
+          <div style={{ fontSize: '0.8rem', color: '#475569', fontWeight: 600, marginTop: '0.25rem' }}>
             {analytics.totalWorkouts} total routines assigned
           </div>
         </div>
@@ -221,19 +225,20 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
         <div
           className="stat-card"
           style={{
-            background: 'rgba(255, 255, 255, 0.03)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            background: '#ffffff',
+            border: '1px solid #e2e8f0',
             borderRadius: '14px',
-            padding: '1.5rem'
+            padding: '1.5rem',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.03)'
           }}
         >
-          <div style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          <div style={{ color: '#64748b', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 800 }}>
             📈 AVG MEMBER PROGRESS
           </div>
-          <div style={{ fontSize: '2.2rem', fontWeight: 800, color: '#39FF14', marginTop: '0.5rem' }}>
+          <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#16a34a', marginTop: '0.5rem' }}>
             {analytics.avgCompletionRate}%
           </div>
-          <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', marginTop: '0.25rem' }}>
+          <div style={{ fontSize: '0.8rem', color: '#475569', fontWeight: 600, marginTop: '0.25rem' }}>
             Based on completed report milestones
           </div>
         </div>
@@ -241,19 +246,20 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
         <div
           className="stat-card"
           style={{
-            background: 'rgba(255, 255, 255, 0.03)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            background: '#ffffff',
+            border: '1px solid #e2e8f0',
             borderRadius: '14px',
-            padding: '1.5rem'
+            padding: '1.5rem',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.03)'
           }}
         >
-          <div style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          <div style={{ color: '#64748b', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 800 }}>
             🔥 TOTAL GYM ACTIVITY
           </div>
-          <div style={{ fontSize: '2.2rem', fontWeight: 800, color: '#FF0055', marginTop: '0.5rem' }}>
+          <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#dc2626', marginTop: '0.5rem' }}>
             {analytics.totalGymSteps.toLocaleString()}
           </div>
-          <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', marginTop: '0.25rem' }}>
+          <div style={{ fontSize: '0.8rem', color: '#475569', fontWeight: 600, marginTop: '0.25rem' }}>
             Combined member step activity
           </div>
         </div>
@@ -271,10 +277,10 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
         }}
       >
         <div>
-          <h2 style={{ fontSize: '1.35rem', fontWeight: 700, color: '#fff', margin: 0 }}>
+          <h2 style={{ fontSize: '1.35rem', fontWeight: 900, color: '#0f172a', margin: 0 }}>
             🏋️ Member Management Roster
           </h2>
-          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem', margin: '0.2rem 0 0 0' }}>
+          <p style={{ color: '#475569', fontSize: '0.85rem', margin: '0.2rem 0 0 0', fontWeight: 500 }}>
             Select any member to assign customized workout plans, update nutrition, or audit vitals.
           </p>
         </div>
@@ -287,11 +293,11 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             style={{
-              background: 'rgba(255,255,255,0.05)',
-              border: '1px solid rgba(255,255,255,0.15)',
+              background: '#ffffff',
+              border: '1px solid #cbd5e1',
               borderRadius: '8px',
               padding: '0.55rem 1rem',
-              color: '#fff',
+              color: '#0f172a',
               fontSize: '0.85rem',
               width: '240px'
             }}
@@ -301,18 +307,18 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
             value={filterLevel}
             onChange={(e) => setFilterLevel(e.target.value)}
             style={{
-              background: 'rgba(255,255,255,0.05)',
-              border: '1px solid rgba(255,255,255,0.15)',
+              background: '#ffffff',
+              border: '1px solid #cbd5e1',
               borderRadius: '8px',
               padding: '0.55rem 1rem',
-              color: '#fff',
+              color: '#0f172a',
               fontSize: '0.85rem'
             }}
           >
-            <option value="All" style={{ background: '#0A0E1A' }}>All Levels</option>
-            <option value="Beginner" style={{ background: '#0A0E1A' }}>Beginner</option>
-            <option value="Intermediate" style={{ background: '#0A0E1A' }}>Intermediate</option>
-            <option value="Advanced" style={{ background: '#0A0E1A' }}>Advanced</option>
+            <option value="All">All Levels</option>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
           </select>
         </div>
       </div>
@@ -335,13 +341,14 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
             <div
               key={m.user_id}
               style={{
-                background: 'rgba(255, 255, 255, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
+                background: '#ffffff',
+                border: '1px solid #e2e8f0',
                 borderRadius: '14px',
                 padding: '1.25rem',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
                 transition: 'all 0.2s ease-in-out'
               }}
             >
@@ -354,7 +361,7 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
                       height: '52px',
                       borderRadius: '50%',
                       overflow: 'hidden',
-                      border: '2px solid #00F0FF'
+                      border: '2px solid #2563eb'
                     }}
                   >
                     <img
@@ -364,16 +371,17 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
                     />
                   </div>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 700, fontSize: '1.05rem', color: '#fff' }}>{m.name}</div>
-                    <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)' }}>{m.email}</div>
+                    {/* BOLD BLACK MEMBER NAME */}
+                    <div style={{ fontWeight: 900, fontSize: '1.1rem', color: '#000000' }}>{m.name}</div>
+                    <div style={{ fontSize: '0.75rem', color: '#475569', fontWeight: 500 }}>{m.email}</div>
                     <span
                       style={{
-                        fontSize: '0.65rem',
+                        fontSize: '0.68rem',
                         padding: '0.15rem 0.5rem',
                         borderRadius: '4px',
-                        background: 'rgba(0, 240, 255, 0.15)',
-                        color: '#00F0FF',
-                        fontWeight: 600,
+                        background: '#dbeafe',
+                        color: '#1e40af',
+                        fontWeight: 800,
                         marginTop: '0.2rem',
                         display: 'inline-block'
                       }}
@@ -386,8 +394,9 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
                 {/* Member Metrics summary */}
                 <div
                   style={{
-                    background: 'rgba(0,0,0,0.2)',
+                    background: '#f8fafc',
                     borderRadius: '8px',
+                    border: '1px solid #e2e8f0',
                     padding: '0.75rem',
                     marginBottom: '1rem',
                     display: 'grid',
@@ -397,26 +406,26 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
                   }}
                 >
                   <div>
-                    <span style={{ color: 'rgba(255,255,255,0.5)' }}>Latest Heart Rate:</span>
-                    <div style={{ fontWeight: 700, color: '#FF0055' }}>
+                    <span style={{ color: '#64748b', fontWeight: 600 }}>Latest Heart Rate:</span>
+                    <div style={{ fontWeight: 900, color: '#dc2626' }}>
                       {userVitals ? `❤️ ${userVitals.heart_rate} BPM` : 'N/A'}
                     </div>
                   </div>
                   <div>
-                    <span style={{ color: 'rgba(255,255,255,0.5)' }}>Daily Steps:</span>
-                    <div style={{ fontWeight: 700, color: '#39FF14' }}>
+                    <span style={{ color: '#64748b', fontWeight: 600 }}>Daily Steps:</span>
+                    <div style={{ fontWeight: 900, color: '#16a34a' }}>
                       {userVitals ? `👟 ${userVitals.steps.toLocaleString()}` : '0 steps'}
                     </div>
                   </div>
                   <div>
-                    <span style={{ color: 'rgba(255,255,255,0.5)' }}>Active Plans:</span>
-                    <div style={{ fontWeight: 700, color: '#FFD700' }}>
+                    <span style={{ color: '#64748b', fontWeight: 600 }}>Active Plans:</span>
+                    <div style={{ fontWeight: 900, color: '#ca8a04' }}>
                       {userPlans.length ? `${userPlans.length} Active` : 'None'}
                     </div>
                   </div>
                   <div>
-                    <span style={{ color: 'rgba(255,255,255,0.5)' }}>Target Calories:</span>
-                    <div style={{ fontWeight: 700, color: '#00F0FF' }}>
+                    <span style={{ color: '#64748b', fontWeight: 600 }}>Target Calories:</span>
+                    <div style={{ fontWeight: 900, color: '#2563eb' }}>
                       {userNutri ? `🥗 ${userNutri.daily_calories} kcal` : 'Unassigned'}
                     </div>
                   </div>
@@ -425,12 +434,12 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
                 {/* Completion Bar */}
                 {userReport && (
                   <div style={{ marginBottom: '1rem' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'rgba(255,255,255,0.7)', marginBottom: '0.25rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#475569', marginBottom: '0.25rem', fontWeight: 600 }}>
                       <span>Report Progress Score</span>
-                      <span style={{ fontWeight: 700, color: '#39FF14' }}>{userReport.completion_percentage}%</span>
+                      <span style={{ fontWeight: 900, color: '#16a34a' }}>{userReport.completion_percentage}%</span>
                     </div>
-                    <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px', overflow: 'hidden' }}>
-                      <div style={{ width: `${userReport.completion_percentage}%`, height: '100%', background: 'linear-gradient(90deg, #00F0FF, #39FF14)', borderRadius: '3px' }} />
+                    <div style={{ width: '100%', height: '6px', background: '#e2e8f0', borderRadius: '3px', overflow: 'hidden' }}>
+                      <div style={{ width: `${userReport.completion_percentage}%`, height: '100%', background: 'linear-gradient(90deg, #2563eb, #16a34a)', borderRadius: '3px' }} />
                     </div>
                   </div>
                 )}
@@ -444,13 +453,13 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
                     setShowPlanModal(true);
                   }}
                   style={{
-                    background: 'rgba(255, 215, 0, 0.15)',
-                    border: '1px solid rgba(255, 215, 0, 0.4)',
-                    color: '#FFD700',
-                    padding: '0.5rem',
+                    background: '#fef9c3',
+                    border: '1px solid #fef08a',
+                    color: '#854d0e',
+                    padding: '0.55rem',
                     borderRadius: '6px',
                     fontSize: '0.75rem',
-                    fontWeight: 700,
+                    fontWeight: 900,
                     cursor: 'pointer'
                   }}
                 >
@@ -462,13 +471,13 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
                     setShowNutritionModal(true);
                   }}
                   style={{
-                    background: 'rgba(0, 240, 255, 0.15)',
-                    border: '1px solid rgba(0, 240, 255, 0.4)',
-                    color: '#00F0FF',
-                    padding: '0.5rem',
+                    background: '#dbeafe',
+                    border: '1px solid #bfdbfe',
+                    color: '#1e40af',
+                    padding: '0.55rem',
                     borderRadius: '6px',
                     fontSize: '0.75rem',
-                    fontWeight: 700,
+                    fontWeight: 900,
                     cursor: 'pointer'
                   }}
                 >
@@ -480,13 +489,13 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
         })}
       </div>
 
-      {/* PLAN ASSIGNMENT MODAL */}
+      {/* PLAN ASSIGNMENT MODAL (LIGHT THEME) */}
       {showPlanModal && selectedMember && (
         <div
           style={{
             position: 'fixed',
             inset: 0,
-            background: 'rgba(0,0,0,0.8)',
+            background: 'rgba(15, 23, 42, 0.5)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -496,34 +505,34 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
         >
           <div
             style={{
-              background: '#0A0E1A',
-              border: '1px solid #FFD700',
+              background: '#ffffff',
+              border: '1px solid #ca8a04',
               borderRadius: '16px',
               padding: '2rem',
               width: '100%',
               maxWidth: '480px',
-              boxShadow: '0 0 30px rgba(255,215,0,0.2)'
+              boxShadow: '0 10px 30px rgba(0,0,0,0.15)'
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-              <h3 style={{ margin: 0, color: '#FFD700', fontSize: '1.25rem', fontWeight: 800 }}>
+              <h3 style={{ margin: 0, color: '#854d0e', fontSize: '1.25rem', fontWeight: 900 }}>
                 📋 ASSIGN WORKOUT PLAN
               </h3>
               <button
                 onClick={() => setShowPlanModal(false)}
-                style={{ background: 'none', border: 'none', color: '#fff', fontSize: '1.2rem', cursor: 'pointer' }}
+                style={{ background: 'none', border: 'none', color: '#0f172a', fontSize: '1.2rem', cursor: 'pointer', fontWeight: 800 }}
               >
                 ✕
               </button>
             </div>
 
-            <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)', marginBottom: '1.25rem' }}>
-              Assigning new routine directly to member: <strong style={{ color: '#fff' }}>{selectedMember.name}</strong>
+            <p style={{ fontSize: '0.85rem', color: '#475569', marginBottom: '1.25rem', fontWeight: 500 }}>
+              Assigning new routine directly to member: <strong style={{ color: '#000000' }}>{selectedMember.name}</strong>
             </p>
 
             <form onSubmit={handleAssignPlan}>
               <div style={{ marginBottom: '1rem' }}>
-                <label style={{ display: 'block', fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
+                <label style={{ display: 'block', fontSize: '0.75rem', color: '#475569', textTransform: 'uppercase', marginBottom: '0.3rem', fontWeight: 800 }}>
                   PLAN NAME
                 </label>
                 <input
@@ -535,16 +544,16 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
                   style={{
                     width: '100%',
                     padding: '0.65rem',
-                    background: 'rgba(255,255,255,0.05)',
-                    border: '1px solid rgba(255,255,255,0.2)',
+                    background: '#ffffff',
+                    border: '1px solid #cbd5e1',
                     borderRadius: '8px',
-                    color: '#fff'
+                    color: '#0f172a'
                   }}
                 />
               </div>
 
               <div style={{ marginBottom: '1rem' }}>
-                <label style={{ display: 'block', fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
+                <label style={{ display: 'block', fontSize: '0.75rem', color: '#475569', textTransform: 'uppercase', marginBottom: '0.3rem', fontWeight: 800 }}>
                   WORKOUT ROUTINE TYPE
                 </label>
                 <select
@@ -553,21 +562,21 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
                   style={{
                     width: '100%',
                     padding: '0.65rem',
-                    background: 'rgba(255,255,255,0.05)',
-                    border: '1px solid rgba(255,255,255,0.2)',
+                    background: '#ffffff',
+                    border: '1px solid #cbd5e1',
                     borderRadius: '8px',
-                    color: '#fff'
+                    color: '#0f172a'
                   }}
                 >
-                  <option value="Power Hypertrophy Routine" style={{ background: '#0A0E1A' }}>Power Hypertrophy Routine</option>
-                  <option value="HIIT Conditioning Circuit" style={{ background: '#0A0E1A' }}>HIIT Conditioning Circuit</option>
-                  <option value="Strength & Mobility Focus" style={{ background: '#0A0E1A' }}>Strength & Mobility Focus</option>
-                  <option value="Endurance Cardio Burner" style={{ background: '#0A0E1A' }}>Endurance Cardio Burner</option>
+                  <option value="Power Hypertrophy Routine">Power Hypertrophy Routine</option>
+                  <option value="HIIT Conditioning Circuit">HIIT Conditioning Circuit</option>
+                  <option value="Strength & Mobility Focus">Strength & Mobility Focus</option>
+                  <option value="Endurance Cardio Burner">Endurance Cardio Burner</option>
                 </select>
               </div>
 
               <div style={{ marginBottom: '1.5rem' }}>
-                <label style={{ display: 'block', fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
+                <label style={{ display: 'block', fontSize: '0.75rem', color: '#475569', textTransform: 'uppercase', marginBottom: '0.3rem', fontWeight: 800 }}>
                   DURATION (MINUTES)
                 </label>
                 <input
@@ -579,10 +588,10 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
                   style={{
                     width: '100%',
                     padding: '0.65rem',
-                    background: 'rgba(255,255,255,0.05)',
-                    border: '1px solid rgba(255,255,255,0.2)',
+                    background: '#ffffff',
+                    border: '1px solid #cbd5e1',
                     borderRadius: '8px',
-                    color: '#fff'
+                    color: '#0f172a'
                   }}
                 />
               </div>
@@ -592,13 +601,14 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
                 style={{
                   width: '100%',
                   padding: '0.8rem',
-                  background: '#FFD700',
-                  color: '#0A0E1A',
+                  background: '#ca8a04',
+                  color: '#ffffff',
                   border: 'none',
                   borderRadius: '8px',
-                  fontWeight: 800,
+                  fontWeight: 900,
                   fontSize: '0.9rem',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(202, 138, 4, 0.2)'
                 }}
               >
                 CONFIRM & ASSIGN PLAN
@@ -608,13 +618,13 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
         </div>
       )}
 
-      {/* NUTRITION ASSIGNMENT MODAL */}
+      {/* NUTRITION ASSIGNMENT MODAL (LIGHT THEME) */}
       {showNutritionModal && selectedMember && (
         <div
           style={{
             position: 'fixed',
             inset: 0,
-            background: 'rgba(0,0,0,0.8)',
+            background: 'rgba(15, 23, 42, 0.5)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -624,34 +634,34 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
         >
           <div
             style={{
-              background: '#0A0E1A',
-              border: '1px solid #00F0FF',
+              background: '#ffffff',
+              border: '1px solid #2563eb',
               borderRadius: '16px',
               padding: '2rem',
               width: '100%',
               maxWidth: '480px',
-              boxShadow: '0 0 30px rgba(0,240,255,0.2)'
+              boxShadow: '0 10px 30px rgba(0,0,0,0.15)'
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-              <h3 style={{ margin: 0, color: '#00F0FF', fontSize: '1.25rem', fontWeight: 800 }}>
+              <h3 style={{ margin: 0, color: '#1e40af', fontSize: '1.25rem', fontWeight: 900 }}>
                 🥗 ASSIGN NUTRITION TARGETS
               </h3>
               <button
                 onClick={() => setShowNutritionModal(false)}
-                style={{ background: 'none', border: 'none', color: '#fff', fontSize: '1.2rem', cursor: 'pointer' }}
+                style={{ background: 'none', border: 'none', color: '#0f172a', fontSize: '1.2rem', cursor: 'pointer', fontWeight: 800 }}
               >
                 ✕
               </button>
             </div>
 
-            <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)', marginBottom: '1.25rem' }}>
-              Configuring diet & macro goals for <strong style={{ color: '#fff' }}>{selectedMember.name}</strong>
+            <p style={{ fontSize: '0.85rem', color: '#475569', marginBottom: '1.25rem', fontWeight: 500 }}>
+              Configuring diet & macro goals for <strong style={{ color: '#000000' }}>{selectedMember.name}</strong>
             </p>
 
             <form onSubmit={handleAssignNutrition}>
               <div style={{ marginBottom: '1rem' }}>
-                <label style={{ display: 'block', fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
+                <label style={{ display: 'block', fontSize: '0.75rem', color: '#475569', textTransform: 'uppercase', marginBottom: '0.3rem', fontWeight: 800 }}>
                   DIET TYPE
                 </label>
                 <input
@@ -661,17 +671,17 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
                   style={{
                     width: '100%',
                     padding: '0.65rem',
-                    background: 'rgba(255,255,255,0.05)',
-                    border: '1px solid rgba(255,255,255,0.2)',
+                    background: '#ffffff',
+                    border: '1px solid #cbd5e1',
                     borderRadius: '8px',
-                    color: '#fff'
+                    color: '#0f172a'
                   }}
                 />
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginBottom: '1rem' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
+                  <label style={{ display: 'block', fontSize: '0.75rem', color: '#475569', textTransform: 'uppercase', marginBottom: '0.3rem', fontWeight: 800 }}>
                     DAILY CALORIES
                   </label>
                   <input
@@ -681,15 +691,15 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
                     style={{
                       width: '100%',
                       padding: '0.65rem',
-                      background: 'rgba(255,255,255,0.05)',
-                      border: '1px solid rgba(255,255,255,0.2)',
+                      background: '#ffffff',
+                      border: '1px solid #cbd5e1',
                       borderRadius: '8px',
-                      color: '#fff'
+                      color: '#0f172a'
                     }}
                   />
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
+                  <label style={{ display: 'block', fontSize: '0.75rem', color: '#475569', textTransform: 'uppercase', marginBottom: '0.3rem', fontWeight: 800 }}>
                     PROTEIN (G)
                   </label>
                   <input
@@ -699,10 +709,10 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
                     style={{
                       width: '100%',
                       padding: '0.65rem',
-                      background: 'rgba(255,255,255,0.05)',
-                      border: '1px solid rgba(255,255,255,0.2)',
+                      background: '#ffffff',
+                      border: '1px solid #cbd5e1',
                       borderRadius: '8px',
-                      color: '#fff'
+                      color: '#0f172a'
                     }}
                   />
                 </div>
@@ -710,7 +720,7 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginBottom: '1.5rem' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
+                  <label style={{ display: 'block', fontSize: '0.75rem', color: '#475569', textTransform: 'uppercase', marginBottom: '0.3rem', fontWeight: 800 }}>
                     CARBS (G)
                   </label>
                   <input
@@ -720,15 +730,15 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
                     style={{
                       width: '100%',
                       padding: '0.65rem',
-                      background: 'rgba(255,255,255,0.05)',
-                      border: '1px solid rgba(255,255,255,0.2)',
+                      background: '#ffffff',
+                      border: '1px solid #cbd5e1',
                       borderRadius: '8px',
-                      color: '#fff'
+                      color: '#0f172a'
                     }}
                   />
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
+                  <label style={{ display: 'block', fontSize: '0.75rem', color: '#475569', textTransform: 'uppercase', marginBottom: '0.3rem', fontWeight: 800 }}>
                     FATS (G)
                   </label>
                   <input
@@ -738,10 +748,10 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
                     style={{
                       width: '100%',
                       padding: '0.65rem',
-                      background: 'rgba(255,255,255,0.05)',
-                      border: '1px solid rgba(255,255,255,0.2)',
+                      background: '#ffffff',
+                      border: '1px solid #cbd5e1',
                       borderRadius: '8px',
-                      color: '#fff'
+                      color: '#0f172a'
                     }}
                   />
                 </div>
@@ -752,13 +762,14 @@ export default function GymMasterPortal({ currentUser, allUsers, fitnessPlans, w
                 style={{
                   width: '100%',
                   padding: '0.8rem',
-                  background: '#00F0FF',
-                  color: '#0A0E1A',
+                  background: '#2563eb',
+                  color: '#ffffff',
                   border: 'none',
                   borderRadius: '8px',
-                  fontWeight: 800,
+                  fontWeight: 900,
                   fontSize: '0.9rem',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(37,99,235,0.2)'
                 }}
               >
                 APPLY NUTRITION TARGETS

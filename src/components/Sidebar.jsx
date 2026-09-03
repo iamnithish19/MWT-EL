@@ -67,8 +67,10 @@ export default function Sidebar({ active, onNavigate, currentUser, onLogout }) {
         <div
           className="user-badge mb-3"
           style={{
-            border: isGymMaster ? '1px solid rgba(255, 215, 0, 0.4)' : undefined,
-            background: isGymMaster ? 'rgba(255, 215, 0, 0.08)' : undefined
+            border: isGymMaster ? '1px solid #fef08a' : '1px solid #e2e8f0',
+            background: isGymMaster ? '#fef9c3' : '#f8fafc',
+            borderRadius: '12px',
+            padding: '8px 10px'
           }}
         >
           <div
@@ -76,7 +78,7 @@ export default function Sidebar({ active, onNavigate, currentUser, onLogout }) {
             style={{
               padding: 0,
               overflow: 'hidden',
-              border: isGymMaster ? '2px solid #FFD700' : '1px solid #00F0FF'
+              border: isGymMaster ? '2px solid #ca8a04' : '2px solid #2563eb'
             }}
           >
             {currentUser.avatar ? (
@@ -90,12 +92,12 @@ export default function Sidebar({ active, onNavigate, currentUser, onLogout }) {
             )}
           </div>
           <div className="user-info">
-            <span className="user-name" style={{ fontWeight: 700 }}>{currentUser.name}</span>
+            <span className="user-name" style={{ fontWeight: 900, color: '#0f172a' }}>{currentUser.name}</span>
             <span
               className="user-role"
               style={{
-                color: isGymMaster ? '#FFD700' : '#00F0FF',
-                fontWeight: 700,
+                color: isGymMaster ? '#854d0e' : '#1e40af',
+                fontWeight: 900,
                 fontSize: '0.7rem'
               }}
             >
@@ -108,22 +110,23 @@ export default function Sidebar({ active, onNavigate, currentUser, onLogout }) {
       {/* GYM MASTER SPECIAL CONTROL ITEM */}
       {isGymMaster && (
         <div className="nav-group mb-3">
-          <div className="nav-category-header" style={{ color: '#FFD700' }}>👑 GYM MASTER MANAGEMENT</div>
+          <div className="nav-category-header" style={{ color: '#ca8a04', fontWeight: 900 }}>👑 GYM MASTER MANAGEMENT</div>
           <ul className="nav-list">
             <li>
               <button
                 className={`nav-item${active === 'gym-master' ? ' active' : ''}`}
                 onClick={() => onNavigate('gym-master')}
                 style={{
-                  background: active === 'gym-master' ? '#FFD700' : 'rgba(255, 215, 0, 0.15)',
-                  color: active === 'gym-master' ? '#000' : '#FFD700',
-                  fontWeight: 700,
-                  border: '1px solid rgba(255, 215, 0, 0.4)'
+                  background: active === 'gym-master' ? '#fef9c3' : '#ffffff',
+                  color: active === 'gym-master' ? '#854d0e' : '#854d0e',
+                  fontWeight: 900,
+                  border: '1px solid #fef08a',
+                  borderRadius: '8px'
                 }}
               >
                 <span className="nav-icon">👑</span>
                 <span className="nav-label">Gym Master Control</span>
-                <span className="nav-badge" style={{ background: '#000', color: '#FFD700' }}>ADMIN</span>
+                <span className="nav-badge" style={{ background: '#ca8a04', color: '#ffffff', fontWeight: 900 }}>ADMIN</span>
               </button>
             </li>
           </ul>
