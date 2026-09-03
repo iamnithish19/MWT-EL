@@ -1,15 +1,9 @@
 import React, { useState, useRef } from 'react';
-
-const PRESET_AVATARS = [
-  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80',
-  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=250&q=80',
-  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=250&q=80',
-  'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=250&q=80',
-  'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=250&q=80',
-  'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=250&q=80'
-];
+import { generateLetterAvatarSvg } from '../services/db.js';
 
 export default function Profile({ user, onUpdateProfile }) {
+  const defaultLetterAvatar = generateLetterAvatarSvg(user.name || 'User', user?.role === 'gym_master');
+
   const [form, setForm] = useState({
     name: user.name || '',
     email: user.email || '',
@@ -18,7 +12,7 @@ export default function Profile({ user, onUpdateProfile }) {
     height: user.height || 170,
     fitness_level: user.fitness_level || 'Intermediate',
     bio: user.bio || '',
-    avatar: user.avatar || ''
+    avatar: user.avatar || defaultLetterAvatar
   });
 
   const [saved, setSaved] = useState(false);
@@ -54,20 +48,16 @@ export default function Profile({ user, onUpdateProfile }) {
     reader.readAsDataURL(file);
   };
 
-  const handleSelectPreset = (url) => {
-    setForm((f) => ({ ...f, avatar: url }));
-    setSaved(false);
-    setError('');
-  };
-
-  const handleRemovePhoto = () => {
-    setForm((f) => ({ ...f, avatar: '' }));
+  const handleResetToFirstLetter = () => {
+    const letterAvatar = generateLetterAvatarSvg(form.name || user.name || 'User', user?.role === 'gym_master');
+    setForm((f) => ({ ...f, avatar: letterAvatar }));
     setSaved(false);
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const finalAvatar = form.avatar || generateLetterAvatarSvg(form.name, user?.role === 'gym_master');
     onUpdateProfile(user.user_id, {
       name: form.name,
       email: form.email,
@@ -76,44 +66,79 @@ export default function Profile({ user, onUpdateProfile }) {
       height: Number(form.height),
       fitness_level: form.fitness_level,
       bio: form.bio,
-      avatar: form.avatar
+      avatar: finalAvatar
     });
     setSaved(true);
   };
 
   return (
-    <div className="page-container">
-      <header className="page-header">
+    <div className="page-container" style={{ padding: '2rem' }}>
+      <header className="page-header mb-4">
         <div>
-          <h1 className="page-title">User Profile & Account</h1>
-          <p className="page-subtitle">
+          <h1 className="page-title" style={{ fontSize: '1.75rem', fontWeight: 900, color: '#0f172a' }}>
+            User Profile & Account
+          </h1>
+          <p className="page-subtitle" style={{ fontWeight: 600, color: '#64748b' }}>
             Manage your personal fitness identity, profile picture, biometric targets, and body metrics.
           </p>
         </div>
       </header>
 
-      <div className="grid grid-3 gap-4 mb-4">
-        {/* Profile Card & Avatar Uploader */}
-        <div className="card text-center flex-col align-center p-4">
-          <h3 className="section-title mb-3">Profile Photo</h3>
+      {saved && (
+        <div
+          style={{
+            background: '#dcfce7',
+            border: '1px solid #bbf7d0',
+            color: '#166534',
+            padding: '0.85rem 1.25rem',
+            borderRadius: '10px',
+            fontWeight: 800,
+            fontSize: '0.9rem',
+            marginBottom: '1.5rem'
+          }}
+        >
+          ✅ Profile updated successfully! Profile photo & First Letter avatar synced across all modules.
+        </div>
+      )}
 
-          {/* Avatar Display */}
-          <div className="relative mb-3" style={{ width: 120, height: 120, margin: '0 auto' }}>
+      {error && (
+        <div
+          style={{
+            background: '#fef2f2',
+            border: '1px solid #fecaca',
+            color: '#dc2626',
+            padding: '0.85rem 1.25rem',
+            borderRadius: '10px',
+            fontWeight: 800,
+            fontSize: '0.9rem',
+            marginBottom: '1.5rem'
+          }}
+        >
+          {error}
+        </div>
+      )}
+
+      <div className="grid grid-3 gap-4">
+        {/* Profile Avatar Card (No Preset Avatars) */}
+        <div className="card text-center p-4" style={{ borderRadius: '16px', border: '1px solid #e2e8f0', background: '#ffffff' }}>
+          <h3 className="section-title mb-3" style={{ fontSize: '1.1rem', fontWeight: 900 }}>
+            Profile Avatar
+          </h3>
+
+          {/* Avatar Display Container */}
+          <div className="relative mb-3" style={{ width: 120, height: 120, margin: '0 auto', position: 'relative' }}>
             <div
               style={{
                 width: 120,
                 height: 120,
                 borderRadius: '50%',
                 overflow: 'hidden',
-                background: 'linear-gradient(135deg, #6366f1, #a855f7)',
+                border: user?.role === 'gym_master' ? '4px solid #ca8a04' : '4px solid #2563eb',
+                boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '44px',
-                fontWeight: 'bold',
-                color: '#fff',
-                border: '4px solid rgba(255,255,255,0.1)',
-                boxShadow: '0 8px 24px rgba(0,0,0,0.3)'
+                background: user?.role === 'gym_master' ? '#ca8a04' : '#2563eb'
               }}
             >
               {form.avatar ? (
@@ -123,7 +148,9 @@ export default function Profile({ user, onUpdateProfile }) {
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               ) : (
-                <span>{(form.name || 'U').charAt(0).toUpperCase()}</span>
+                <span style={{ fontSize: '54px', fontWeight: 900, color: '#ffffff' }}>
+                  {(form.name || 'U').charAt(0).toUpperCase()}
+                </span>
               )}
             </div>
 
@@ -141,8 +168,11 @@ export default function Profile({ user, onUpdateProfile }) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
-                cursor: 'pointer'
+                boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                cursor: 'pointer',
+                background: '#2563eb',
+                color: '#ffffff',
+                border: '2px solid #ffffff'
               }}
               onClick={() => fileInputRef.current?.click()}
               title="Upload new profile photo"
@@ -160,153 +190,142 @@ export default function Profile({ user, onUpdateProfile }) {
             onChange={handleFileChange}
           />
 
-          <div className="flex gap-2 mb-3">
+          <div className="flex justify-center gap-2 mb-3" style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem' }}>
             <button
               type="button"
               className="btn btn-secondary text-xs"
               onClick={() => fileInputRef.current?.click()}
+              style={{ fontWeight: 800, padding: '0.5rem 0.85rem', borderRadius: '8px' }}
             >
-              📤 Upload Photo
+              📤 Upload Custom Photo
             </button>
-            {form.avatar && (
-              <button
-                type="button"
-                className="btn btn-danger text-xs"
-                onClick={handleRemovePhoto}
-              >
-                🗑️ Remove
-              </button>
-            )}
+
+            <button
+              type="button"
+              className="btn text-xs"
+              onClick={handleResetToFirstLetter}
+              style={{ fontWeight: 800, padding: '0.5rem 0.85rem', borderRadius: '8px', background: '#f1f5f9', color: '#0f172a', border: '1px solid #cbd5e1' }}
+            >
+              🔤 Reset to First Letter
+            </button>
           </div>
 
-          {/* Presets Gallery */}
-          <div className="w-full mt-2 pt-3 border-t">
-            <label className="input-label text-xs mb-2 block">Or choose a preset avatar:</label>
-            <div className="flex justify-center gap-2 flex-wrap">
-              {PRESET_AVATARS.map((url, idx) => (
-                <img
-                  key={idx}
-                  src={url}
-                  alt={`Preset ${idx + 1}`}
-                  onClick={() => handleSelectPreset(url)}
-                  style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: '50%',
-                    objectFit: 'cover',
-                    cursor: 'pointer',
-                    border: form.avatar === url ? '2px solid var(--primary, #6366f1)' : '2px solid transparent',
-                    opacity: form.avatar === url ? 1 : 0.7,
-                    transition: 'all 0.2s'
-                  }}
-                />
-              ))}
-            </div>
-          </div>
+          <p style={{ fontSize: '0.78rem', fontWeight: 600, color: '#64748b', margin: 0, lineHeight: 1.4 }}>
+            Default profile photo automatically uses your <strong>First Letter</strong>. Upload a custom image or click "Reset to First Letter".
+          </p>
         </div>
 
         {/* Form Controls */}
-        <div className="card grid-span-2">
-          <h3 className="section-title mb-3">Personal Details & Biometrics</h3>
+        <div className="card grid-span-2 p-4" style={{ borderRadius: '16px', border: '1px solid #e2e8f0', background: '#ffffff', gridColumn: 'span 2' }}>
+          <h3 className="section-title mb-3" style={{ fontSize: '1.2rem', fontWeight: 900 }}>
+            Personal Details & Biometrics
+          </h3>
 
-          <form onSubmit={handleSubmit} className="form-grid gap-3">
-            <div>
-              <label className="input-label">Full Name</label>
-              <input
-                type="text"
-                className="input-field"
-                value={form.name}
-                onChange={handleChange('name')}
-                required
-              />
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 800, color: '#0f172a', marginBottom: '0.3rem' }}>FULL NAME</label>
+                <input
+                  type="text"
+                  value={form.name}
+                  onChange={handleChange('name')}
+                  required
+                  style={{ width: '100%', padding: '0.7rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontWeight: 800 }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 800, color: '#0f172a', marginBottom: '0.3rem' }}>EMAIL ADDRESS</label>
+                <input
+                  type="email"
+                  value={form.email}
+                  onChange={handleChange('email')}
+                  required
+                  style={{ width: '100%', padding: '0.7rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontWeight: 800 }}
+                />
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 800, color: '#0f172a', marginBottom: '0.3rem' }}>AGE (YRS)</label>
+                <input
+                  type="number"
+                  value={form.age}
+                  onChange={handleChange('age')}
+                  required
+                  style={{ width: '100%', padding: '0.7rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontWeight: 800 }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 800, color: '#0f172a', marginBottom: '0.3rem' }}>WEIGHT (KG)</label>
+                <input
+                  type="number"
+                  step="0.1"
+                  value={form.weight}
+                  onChange={handleChange('weight')}
+                  required
+                  style={{ width: '100%', padding: '0.7rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontWeight: 800 }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 800, color: '#0f172a', marginBottom: '0.3rem' }}>HEIGHT (CM)</label>
+                <input
+                  type="number"
+                  value={form.height}
+                  onChange={handleChange('height')}
+                  required
+                  style={{ width: '100%', padding: '0.7rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontWeight: 800 }}
+                />
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 800, color: '#0f172a', marginBottom: '0.3rem' }}>FITNESS LEVEL</label>
+                <select
+                  value={form.fitness_level}
+                  onChange={handleChange('fitness_level')}
+                  style={{ width: '100%', padding: '0.7rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontWeight: 800 }}
+                >
+                  <option value="Beginner">Beginner</option>
+                  <option value="Intermediate">Intermediate</option>
+                  <option value="Advanced">Advanced</option>
+                  <option value="Expert / Master">Expert / Master</option>
+                </select>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 800, color: '#0f172a', marginBottom: '0.3rem' }}>ACCOUNT ROLE</label>
+                <input
+                  type="text"
+                  value={user?.role === 'gym_master' ? '👑 GYM MASTER / COACH' : '🏋️ GYM MEMBER'}
+                  disabled
+                  style={{ width: '100%', padding: '0.7rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontWeight: 900, background: '#f8fafc', color: user?.role === 'gym_master' ? '#ca8a04' : '#2563eb' }}
+                />
+              </div>
             </div>
 
             <div>
-              <label className="input-label">Email Address</label>
-              <input
-                type="email"
-                className="input-field"
-                value={form.email}
-                onChange={handleChange('email')}
-              />
-            </div>
-
-            <div>
-              <label className="input-label">Age (years)</label>
-              <input
-                type="number"
-                min="10"
-                max="120"
-                className="input-field"
-                value={form.age}
-                onChange={handleChange('age')}
-                required
-              />
-            </div>
-
-            <div>
-              <label className="input-label">Weight (kg)</label>
-              <input
-                type="number"
-                step="0.1"
-                min="30"
-                max="300"
-                className="input-field"
-                value={form.weight}
-                onChange={handleChange('weight')}
-                required
-              />
-            </div>
-
-            <div>
-              <label className="input-label">Height (cm)</label>
-              <input
-                type="number"
-                min="100"
-                max="250"
-                className="input-field"
-                value={form.height}
-                onChange={handleChange('height')}
-              />
-            </div>
-
-            <div>
-              <label className="input-label">Fitness Experience Level</label>
-              <select
-                className="select-input"
-                value={form.fitness_level}
-                onChange={handleChange('fitness_level')}
-              >
-                <option value="Beginner">Beginner (0-1 years)</option>
-                <option value="Intermediate">Intermediate (1-3 years)</option>
-                <option value="Advanced">Advanced (3+ years)</option>
-                <option value="Elite Athlete">Elite Athlete / Pro</option>
-              </select>
-            </div>
-
-            <div className="full-width grid-span-2">
-              <label className="input-label">Bio & Primary Fitness Goals</label>
+              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 800, color: '#0f172a', marginBottom: '0.3rem' }}>PERSONAL BIO & GOALS</label>
               <textarea
-                className="input-field"
-                rows="3"
+                rows={3}
                 value={form.bio}
                 onChange={handleChange('bio')}
-                placeholder="Share your athletic focus (e.g. Marathon prep, muscle gain, fat loss)..."
+                placeholder="Tell us about your fitness targets..."
+                style={{ width: '100%', padding: '0.7rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontWeight: 700 }}
               />
             </div>
 
-            {error && <div className="text-xs text-danger grid-span-2">{error}</div>}
-
-            <div className="flex align-center gap-3 grid-span-2 mt-2">
-              <button className="btn btn-primary" type="submit">
-                💾 Save Profile Changes
-              </button>
-              {saved && (
-                <span className="text-sm text-success flex align-center gap-1">
-                  ✅ Profile & Avatar updated successfully!
-                </span>
-              )}
-            </div>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              style={{ padding: '0.85rem', fontWeight: 900, fontSize: '0.95rem', borderRadius: '10px', marginTop: '0.5rem', cursor: 'pointer' }}
+            >
+              💾 Save Profile & Sync First-Letter Avatar
+            </button>
           </form>
         </div>
       </div>
