@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const NAV_GROUPS = [
   {
@@ -52,13 +53,20 @@ const NAV_GROUPS = [
   }
 ];
 
-export default function Sidebar({ active, onNavigate, currentUser, onLogout }) {
+export default function Sidebar({ currentUser, onLogout }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const currentKey = location.pathname.replace(/^\//, '') || (currentUser?.role === 'gym_master' ? 'gym-master' : 'dashboard');
   const [search, setSearch] = useState('');
   const isGymMaster = currentUser && currentUser.role === 'gym_master';
 
+  const handleNavigate = (key) => {
+    navigate(`/${key}`);
+  };
+
   return (
     <aside className="sidebar">
-      <div className="brand">
+      <div className="brand" onClick={() => navigate('/dashboard')} style={{ cursor: 'pointer' }}>
         <span className="brand-mark">SFC//</span>
         <span className="brand-sub">Smart Fitness Companion</span>
       </div>
@@ -66,11 +74,13 @@ export default function Sidebar({ active, onNavigate, currentUser, onLogout }) {
       {currentUser && (
         <div
           className="user-badge mb-3"
+          onClick={() => navigate('/profile')}
           style={{
             border: isGymMaster ? '1px solid #fef08a' : '1px solid #e2e8f0',
             background: isGymMaster ? '#fef9c3' : '#f8fafc',
             borderRadius: '12px',
-            padding: '8px 10px'
+            padding: '8px 10px',
+            cursor: 'pointer'
           }}
         >
           <div
@@ -114,11 +124,11 @@ export default function Sidebar({ active, onNavigate, currentUser, onLogout }) {
           <ul className="nav-list">
             <li>
               <button
-                className={`nav-item${active === 'gym-master' ? ' active' : ''}`}
-                onClick={() => onNavigate('gym-master')}
+                className={`nav-item${currentKey === 'gym-master' ? ' active' : ''}`}
+                onClick={() => handleNavigate('gym-master')}
                 style={{
-                  background: active === 'gym-master' ? '#fef9c3' : '#ffffff',
-                  color: active === 'gym-master' ? '#854d0e' : '#854d0e',
+                  background: currentKey === 'gym-master' ? '#fef9c3' : '#ffffff',
+                  color: currentKey === 'gym-master' ? '#854d0e' : '#854d0e',
                   fontWeight: 900,
                   border: '1px solid #fef08a',
                   borderRadius: '8px'
@@ -157,8 +167,8 @@ export default function Sidebar({ active, onNavigate, currentUser, onLogout }) {
                 {matchingItems.map((item) => (
                   <li key={item.key}>
                     <button
-                      className={`nav-item${active === item.key ? ' active' : ''}`}
-                      onClick={() => onNavigate(item.key)}
+                      className={`nav-item${currentKey === item.key ? ' active' : ''}`}
+                      onClick={() => handleNavigate(item.key)}
                     >
                       <span className="nav-icon">{item.icon}</span>
                       <span className="nav-label">{item.label}</span>
@@ -180,7 +190,7 @@ export default function Sidebar({ active, onNavigate, currentUser, onLogout }) {
         )}
         <div className="db-info">
           SMART FITNESS SUITE<br />
-          local database v4 (Multi-User)<br />
+          React Router v6 Navigation<br />
           persisted to localStorage
         </div>
       </div>
