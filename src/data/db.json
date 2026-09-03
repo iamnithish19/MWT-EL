@@ -52,23 +52,23 @@
     }
   ],
   "fitnessPlans": [
-    { "plan_id": 1, "user_id": 1, "plan_name": "Summer Shred", "start_date": "2026-06-01", "image": "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80" },
-    { "plan_id": 2, "user_id": 1, "plan_name": "Strength Foundations", "start_date": "2026-07-15", "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80" },
-    { "plan_id": 3, "user_id": 3, "plan_name": "Hypertrophy Powerbuilding", "start_date": "2026-08-01", "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80" },
-    { "plan_id": 4, "user_id": 4, "plan_name": "Metabolic Conditioning 30", "start_date": "2026-08-10", "image": "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3?auto=format&fit=crop&w=600&q=80" }
+    { "plan_id": 1, "user_id": 1, "plan_name": "Summer Shred", "start_date": "2026-06-01", "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80" },
+    { "plan_id": 2, "user_id": 1, "plan_name": "Strength Foundations", "start_date": "2026-07-15", "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80" },
+    { "plan_id": 3, "user_id": 3, "plan_name": "Hypertrophy Powerbuilding", "start_date": "2026-08-01", "image": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=600&q=80" },
+    { "plan_id": 4, "user_id": 4, "plan_name": "Metabolic Conditioning 30", "start_date": "2026-08-10", "image": "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=600&q=80" }
   ],
   "workouts": [
-    { "workout_id": 1, "plan_id": 1, "type": "Cardio Interval", "duration_minutes": 40, "image": "https://images.unsplash.com/photo-1538805060514-97d9cc17730c?auto=format&fit=crop&w=600&q=80" },
-    { "workout_id": 2, "plan_id": 1, "type": "HIIT Burner", "duration_minutes": 25, "image": "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3?auto=format&fit=crop&w=600&q=80" },
+    { "workout_id": 1, "plan_id": 1, "type": "Cardio Interval", "duration_minutes": 40, "image": "https://images.unsplash.com/photo-1483721063994-4363e790757b?auto=format&fit=crop&w=600&q=80" },
+    { "workout_id": 2, "plan_id": 1, "type": "HIIT Burner", "duration_minutes": 25, "image": "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=600&q=80" },
     { "workout_id": 3, "plan_id": 2, "type": "Upper Body Strength", "duration_minutes": 50, "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80" },
     { "workout_id": 4, "plan_id": 3, "type": "Heavy Deadlift & Core", "duration_minutes": 60, "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80" },
-    { "workout_id": 5, "plan_id": 4, "type": "Full Body Tabata", "duration_minutes": 30, "image": "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80" }
+    { "workout_id": 5, "plan_id": 4, "type": "Full Body Tabata", "duration_minutes": 30, "image": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=600&q=80" }
   ],
   "exercises": [
-    { "exercise_id": 1, "workout_id": 1, "name": "Treadmill Run", "sets": 1, "reps": 1, "image": "https://images.unsplash.com/photo-1538805060514-97d9cc17730c?auto=format&fit=crop&w=300&q=80" },
-    { "exercise_id": 2, "workout_id": 1, "name": "Jump Rope", "sets": 4, "reps": 60, "image": "https://images.unsplash.com/photo-1434682881908-b43d0467b798?auto=format&fit=crop&w=300&q=80" },
-    { "exercise_id": 3, "workout_id": 2, "name": "Burpees", "sets": 5, "reps": 15, "image": "https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?auto=format&fit=crop&w=300&q=80" },
-    { "exercise_id": 4, "workout_id": 2, "name": "Mountain Climbers", "sets": 5, "reps": 20, "image": "https://images.unsplash.com/photo-1434682881908-b43d0467b798?auto=format&fit=crop&w=300&q=80" },
+    { "exercise_id": 1, "workout_id": 1, "name": "Treadmill Run", "sets": 1, "reps": 1, "image": "https://images.unsplash.com/photo-1483721063994-4363e790757b?auto=format&fit=crop&w=300&q=80" },
+    { "exercise_id": 2, "workout_id": 1, "name": "Jump Rope", "sets": 4, "reps": 60, "image": "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=300&q=80" },
+    { "exercise_id": 3, "workout_id": 2, "name": "Burpees", "sets": 5, "reps": 15, "image": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=300&q=80" },
+    { "exercise_id": 4, "workout_id": 2, "name": "Mountain Climbers", "sets": 5, "reps": 20, "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=300&q=80" },
     { "exercise_id": 5, "workout_id": 3, "name": "Bench Press", "sets": 4, "reps": 8, "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=300&q=80" },
     { "exercise_id": 6, "workout_id": 3, "name": "Pull Ups", "sets": 4, "reps": 10, "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=300&q=80" }
   ],
@@ -90,10 +90,10 @@
     { "nutrition_id": 3, "user_id": 4, "diet_type": "Keto Lean", "daily_calories": 1850, "protein_g": 130, "carbs_g": 40, "fats_g": 110 }
   ],
   "progressReports": [
-    { "report_id": 1, "user_id": 1, "report_date": "2026-08-01", "completion_percentage": 62, "summary": "Baseline check-in. Solid strength start, working on cardio endurance.", "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=600&q=80" },
-    { "report_id": 2, "user_id": 1, "report_date": "2026-08-10", "completion_percentage": 78, "summary": "Noticeable definition in core and arms. Recovery score improved.", "image": "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80" },
-    { "report_id": 3, "user_id": 1, "report_date": "2026-08-20", "completion_percentage": 88, "summary": "Peak performance week! Body fat reached 20.1% target milestone.", "image": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=600&q=80" },
-    { "report_id": 4, "user_id": 3, "report_date": "2026-08-22", "completion_percentage": 94, "summary": "Deadlift PR smashed at 210kg! Excellent recovery metrics.", "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80" }
+    { "report_id": 1, "user_id": 1, "report_date": "2026-08-01", "completion_percentage": 62, "summary": "Baseline check-in. Solid strength start, working on cardio endurance.", "image": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=600&q=80" },
+    { "report_id": 2, "user_id": 1, "report_date": "2026-08-10", "completion_percentage": 78, "summary": "Noticeable definition in core and arms. Recovery score improved.", "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80" },
+    { "report_id": 3, "user_id": 1, "report_date": "2026-08-20", "completion_percentage": 88, "summary": "Peak performance week! Body fat reached 20.1% target milestone.", "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80" },
+    { "report_id": 4, "user_id": 3, "report_date": "2026-08-22", "completion_percentage": 94, "summary": "Deadlift PR smashed at 210kg! Excellent recovery metrics.", "image": "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=600&q=80" }
   ],
   "sleepLogs": [
     { "sleep_id": 1, "user_id": 1, "date": "2026-08-22", "duration_hours": 7.8, "score": 85, "rem_hours": 1.9, "deep_hours": 2.1, "light_hours": 3.8, "quality": "Excellent" },

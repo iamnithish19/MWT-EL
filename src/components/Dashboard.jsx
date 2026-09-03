@@ -59,7 +59,7 @@ export default function Dashboard({ user, fitnessPlans, workouts, healthTrackers
           onClick={() => onNavigate && onNavigate('workout-live')}
         >
           <img
-            src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80"
+            src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80"
             alt="Featured Workout"
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />

@@ -88,7 +88,7 @@ function WorkoutBlock({ workout, exercises, onAddExercise, onDeleteExercise, onD
 
 function PlanCard({ plan, workouts, exercises, actions }) {
   const [form, setForm] = useState({ type: '', duration_minutes: '' });
-  const defaultPlanImg = 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80';
+  const defaultPlanImg = 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80';
 
   const submit = (e) => {
     e.preventDefault();
