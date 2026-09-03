@@ -648,57 +648,6 @@ export default function Login({ onLoginSuccess }) {
               })}
             </div>
           </div>
-
-          {/* BACKUP DATA EXPORTS */}
-          <div className="login-txt-export-section mt-4 pt-3" style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid #e2e8f0' }}>
-            <div className="flex-between align-center mb-2" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: isDark ? 'rgba(255,255,255,0.6)' : '#64748b', fontWeight: 800 }}>💾 Text Storage Backup (.txt)</span>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.6rem' }}>
-              <button
-                type="button"
-                className="btn btn-secondary text-xs"
-                onClick={() => db.exportLoginHistoryAsText()}
-                style={{
-                  padding: '0.6rem 0.8rem',
-                  fontSize: '0.75rem',
-                  background: isDark ? 'rgba(255,255,255,0.05)' : '#ffffff',
-                  border: isDark ? '1px solid rgba(255,255,255,0.15)' : '1px solid #cbd5e1',
-                  borderRadius: '8px',
-                  color: isDark ? '#fff' : '#0f172a',
-                  cursor: 'pointer',
-                  fontWeight: 700,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '0.3rem'
-                }}
-              >
-                📜 Download Logins (.txt)
-              </button>
-              <button
-                type="button"
-                className="btn btn-secondary text-xs"
-                onClick={() => db.exportDatabaseAsText()}
-                style={{
-                  padding: '0.6rem 0.8rem',
-                  fontSize: '0.75rem',
-                  background: isDark ? 'rgba(255,255,255,0.05)' : '#ffffff',
-                  border: isDark ? '1px solid rgba(255,255,255,0.15)' : '1px solid #cbd5e1',
-                  borderRadius: '8px',
-                  color: isDark ? '#fff' : '#0f172a',
-                  cursor: 'pointer',
-                  fontWeight: 700,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '0.3rem'
-                }}
-              >
-                📄 Export Database (.txt)
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>
